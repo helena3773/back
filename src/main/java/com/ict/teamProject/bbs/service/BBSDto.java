@@ -1,11 +1,14 @@
 package com.ict.teamProject.bbs.service;
 import org.apache.ibatis.type.Alias;
+
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Alias("BBSDto")
+@Builder
 public class BBSDto {
 	private String no;
 	private String id;

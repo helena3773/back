@@ -3,20 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 매퍼파일 -->
-<mapper namespace="com.ictedu.springapp.onememo.service.impl.OnememoMapper">
-	<!--resultMap요소 사용시 column속성 필수:ibatis와 다른점  -->
-	<!-- 레코드를 조회하는 모든 select태그에서 사용할 수 있다 
-		 상세보기에 적용해 보자 :글 번호에 따른 모든 한줄 댓글도 가져오기위해 
-		 collection요소 사용
-		 type속성:DTO계열 즉 SELECT한 쿼리 결과를 담을 자바빈 객체
-		 id속성: select 요소의 resultMap속성에 설정해줄 식별자    
-	 -->
-	 <!-- 쿼리 조인 결과를 담을 ResultMap 요소 정의 -->
+<mapper namespace="com.ict.teamProject.bbs.service.impl.BBSMapper">
+
 	<resultMap type="onememoDto" id="onememoResult">
-		<!-- 
-		property:자바빈(OnememoDTO)의 속성명
-		column:테이블의 컬럼(조회(SELECT)결과의 컬럼명들 의미)
-		 -->
 		<result property="no" column="no"/>
 		<result property="title" column="title"/>
 		<result property="content" column="content"/>
@@ -39,44 +28,6 @@
 		 -->
 		<collection property="comments" column="no" select="com.ictedu.springapp.onememo.service.impl.CommentMapper.findAllByNo" javaType="list" ofType="commentDto"/>
 	</resultMap>
-	
-	<select id="findByMember" parameterType="Map"  resultType="boolean" >
-		SELECT COUNT(*) FROM member WHERE id=#{id} AND pwd=#{pwd}
-	</select>
-	
-	<select id="count" parameterType="Map" resultType="int">
-		SELECT COUNT(*)
-		FROM onememo o JOIN member m ON m.id=o.id
-		<where>
-			<if test="searchWord !=null">
-				${searchColumn} LIKE '%' || #{searchWord} || '%'
-			</if>		
-		</where>
-	</select>
-	<!-- 
-	검색시 :<where>
-			<if test="searchWord !=null">
-				${searchColumn} LIKE '%' || #{searchWord} || '%'
-			</if>
-		  </where>만 추가. 자바코드 수정 불필요
-	
-	페이징시:
-		1.구간쿼리로 변경
-		2.총 레코드수 구하는 쿼리 추가
-		3.서비스단에 페이징관련 로직추가
-		4.JSP에서 출력
-	 -->
-	 <select id="findAll" parameterType="Map" resultType="onememoDto">
-	 	SELECT * FROM (SELECT o.*,name,(SELECT COUNT(*) FROM linecomment WHERE no=o.no) commentCounts, RANK() OVER (ORDER BY no DESC) AS no_rank 
-		FROM onememo o JOIN member m ON o.id=m.id 
-		<where>
-					<if test="searchWord !=null">
-						${searchColumn} LIKE '%' || #{searchWord} || '%'
-					</if>		
-		</where>
-		)
-		WHERE no_rank BETWEEN #{start} AND #{end}	 
-	 </select>
 	
 	<insert id="save" parameterType="Map">
 		INSERT INTO onememo VALUES(SEQ_ONEMEMO.NEXTVAL,#{title},#{content},SYSDATE,#{id})	

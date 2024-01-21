@@ -21,12 +21,6 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 	@Autowired
 	private BBSMapper mapper;	
 	
-
-	@Override
-	public BBSDto selectOne(Map map) {		
-		return mapper.findByBBS(map);
-	}
-
 	@Override
 	public int insert(Map map) {
 		int affected=0;
@@ -38,6 +32,13 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		}
 		return affected;
 	}
+
+	@Override
+	public BBSDto selectOne(Map map) {		
+		return mapper.findByBBS(map);
+	}
+
+
 
 	@Override
 	public int update(BBSDto record) {		

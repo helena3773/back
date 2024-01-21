@@ -29,7 +29,7 @@ import com.ict.teamProject.bbs.service.BBSService;
 
 @Controller
 @RequestMapping("/bbs")
-public class OnememoController {
+public class BBSController {
 	
 	//서비스 주입
 	@Autowired
@@ -75,7 +75,7 @@ public class OnememoController {
 		
 		System.out.println("상세보기의 NO:"+map.get("no"));
 		//서비스 호출
-		OnememoDto record= memoService.selectOne(map);
+		BBSDto record= service.selectOne(map);
 		//줄바꿈
 		record.setContent(record.getContent().replace("\r\n", "<br/>"));
 		//데이타 저장
@@ -88,18 +88,17 @@ public class OnememoController {
 	public String edit(//@ModelAttribute("id") String id,
 			@RequestParam Map map,Model model) {
 		//서비스 호출	
-		OnememoDto record= memoService.selectOne(map);
+		BBSDto record= service.selectOne(map);
 		//데이타 저장
 		model.addAttribute("record", record);
 		//뷰정보 반환
 		return "onememo09/bbs/Edit.ict";
 	}
 	@PostMapping("/Edit.do")
-	public String editOk(//@ModelAttribute("id") String id,
-			Model model,OnememoDto dto) {
+	public String editOk(Model model,BBSDto dto) {
 	
 		//서비스 호출		
-		int affected=memoService.update(dto);
+		int affected=service.update(dto);
 		if(affected==0) {//수정 실패
 			model.addAttribute("UPDATE_ERROR", "수정 오류 입니다");
 			//뷰정보 반환
@@ -112,8 +111,8 @@ public class OnememoController {
 	public String delete(//@ModelAttribute("id") String id,
 			@PathVariable String no,Model model) {
 		//서비스 호출
-		OnememoDto dto = OnememoDto.builder().no(no).build();
-		int affected=memoService.delete(dto);
+		BBSDto dto = BBSDto.builder().no(no).build();
+		int affected=service.delete(dto);
 		if(affected == -1) {
 			System.out.println("affected:"+affected);
 			model.addAttribute("FAILURE", "댓글이 있어 삭제할 수 없어요");

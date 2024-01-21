@@ -35,7 +35,7 @@ public class MybatisConfig {
 			//마이바티스 프레임워크는 최상위 패키지부터 하위패키지까지 @Alias붙은 컴포넌트를 찾는다
 			factoryBean.setTypeAliasesPackage("com.ict.teamProject");
 			//매퍼파일의 경로 설정
-			factoryBean.setMapperLocations(applicationContext.getResources("classpath:mybatis/mapper/**/*.xml"));
+			factoryBean.setMapperLocations(applicationContext.getResources("classpath:mapper/**/*.xml"));
 			//SqlSessionFactoryBean의 getObject()로 SqlSessionFactory객체 얻기
 			factory=factoryBean.getObject();
 		
