@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.HttpSessionRequiredException;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,14 +22,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
+import com.ict.teamProject.files.service.FilesDto;
 
 
 @Controller
 @RequestMapping("/bbs")
+@CrossOrigin(origins = "http://localhost:3333")
 public class BBSController {
 	
 	//서비스 주입
@@ -37,7 +41,9 @@ public class BBSController {
 	
 	//입력처리]
 	@PostMapping("/Write.do")
-	public String writeOk(Authentication auth,@RequestParam Map map,Model model) {
+	@ResponseBody
+	public int writeOk(//Authentication auth,
+			@RequestParam Map map) {
 		
 		//서비스 호출
 		//스프링 씨큐리티 적용시 인증(로그인)되었다면 Authentication객체에 로그인에 관련된 정보가 전달됨
@@ -53,26 +59,26 @@ public class BBSController {
 		//String authorties = authorities.stream().map(authority -> authority.toString()).collect(Collectors.joining(","));
 		//System.out.println(authorties);
 		//map.put("id", principal.getUsername());
+		System.out.println(map.get("id"));
+		System.out.println(map.get("content"));
+		System.out.println(map.get("hashTag"));
+		System.out.println(map.get("type"));
+		System.out.println(map.get("disclosureYN"));
+		System.out.println(map.get("file[0]"));
+		System.out.println(map.get("name"));
+		
 		
 		int affected= service.insert(map);
 		if(affected==0) {//입력 실패
-			model.addAttribute("INPUT_ERROR", "입력 오류 입니다");
-			//뷰정보 반환
-			return "onememo09/bbs/Write.ict";
+			return affected;
 		}
-		//뷰정보 반환		
-		// /onememo/bbs/List.do로 뷰정보 반환시 접두어/접미어 붙는다
-		//JSP file [/WEB-INF/views/onememo09/bbs/List.do.jsp] not found
-		//forward:를 붙이면 접두어/접미어가 붙지 않는다 (forward: 디폴트)
-		//redirect:는 리다이렉트 방식 이동
-		return "forward:/onememo/bbs/List.do";
+		return affected;
 	}/////
+	
 	//상세보기]
-	//GET/POST둘다 받아야 함으로 @RequestMapping사용
 	@RequestMapping(value="/View.do",method = {RequestMethod.GET,RequestMethod.POST})
-	public String view(//@ModelAttribute("id") String id,
-			@RequestParam Map map,Model model) {
-		
+	@ResponseBody
+	public String view(@RequestParam Map map,Model model) {
 		System.out.println("상세보기의 NO:"+map.get("no"));
 		//서비스 호출
 		BBSDto record= service.selectOne(map);
@@ -85,8 +91,7 @@ public class BBSController {
 	}///////////////////
 	
 	@GetMapping("/Edit.do")
-	public String edit(//@ModelAttribute("id") String id,
-			@RequestParam Map map,Model model) {
+	public String edit(@RequestParam Map map,Model model) {
 		//서비스 호출	
 		BBSDto record= service.selectOne(map);
 		//데이타 저장
@@ -94,11 +99,12 @@ public class BBSController {
 		//뷰정보 반환
 		return "onememo09/bbs/Edit.ict";
 	}
+	
 	@PostMapping("/Edit.do")
-	public String editOk(Model model,BBSDto dto) {
+	public String editOk(Model model,BBSDto dto, FilesDto files) {
 	
 		//서비스 호출		
-		int affected=service.update(dto);
+		int affected=service.update(dto,files);
 		if(affected==0) {//수정 실패
 			model.addAttribute("UPDATE_ERROR", "수정 오류 입니다");
 			//뷰정보 반환
@@ -107,19 +113,18 @@ public class BBSController {
 		//뷰정보 반환		
 		return "forward:/onememo/bbs/View.do";
 	}/////
+	
+	/*
 	@GetMapping("/{no}/Delete.do")
-	public String delete(//@ModelAttribute("id") String id,
-			@PathVariable String no,Model model) {
+	public String delete(@PathVariable String bno,Model model) {
 		//서비스 호출
-		BBSDto dto = BBSDto.builder().no(no).build();
+		BBSDto dto = BBSDto.builder().bno(bno).build();
 		int affected=service.delete(dto);
 		if(affected == -1) {
-			System.out.println("affected:"+affected);
-			model.addAttribute("FAILURE", "댓글이 있어 삭제할 수 없어요");
-			//뷰정보 반환		
 			return "forward:/onememo/bbs/View.do?no="+no;
 		}
 		//뷰정보 반환]-목록을 처리하는 컨트롤러로 이동
 		return "forward:/onememo/bbs/List.do";
 	}
+	*/
 }

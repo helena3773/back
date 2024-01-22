@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.bbs.service.BBSDto;
+import com.ict.teamProject.files.service.FilesDto;
 
 @Mapper
 public interface BBSMapper {
@@ -16,18 +17,19 @@ public interface BBSMapper {
 	//레코드 하나
 	BBSDto findByBBS(Map map);
 	
-	//키로 조회해서 레코드 하나 삭제
-	int deleteByKey(BBSDto record);
-	
-	//키로 조회해서 레코드 하나 수정
-	int updateByKey(BBSDto record);
-	
 	//입력
 	int save(Map map);
+	int saveFiles(Map map);
 	
-	//전체 레코드 수 조회	
-	int count(Map map);
-	
+	//씨큐리티 용
 	int saveUser(Map<String, String> map);
 	
+
+	//레코드 하나 수정
+	int updateBBS(BBSDto record);
+	int updateFiles(FilesDto files);
+	
+	//레코드 하나 삭제
+	int deleteFiles(FilesDto files);
+	int deleteBBS(BBSDto record);
 }

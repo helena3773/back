@@ -10,7 +10,7 @@ import lombok.Setter;
 @Alias("BBSDto")
 @Builder
 public class BBSDto {
-	private String no;
+	private String bno;
 	private String id;
 	private int type;
 	private String Content;

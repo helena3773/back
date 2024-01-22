@@ -4,48 +4,64 @@
 
 <!-- 매퍼파일 -->
 <mapper namespace="com.ict.teamProject.bbs.service.impl.BBSMapper">
-
-	<resultMap type="onememoDto" id="onememoResult">
-		<result property="no" column="no"/>
-		<result property="title" column="title"/>
-		<result property="content" column="content"/>
-		<result property="postDate" column="postDate"/>
+	<!-- 'BBSResult'라는 이름의 결과 매핑을 정의. 이 매핑은 'BBSDto' 타입의 객체를 생성. -->
+	<resultMap type="BBSDto" id="BBSResult">
+		 <!-- 'no'라는 속성은 쿼리 결과의 'no' 컬럼에 매핑. -->
+		<result property="no" column="bno"/>
 		<result property="id" column="id"/>
-		<result property="name" column="name"/>
-		<!-- 조인 쿼리시 반드시 commentCounts로 별칭하자 -->
-		<result property="commentCounts" column="commentCounts"/>
-		<!-- 
-		1:N관계 매핑용(collection요소 사용)
-		column: 조인 조건의 컬럼명 (ON onememo.no = linecomment.no)
-		select: select태그의 id 속성값(쿼리문은 조인문)
-		javaType : Onememo테이블의 자식 레코드를 담는 컬렉션 타입 즉 (List<LineCommentDTO>)
-		ofType : 자식의 DTO타입
-		property: 댓글 목록을 담을 OnememoDTO속성명
-		
-		
-		아래 collection요소 사용시 
-		현재 매퍼파일에서 메모글 하나 가져올때 반드시 resultMap="memoDtoResult"을 사용하지
-		 -->
-		<collection property="comments" column="no" select="com.ictedu.springapp.onememo.service.impl.CommentMapper.findAllByNo" javaType="list" ofType="commentDto"/>
+		<result property="type" column="type"/>
+		<result property="content" column="content"/>
+		<result property="disclosureYN" column="disclosureYN"/>
+		<result property="hashTag" column="hashTag"/>
 	</resultMap>
 	
-	<insert id="save" parameterType="Map">
-		INSERT INTO onememo VALUES(SEQ_ONEMEMO.NEXTVAL,#{title},#{content},SYSDATE,#{id})	
+		
+	<!-- 게시글 전체 뿌리기 -->
+	 <select id="findAll" parameterType="Map" resultType="BBSDto">
+	 	SELECT *
+		FROM BBS b JOIN Files f ON b.bno=f.bno
+	 </select>
+	
+	<!-- 게시글 입력 -->
+	<insert id="save" parameterType="Map" useGeneratedKeys="true" keyProperty="getFiles">
+		INSERT INTO BBS VALUES(SEQ_BBS.NEXTVAL,#{id},#{type},#{content},#{disclosureYN},#{hashTag},SYSDATE)
 	</insert>
-	<select id="findByKey" parameterType="Map" resultMap="onememoResult">
+	
+	<!-- 게시글에 해당하는 파일 입력 -->
+	<insert id="saveFiles" parameterType="Map">
+		INSERT INTO Files VALUES(SEQ_FILES.NEXTVAL,#{getFiles},#{url},#{name})	
+	</insert>
+	
+	<!-- 해당 게시글에 해당하는 게시물 출력 -->
+	<select id="findByBBS" parameterType="Map" resultMap="BBSResult">
 		<!-- 글 번호에 따른 댓글 수는 제외하고 조회(상세보기 화면이니까:해당 글번호의 모든 댓글 뿌리니까) -->
-		SELECT o.*,name
-		FROM onememo o JOIN member m ON m.id=o.id
-		WHERE no=#{no}
+		SELECT b.*,filePath
+		FROM BBS b JOIN Files f ON b.bno=f.bno
+		WHERE bno=#{bno}
 	</select>
-	<update id="updateByKey" parameterType="onememoDto">
-		UPDATE onememo SET title=#{title},content=#{content} WHERE no=#{no}	
+	
+	<!-- 해당 게시글에 해당하는 게시물 수정 -->
+	<update id="updateBBS" parameterType="BBSDto">
+		UPDATE BBS SET content=#{content}, type=#{type}, disclosureYN=#{disclosureYN}, hashTag=#{hashTag} WHERE bno=#{bno} and id=#{id}
 	</update>
-	<delete id="deleteByKey" parameterType="onememoDto">
-		DELETE onememo WHERE no=#{no}
+	
+	<!-- 해당 게시글에 해당하는 파일 수정 -->
+	<update id="updateFiles" parameterType="FilesDto">
+		UPDATE Files SET filePath=#{filePath}, fileName=#{fileName} WHERE bno=#{bno}	
+	</update>
+	
+	<!-- 해당 게시글에 해당하는 게시물 삭제 -->
+	<delete id="deleteBBS" parameterType="BBSDto">
+		DELETE BBS WHERE bno=#{bno} and id=#{id}
 	</delete>
-	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스) -->
+	
+	<!-- 해당 게시글에 해당하는 파일 삭제 -->
+	<delete id="deleteFiles" parameterType="FilesDto">
+		DELETE Files WHERE bno=#{bno}
+	</delete>
+	
+	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)
 	<insert id="saveUser" parameterType="Map">
 		INSERT INTO member VALUES(#{id},#{pwd},#{name},DEFAULT,DEFAULT)
-	</insert>
+	</insert> -->
 </mapper>
