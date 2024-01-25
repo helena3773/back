@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.teamProject.comm.CommMapper">
+	<select id="findAllMatesById" resultType="MateDto" parameterType="String">
+		SELECT * FROM MATE_LIST WHERE ID = #{id}
+	</select>
+	<select id="findAllFriendsById" resultType="FriendDto" parameterType="String">
+		SELECT * FROM FRIEND_LIST WHERE ID = #{id}
+	</select>
+	<select id="findAllSubToById" resultType="SubscribeToDto" parameterType="String">
+		SELECT * FROM SUBSCRIBE_LIST WHERE ID = #{id}
+	</select>
+	<select id="findAllMySubById" resultType="MySubscriberDto" parameterType="String">
+		SELECT * FROM SUBSCRIBE_LIST WHERE SUBSCRIBE_ID = #{id}
+	</select>
+	<select id="findNameById" resultType="String" parameterType="String">
+		SELECT name from member where id = #{id}
+	</select>
+	<select id="findFnumById" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM FRIEND_LIST WHERE ID = #{id}
+	</select>
+	<select id="findMnumById" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM MATE_LIST WHERE ID = #{id}
+	</select>
+	<select id="findSnumById" resultType="Integer" parameterType="String">
+		SELECT COUNT(*) FROM SUBSCRIBE_LIST WHERE SUBSCRIBE_ID = #{id}
+	</select>
+	<select id="findProPathById" resultType="String" parameterType="String">
+		SELECT pro_filepath from profile WHERE ID = #{id}
+	</select>
+	<update id="putFavorableRating" parameterType="MateDto">
+		UPDATE MATE_LIST SET FAVORABLE_RATING = #{favorable_rating}
+		WHERE MATE_ID = #{mate_id}
+	</update>
+</mapper>
