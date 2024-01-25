@@ -15,6 +15,19 @@
 		<result property="hashTag" column="hashTag"/>
 	</resultMap>
 	
+	<select id="getSeqNextVal" resultType="java.lang.Integer">
+    	SELECT SEQ_BBS.NEXTVAL FROM dual
+	</select>
+	
+		<!-- 게시글 입력 -->
+	<insert id="save" parameterType="Map">
+		INSERT INTO BBS VALUES(#{getBno},#{id},#{type},#{content},#{disclosureYN},#{hashTag},SYSDATE)
+	</insert>
+	
+	<!-- 게시글에 해당하는 파일 입력 -->
+	<insert id="saveFiles" parameterType="Map">
+		INSERT INTO Files VALUES(#{getBno},#{urls},#{names})	
+	</insert>
 		
 	<!-- 게시글 전체 뿌리기 -->
 	 <select id="findAll" parameterType="Map" resultType="BBSDto">
@@ -22,15 +35,6 @@
 		FROM BBS b JOIN Files f ON b.bno=f.bno
 	 </select>
 	
-	<!-- 게시글 입력 -->
-	<insert id="save" parameterType="Map" useGeneratedKeys="true" keyProperty="getFiles">
-		INSERT INTO BBS VALUES(SEQ_BBS.NEXTVAL,#{id},#{type},#{content},#{disclosureYN},#{hashTag},SYSDATE)
-	</insert>
-	
-	<!-- 게시글에 해당하는 파일 입력 -->
-	<insert id="saveFiles" parameterType="Map">
-		INSERT INTO Files VALUES(SEQ_FILES.NEXTVAL,#{getFiles},#{urls},#{names})	
-	</insert>
 	
 	<!-- 해당 게시글에 해당하는 게시물 출력 -->
 	<select id="findByBBS" parameterType="Map" resultMap="BBSResult">

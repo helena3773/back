@@ -80,9 +80,9 @@ public class BBSController {
 		System.out.println(map.get("hashTag"));
 		System.out.println(map.get("type"));
 		System.out.println(map.get("disclosureYN"));
-	    List<String> urls = new ArrayList<>();  // url을 저장할 리스트
-	    List<String> names = new ArrayList<>(); // name을 저장할 리스트
+		int affected = 0;
 	    
+		map= service.insert(map);
 		if (ciuJson != null) {
 			 // ciuJson을 파싱하여 List<Map<String, String>> 형태로 변환
 		    ObjectMapper objectMapper = new ObjectMapper();
@@ -94,10 +94,12 @@ public class BBSController {
 		        String url = item.get("url");
 		        File file = new File(url);
 		        String name = file.getName();
+	    		map.put("urls", url);
+	    		map.put("names", name);
 		        System.out.println(name);
 		        System.out.println(url);
-		        urls.add(url);  // url을 리스트에 추가
-		        names.add(name); // name을 리스트에 추가
+		        affected += service.insertFile(map);
+
 		    }
 		}
 		
@@ -114,22 +116,18 @@ public class BBSController {
 		            String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
 		            Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
 		            String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
-		    		map.put("filePath", '/'+filePathStr);
-		    		map.put("filename", newFilename);
-		    	    System.out.println(map.get("filename"));
-		    	    System.out.println(map.get("filePath"));
+		    		map.put("urls", '/'+filePathStr);
+		    		map.put("names", newFilename);
+		    	    System.out.println(map.get("urls"));
+		    	    System.out.println(map.get("names"));
 		            file.transferTo(filePath);  // 파일 저장
-			        urls.add('/'+filePathStr);  // url을 리스트에 추가
-			        names.add(newFilename); // name을 리스트에 추가
+		            affected += service.insertFile(map);
 		        }
 		    } catch (IOException e) {
 		        e.printStackTrace();
 		        return 0;
 		    }
 	    }
-	    map.put("urls", urls);
-	    map.put("names", names);
-		int affected= service.insert(map);
 		if(affected==0) {//입력 실패
 			return affected;
 		}

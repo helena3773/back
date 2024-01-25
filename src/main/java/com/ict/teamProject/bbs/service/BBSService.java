@@ -17,7 +17,8 @@ public interface BBSService<T> {
 	T selectOne(Map map);
 	
 	//입력/수정/삭제용
-	int insert(Map map);
+	Map insert(Map map);
+	int insertFile(Map map);
 	int update(BBSDto record, FilesDto files);
 	int delete(BBSDto record, FilesDto files);
 }

@@ -24,18 +24,30 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 	
 	//게시물 등록
 	@Override
-	public int insert(Map map) {
+	public Map insert(Map map) {
+		try {
+	        // 시퀀스 값을 먼저 가져오는 쿼리 실행
+	        int generatedKey = mapper.getSeqNextVal();
+	        map.put("getBno", generatedKey);
+			mapper.save(map);	
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	//게시물 파일등록
+	@Override
+	public int insertFile(Map map) {
 		int affected=0;
 		try {
-			mapper.save(map);
-			int generatedKey = Integer.parseInt(map.get("getFiles").toString());
-	        map.put("getFiles", generatedKey);
 			affected=mapper.saveFiles(map);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return affected;
+		return affected;		
 	}
 
 	//게시물 상세보기
