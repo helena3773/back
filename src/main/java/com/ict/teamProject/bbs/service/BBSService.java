@@ -11,7 +11,8 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface BBSService<T> {
 
 	//전체보기용
-	List<BBSDto> selectAll(Map map);
+	List<BBSDto> selectAll();
+	List selectFiles(int bno);
 	
 	//상세보기용
 	T selectOne(Map map);
@@ -21,4 +22,5 @@ public interface BBSService<T> {
 	int insertFile(Map map);
 	int update(BBSDto record, FilesDto files);
 	int delete(BBSDto record, FilesDto files);
+	
 }

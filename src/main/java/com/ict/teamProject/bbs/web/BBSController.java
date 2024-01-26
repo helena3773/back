@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,6 +49,7 @@ import com.ict.teamProject.files.service.FilesDto;
 
 @Controller
 @RequestMapping("/bbs")
+@RestController
 @CrossOrigin(origins = "http://localhost:3333")
 public class BBSController {
 	
@@ -114,9 +116,13 @@ public class BBSController {
 		        for (MultipartFile file : files) {
 		            String filename = file.getOriginalFilename();
 		            String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
-		            Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
+		            Path filePath = uploadPath.resolve("E:/images/"+newFilename);  // 파일이 저장될 경로
 		            String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
-		    		map.put("urls", '/'+filePathStr);
+		            
+		            String baseUrl = "http://localhost:4000";  // 기본 URL
+		            String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
+		            
+		    		map.put("urls", baseUrl+imagePath);
 		    		map.put("names", newFilename);
 		    	    System.out.println(map.get("urls"));
 		    	    System.out.println(map.get("names"));
@@ -149,14 +155,19 @@ public class BBSController {
 		return "onememo09/bbs/View.ict";
 	}///////////////////
 	
-	@GetMapping("/Edit.do")
-	public String edit(@RequestParam Map map,Model model) {
-		//서비스 호출	
-		BBSDto record= service.selectOne(map);
-		//데이타 저장
-		model.addAttribute("record", record);
-		//뷰정보 반환
-		return "onememo09/bbs/Edit.ict";
+	@GetMapping("/List.do")
+	public List edit(@RequestParam Map map) {
+	    //서비스 호출    
+	    List<BBSDto> records = service.selectAll();
+	    System.out.println("records:"+records);
+	    for (BBSDto record : records) {
+	        int bno = record.getBno();
+	        System.out.println("bno:"+bno);
+	        List<String> files = service.selectFiles(bno);
+	        record.setFiles(files);  // 게시글에 파일들을 추가
+	        System.out.println("files:"+record.getFiles());
+	    }
+		return records;
 	}
 	
 	@PostMapping("/Edit.do")

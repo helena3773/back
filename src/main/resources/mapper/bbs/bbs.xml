@@ -7,12 +7,14 @@
 	<!-- 'BBSResult'라는 이름의 결과 매핑을 정의. 이 매핑은 'BBSDto' 타입의 객체를 생성. -->
 	<resultMap type="BBSDto" id="BBSResult">
 		 <!-- 'no'라는 속성은 쿼리 결과의 'no' 컬럼에 매핑. -->
-		<result property="no" column="bno"/>
-		<result property="id" column="id"/>
-		<result property="type" column="type"/>
-		<result property="content" column="content"/>
-		<result property="disclosureYN" column="disclosureYN"/>
-		<result property="hashTag" column="hashTag"/>
+		<result property="bno" column="BBS_NO"/>
+		<result property="id" column="ID"/>
+		<result property="type" column="BBS_TYPE"/>
+		<result property="content" column="BBS_CONTENT"/>
+		<result property="disclosureYN" column="BBS_DISCLOSUREYN"/>
+		<result property="hashTag" column="BBS_HASHTAG"/>
+		<result property="postDate" column="BBS_POSTDATE"/>
+		<collection property="files" ofType="string" select="findFile" column="BBS_NO"/>
 	</resultMap>
 	
 	<select id="getSeqNextVal" resultType="java.lang.Integer">
@@ -30,9 +32,13 @@
 	</insert>
 		
 	<!-- 게시글 전체 뿌리기 -->
-	 <select id="findAll" parameterType="Map" resultType="BBSDto">
-	 	SELECT *
-		FROM BBS b JOIN Files f ON b.bno=f.bno
+	 <select id="findAll" resultMap="BBSResult">
+	 	SELECT BBS_NO, ID, BBS_TYPE, BBS_CONTENT, BBS_DISCLOSUREYN, BBS_HASHTAG, BBS_POSTDATE FROM BBS ORDER BY BBS_NO DESC
+	 </select>
+	 
+ 	<!-- 해당 게시글의 파일 뿌리기 -->
+	 <select id="findFile" parameterType="int" resultType="String">
+	 	SELECT BBS_FILEPATH FROM Files WHERE BBS_NO = #{bno}
 	 </select>
 	
 	

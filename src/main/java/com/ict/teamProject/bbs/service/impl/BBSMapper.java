@@ -12,7 +12,8 @@ import com.ict.teamProject.files.service.FilesDto;
 public interface BBSMapper {
 
 	//전체 조회
-	List findAll(Map map);
+	List findAll();
+	List findFile(int bno);
 	
 	//레코드 하나
 	BBSDto findByBBS(Map map);
@@ -35,4 +36,5 @@ public interface BBSMapper {
 	
 	// 시퀀스 값을 먼저 가져오기
 	int getSeqNextVal();
+
 }

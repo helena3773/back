@@ -20,7 +20,8 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 
 	//매퍼 인터페이스 주입
 	@Autowired
-	private BBSMapper mapper;	
+	private BBSMapper mapper;
+	
 	
 	//게시물 등록
 	@Override
@@ -48,6 +49,21 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 			e.printStackTrace();
 		}
 		return affected;		
+	}
+	
+	//게시물 전체 조회
+	@Override
+	public List<BBSDto> selectAll() {
+		List records=mapper.findAll();
+		return records;
+	}
+	
+	//게시물에 해당하는 파일 가져오기
+	@Override
+	public List<BBSDto> selectFiles(int bno) {
+		List records=mapper.findFile(bno);
+		System.out.println(records);
+		return records;
 	}
 
 	//게시물 상세보기
@@ -97,10 +113,6 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		return affected;
 	}
 
-	@Override
-	public List<BBSDto> selectAll(Map map) {
-		List records=mapper.findAll(map);
-		return records;
-	}
+
 
 }
