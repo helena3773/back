@@ -7,7 +7,7 @@
 		SELECT * FROM MATE_LIST WHERE ID = #{id}
 	</select>
 	<select id="findAllFriendsById" resultType="FriendDto" parameterType="String">
-		SELECT * FROM FRIEND_LIST WHERE ID = #{id}
+		SELECT * FROM FRIEND_LIST WHERE ID = #{id} and friend_blocking='N'
 	</select>
 	<select id="findAllSubToById" resultType="SubscribeToDto" parameterType="String">
 		SELECT * FROM SUBSCRIBE_LIST WHERE ID = #{id}
@@ -34,4 +34,12 @@
 		UPDATE MATE_LIST SET FAVORABLE_RATING = #{favorable_rating}
 		WHERE MATE_ID = #{mate_id}
 	</update>
+	<select id="findIntroductionById" parameterType="String" resultType="String">
+		SELECT PRO_INTRODUCTION FROM PROFILE
+		WHERE ID = #{id}
+	</select>
+	<select id="findJoinDateById" parameterType="String" resultType="java.sql.Date">
+		SELECT REGIDATE FROM member
+		WHERE ID = #{id}
+	</select>
 </mapper>

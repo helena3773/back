@@ -16,6 +16,7 @@ import com.ict.teamProject.comm.dto.FriendDto;
 import com.ict.teamProject.comm.dto.MateDto;
 import com.ict.teamProject.comm.dto.MySubscriberDto;
 import com.ict.teamProject.comm.dto.SubscribeToDto;
+import com.ict.teamProject.comm.dto.UserProfileDto;
 
 @RestController
 @RequestMapping("/comm")
@@ -86,5 +87,18 @@ public class CommController {
 		total.put("subTo", subscribeTo);
 		total.put("MySub", subscribers);
 		return total;
+	}
+	
+	//유저프로필
+	@GetMapping("/profile")
+	public UserProfileDto getUserProfile(@RequestParam String id) {
+		UserProfileDto dto = new UserProfileDto().builder()
+				.id(id)
+				.name(service.findNameById(id))
+				.profilePath(service.findProPathById(id))
+				.proIntroduction(service.findIntroductionById(id))
+				.date(service.findJoinDateById(id))
+				.build();
+		return dto;
 	}
 }
