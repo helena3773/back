@@ -25,4 +25,5 @@ public interface CommMapper {
 	public void putFavorableRating(MateDto dto); //호감도 수정
 	public String findIntroductionById(String id);//한줄 소개
 	public Date findJoinDateById(String id); //가입 날짜 받기
+	public void putFriendBlocking(String id); //친구 끊기 수정
 }

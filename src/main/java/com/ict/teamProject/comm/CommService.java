@@ -68,4 +68,9 @@ public class CommService {
 	public String findIntroductionById(String id) {
 		return mapper.findIntroductionById(id);
 	}
+	
+	//친구 끊기
+	public void putFriendBlocking(String id) {
+		mapper.putFriendBlocking(id);
+	}
 }

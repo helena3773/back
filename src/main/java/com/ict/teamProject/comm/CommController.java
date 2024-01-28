@@ -101,4 +101,10 @@ public class CommController {
 				.build();
 		return dto;
 	}
+	
+	//친구끊기
+	@PutMapping("/friendblock")
+	public void deleteFriend(@RequestParam String id) {
+		service.putFriendBlocking(id);
+	}
 }
