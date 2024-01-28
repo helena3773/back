@@ -223,7 +223,7 @@ public class BBSController {
 	       service.deleteFiles(bnoInt);
 	        affected += service.deleteBBS(bnoInt);
 	        System.out.println("affected2:"+affected);
-	        return ResponseEntity.ok(affected);
+	        return ResponseEntity.ok(String.valueOf(affected));
 	    } catch (NumberFormatException e) {
 	        return ResponseEntity.badRequest().body("bno: " + bno);
 	    }
