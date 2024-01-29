@@ -18,4 +18,6 @@ public interface CommentLineService<T> {
 	int insert(Map map);
 	int update(CommentLineDto record);
 	int delete(CommentLineDto record);
+
+	List<CommentLineDto> findrecent_comment(Map map);
 }

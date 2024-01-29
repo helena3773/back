@@ -28,4 +28,6 @@ public interface CommentLineMapper {
 	
 	//레코드 하나 삭제
 	int deletefindByCommentLine(CommentLineDto record);
+
+	List findrecent_comment(Map map);
 }
