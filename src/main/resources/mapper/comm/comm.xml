@@ -42,6 +42,21 @@
 		SELECT REGIDATE FROM member
 		WHERE ID = #{id}
 	</select>
+	<update id="putFriendBlocking" parameterType="String">
+		UPDATE FRIEND_LIST SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id}
+	</update>
+	<delete id="deleteFriend" parameterType="String">
+		DELETE FROM FRIEND_LIST WHERE ID = #{id}
+	</delete>
+	<delete id="deleteSubTo" parameterType="String">
+		DELETE FROM subscribe_list WHERE SUBSCRIBE_ID = #{id}
+	</delete>
+	<delete id="deleteMate" parameterType="String">
+		DELETE FROM mate_list WHERE MATE_ID = #{id}
+	</delete>
+	<delete id="deleteSubscriber" parameterType="Map">
+		DELETE FROM subscribe_list WHERE ID = #{subId} AND SUBSCRIBE_ID = #{userId}
+	</delete>
 	<update id="putProfileImage" parameterType="UserProfileDto">
 		UPDATE PROFILE SET PRO_FILEPATH = #{profilePath}
 		WHERE id = #{id}

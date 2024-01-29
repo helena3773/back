@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -110,6 +111,36 @@ public class CommController {
 				.date(service.findJoinDateById(id))
 				.build();
 		return dto;
+	}
+	
+	//친구끊기
+	@DeleteMapping("/friend/delete")
+	public void deleteFriend(@RequestBody Map map) {
+		service.deleteFriend(String.valueOf(map.get("id")));
+	}
+	
+	//구독 취소
+	@DeleteMapping("/subscribe/delete")
+	public void deleteSubTo(@RequestBody Map map) {
+		service.deleteSubTo(String.valueOf(map.get("id")));
+	}
+	
+	//친구 차단
+	@PutMapping("/friend/block")
+	public void blockFriend(@RequestBody Map map) {
+		service.putFriendBlocking(String.valueOf(map.get("id")));
+	}
+	
+	//메이트 끊기
+	@DeleteMapping("/mate/delete")
+	public void deleteMate(@RequestBody Map map) {
+		service.deleteMate(String.valueOf(map.get("id")));
+	}
+	
+	//구독자 삭제
+	@DeleteMapping("/subscribe/deleteSubscriber")
+	public void deleteSubscriber(@RequestBody Map map) {
+		service.deleteSubscriber(map);
 	}
 	
 	//유저프로필 사진경로 변경

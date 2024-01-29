@@ -2,6 +2,7 @@ package com.ict.teamProject.comm;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,31 @@ public class CommService {
 	//유저의 한줄 소개
 	public String findIntroductionById(String id) {
 		return mapper.findIntroductionById(id);
+	}
+	
+	//친구 차단
+	public void putFriendBlocking(String id) {
+		mapper.putFriendBlocking(id);
+	}
+	
+	//친구 삭제
+	public void deleteFriend(String id) {
+		mapper.deleteFriend(id);
+	}
+	
+	//구독 끊기
+	public void deleteSubTo(String id) {
+		mapper.deleteSubTo(id);
+	}
+	
+	//메이트 끊기
+	public void deleteMate(String id) {
+		mapper.deleteMate(id);
+	}
+	
+	//구독자 삭제
+	public void deleteSubscriber(Map<String, String> ids) {
+		mapper.deleteSubscriber(ids);
 	}
 	
 	//변경된 유저프로필 사진정보 DB 저장

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,6 +45,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
+import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.command.FileUtils;
 import com.ict.teamProject.files.service.FilesDto;
 
@@ -269,5 +271,31 @@ public class BBSController {
 	    } catch (NumberFormatException e) {
 	        return ResponseEntity.badRequest().body("bno: " + bno);
 	    }
+	}
+	*/
+	
+	@PostMapping("/userProfile")
+	public List<BBSUsersProfileDto> getAllUsersById(@RequestBody Map<String,List<String>> map){
+		System.out.println("값이 요청됨:"+map.get("ids"));
+		List<BBSUsersProfileDto> dtos = new ArrayList<BBSUsersProfileDto>();
+		int flag = 0;
+		Map<String, String> param = new HashMap<>();
+		for (String id : map.get("ids")) {
+			if (flag==0) {
+				param.put("userId", id);
+			}
+			else {
+				param.put("otherId", id);
+				BBSUsersProfileDto tempDto = new BBSUsersProfileDto().builder()
+										.id(id)
+										.isFriend(service.findIsFriend(param))
+										.isSubTo(service.findIsSubto(param))
+										.profilePath(service.findProfilePathById(id))
+										.build();
+				dtos.add(tempDto);
+			}
+			flag++;
+		}
+		return dtos;
 	}
 }

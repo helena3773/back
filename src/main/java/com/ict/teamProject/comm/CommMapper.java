@@ -2,6 +2,7 @@ package com.ict.teamProject.comm;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,5 +26,10 @@ public interface CommMapper {
 	public void putFavorableRating(MateDto dto); //호감도 수정
 	public String findIntroductionById(String id);//한줄 소개
 	public Date findJoinDateById(String id); //가입 날짜 받기
+	public void putFriendBlocking(String id); //친구 차단
+	public void deleteFriend(String id); //친구 삭제
+	public void deleteSubTo(String id); //구독 끊기
+	public void deleteMate(String id); //메이트 끊기
+	public void deleteSubscriber(Map<String, String> ids); //구독자 삭제
 	public int putProfileImage(UserProfileDto dto); //프로필 사진 교체
 }

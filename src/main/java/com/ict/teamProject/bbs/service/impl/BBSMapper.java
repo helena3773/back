@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.bbs.service.BBSDto;
+import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.files.service.FilesDto;
 
 @Mapper
@@ -38,6 +39,15 @@ public interface BBSMapper {
 	
 	// 시퀀스 값을 먼저 가져오기
 	int getSeqNextVal();
+	
+	//받은 아이디가 로그인한 유저 아이디와 친구 관계인지 판단
+	int findIsFriend(Map<String, String> ids);
+	
+	//받은 아이디가 로그인한 유저 아이디와 구독 관계인지 판단
+	int findIsSubto(Map<String, String> ids);
+	
+	//유저의 프로필 가져오기
+	String findProfilePathById(String id);
 
 	
 

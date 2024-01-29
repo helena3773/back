@@ -75,4 +75,15 @@
 	<insert id="saveUser" parameterType="Map">
 		INSERT INTO member VALUES(#{id},#{pwd},#{name},DEFAULT,DEFAULT)
 	</insert> -->
+	
+	<!-- 모든 게시글에 뿌려줄 게시글 작성 user 프로필 -->
+	<select id="findIsFriend" parameterType="Map" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM FRIEND_LIST WHERE ID=#{otherId} AND FRIEND_ID=#{userId}
+	</select>
+	<select id="findIsSubto" parameterType="Map" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM subscribe_list WHERE ID=#{userId} AND SUBSCRIBE_ID=#{otherId}
+	</select>
+	<select id="findProfilePathById" parameterType="String" resultType="String">
+		SELECT PRO_FILEPATH FROM PROFILE WHERE ID=#{id}
+	</select>
 </mapper>

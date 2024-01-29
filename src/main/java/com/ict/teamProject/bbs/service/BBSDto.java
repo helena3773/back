@@ -24,4 +24,5 @@ public class BBSDto {
 	private String hashTag;
 	private java.sql.Date postDate;
 	private List<String> files;  // 파일들을 저장할 필드
+	
 }

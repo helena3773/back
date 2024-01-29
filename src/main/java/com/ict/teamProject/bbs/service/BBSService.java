@@ -30,4 +30,7 @@ public interface BBSService<T> {
 	int deleteFiles(int bno);
 
 	
+	int findIsFriend(Map<String, String> ids);
+	int findIsSubto(Map<String, String> ids);
+	String findProfilePathById(String id);
 }
