@@ -28,7 +28,10 @@
 			ORDER SIBLINGS BY C_NO
 	 </select>
 	 	
-	
+	<!-- 댓글 입력 -->
+	 <insert id="save" parameterType="Map">
+		INSERT INTO CommentLine(ID, BBS_NO, CCOMMENT) VALUES (#{id}, #{bbs_no}, #{ccomment})
+	 </insert>
 	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)
 	<insert id="saveUser" parameterType="Map">
 		INSERT INTO member VALUES(#{id},#{pwd},#{name},DEFAULT,DEFAULT)
