@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 매퍼파일 -->
+<mapper namespace="com.ict.teamProject.commentline.service.impl.CommentLineMapper">
+	<resultMap type="CommentLineDto" id="CommentLineResult">
+		 <!-- 'no'라는 속성은 쿼리 결과의 'no' 컬럼에 매핑. -->
+		<result property="c_no" column="C_NO"/>
+		<result property="id" column="ID"/>
+		<result property="bbs_no" column="BBS_NO"/>
+		<result property="ccomment" column="CCOMMENT"/>
+		<result property="parent_comment" column="PARENT_COMMENT"/>
+		<result property="postDate" column="POSTDATE"/>
+		<result property="update_time" column="UPDATE_TIME"/>
+		<result property="deleted" column="DELETED"/>
+		<result property="level" column="LEVEL"/>
+	</resultMap>
+
+		
+	<!-- 댓글 전체 뿌리기 -->
+	
+	 <select id="findAll" resultType="Map">
+		SELECT BBS_NO, ID, C_NO, PARENT_COMMENT, LEVEL, CCOMMENT, POSTDATE, DELETED
+			FROM CommentLine
+			START WITH PARENT_COMMENT IS NULL
+			CONNECT BY PRIOR C_NO = PARENT_COMMENT
+			ORDER SIBLINGS BY C_NO
+	 </select>
+	 	
+	
+	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)
+	<insert id="saveUser" parameterType="Map">
+		INSERT INTO member VALUES(#{id},#{pwd},#{name},DEFAULT,DEFAULT)
+	</insert> -->
+</mapper>

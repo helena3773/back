@@ -74,5 +74,11 @@ public class CommentLineServiceImpl implements CommentLineService<CommentLineDto
 		List records=mapper.findAll(map);
 		return records;
 	}
+	
+	@Override
+	public List<CommentLineDto> findrecent_comment(Map map) {
+		List records=mapper.findrecent_comment(map);
+		return records;
+	}
 
 }
