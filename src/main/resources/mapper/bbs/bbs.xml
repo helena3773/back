@@ -86,4 +86,16 @@
 	<select id="findProfilePathById" parameterType="String" resultType="String">
 		SELECT PRO_FILEPATH FROM PROFILE WHERE ID=#{id}
 	</select>
+	
+	<!-- 좋아요 -->
+	<insert id="setLikes" parameterType="LikesDto">
+		INSERT INTO LIKES VALUES(default,#{id},#{bno},#{cno},SYSDATE)
+	</insert>
+	<delete id="deleteLikes" parameterType="LikesDto">
+		DELETE LIKES WHERE BBS_NO=#{bno} and ID=#{id}
+	</delete>
+	<select id="findLikes" parameterType="int" resultType="int">
+		SELECT count(*) FROM LIKES WHERE BBS_NO=#{bno}
+	</select>
+	
 </mapper>

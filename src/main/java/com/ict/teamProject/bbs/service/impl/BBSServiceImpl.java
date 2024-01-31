@@ -11,6 +11,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
+import com.ict.teamProject.bbs.service.LikesDto;
 import com.ict.teamProject.files.service.FilesDto;
 
 
@@ -121,6 +122,23 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		int affected=0;
 		affected = mapper.deleteFiles(bno);
 		return affected;	
+	}
+
+	@Override
+	public int findLikes(int bno) {
+		int likesnum = mapper.findLikes(bno);
+		return likesnum;
+	}
+
+	@Override
+	public void setLikes(LikesDto likes) {
+		mapper.setLikes(likes);
+		
+	}
+
+	@Override
+	public void deleteLikes(LikesDto likes) {
+		mapper.deleteLikes(likes);	
 	}
 
 

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
+import com.ict.teamProject.bbs.service.LikesDto;
 import com.ict.teamProject.files.service.FilesDto;
 
 @Mapper
@@ -48,6 +49,11 @@ public interface BBSMapper {
 	
 	//유저의 프로필 가져오기
 	String findProfilePathById(String id);
+	
+	//좋아요
+	int findLikes(int bno);
+	void setLikes(LikesDto likes);
+	void deleteLikes(LikesDto likes);
 
 	
 

@@ -33,4 +33,9 @@ public interface BBSService<T> {
 	int findIsFriend(Map<String, String> ids);
 	int findIsSubto(Map<String, String> ids);
 	String findProfilePathById(String id);
+	
+	//좋아요
+	int findLikes(int bno);
+	void setLikes(LikesDto likes);
+	void deleteLikes(LikesDto likes);
 }
