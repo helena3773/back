@@ -15,6 +15,8 @@
 		<result property="hashTag" column="BBS_HASHTAG"/>
 		<result property="postDate" column="BBS_POSTDATE"/>
 		<collection property="files" ofType="string" select="findFile" column="BBS_NO"/>
+		<collection property="likes" ofType="string" select="whereLikes" column="BBS_NO"/>
+		<collection property="likesnum" ofType="int" select="findLikes" column="BBS_NO"/>
 	</resultMap>
 	
 	<!-- 글번호 가져오기 -->
@@ -89,13 +91,28 @@
 	
 	<!-- 좋아요 -->
 	<insert id="setLikes" parameterType="LikesDto">
-		INSERT INTO LIKES VALUES(default,#{id},#{bno},#{cno},SYSDATE)
+		INSERT INTO LIKES VALUES(default,#{id},
+		<choose>
+			<when test="cno != 0">
+				#{bno},#{cno},SYSDATE)
+			</when>
+			<when test="cno == 0">
+				#{bno},null,SYSDATE)
+			</when>
+		</choose>
 	</insert>
 	<delete id="deleteLikes" parameterType="LikesDto">
 		DELETE LIKES WHERE BBS_NO=#{bno} and ID=#{id}
+			<if test="cno != 0">
+				and LC_NO=#{cno}
+			</if>
 	</delete>
 	<select id="findLikes" parameterType="int" resultType="int">
-		SELECT count(*) FROM LIKES WHERE BBS_NO=#{bno}
+		SELECT count(*) FROM LIKES WHERE BBS_NO=#{bno} and (LC_NO IS NULL OR LC_NO = '')
+	</select>
+	
+	<select id="whereLikes" parameterType="int" resultType="String">
+		SELECT ID FROM LIKES WHERE BBS_NO=#{bno} and (LC_NO IS NULL OR LC_NO = '')
 	</select>
 	
 </mapper>

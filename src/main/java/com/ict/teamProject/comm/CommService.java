@@ -109,4 +109,12 @@ public class CommService {
 	public void postFriendORMateRequest(Map<String, String> idsNtype) {
 		mapper.postFriendORMateRequest(idsNtype);
 	}
+	
+	//메이트 신고
+	public void reportWarningMate(Map<String,String>idsNReason) {
+		//(메이트 신고용)메이트 목록에서 값 삭제
+		mapper.deleteMate(idsNReason);
+		//(메이트 신고용)신고리스트에 값 추가
+		mapper.saveMateForWarning(idsNReason);
+	}
 }

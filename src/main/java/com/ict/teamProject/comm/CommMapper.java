@@ -34,4 +34,5 @@ public interface CommMapper {
 	public int putProfileImage(UserProfileDto dto); //프로필 사진 교체
 	public void updateSubscribe(Map<String, String> ids); //구독하기
 	public void postFriendORMateRequest(Map<String, String> idsNtype); //친구 또는 메이트 요청보내기
+	public void saveMateForWarning(Map<String, String> idsNReason); //신고리스트에 값 추가
 }

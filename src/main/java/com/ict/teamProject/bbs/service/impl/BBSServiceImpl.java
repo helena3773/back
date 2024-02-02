@@ -141,5 +141,11 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		mapper.deleteLikes(likes);	
 	}
 
+	@Override
+	public String whereLikes(int bno) {
+		String likes = mapper.whereLikes(bno);
+		return likes;
+	}
+
 
 }

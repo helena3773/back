@@ -30,4 +30,5 @@ public interface CommentLineMapper {
 	int deletefindByCommentLine(CommentLineDto record);
 
 	List findrecent_comment(Map map);
+	List userprofiles(Map map);
 }

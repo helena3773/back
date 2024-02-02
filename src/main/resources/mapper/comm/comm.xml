@@ -45,16 +45,21 @@
 	<update id="putFriendBlocking" parameterType="Map">
 		UPDATE FRIEND_LIST SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id} and ID = #{userId}
 	</update>
-	<delete id="deleteFriend" parameterType="String">
+	<!-- 친구 끊기 -->
+	<delete id="deleteFriend" parameterType="Map">
 		DELETE FROM add_friendmatelist 
-		WHERE afml_id = #{id} and id = #{userId} and afml_yn='Y' and
+		WHERE afml_id in (#{id}, #{userId}) and id in (#{id}, #{userId}) and afml_yn='Y' and afml_type=1
 	</delete>
+	<!-- 구독끊기 -->
 	<delete id="deleteSubTo" parameterType="Map">
 		DELETE FROM subscribe_list WHERE SUBSCRIBE_ID = #{subToId} and ID = #{userId}
 	</delete>
+	<!-- 메이트 끊기 -->
 	<delete id="deleteMate" parameterType="Map">
-		DELETE FROM mate_list WHERE MATE_ID IN (#{id}, #{userId}) and ID IN (#{id}, #{userId})
+		DELETE FROM add_friendmatelist 
+		WHERE afml_id in (#{id}, #{userId}) and id in (#{id}, #{userId}) and afml_yn='Y' and afml_type=2
 	</delete>
+	<!-- 구독자 삭제 -->
 	<delete id="deleteSubscriber" parameterType="Map">
 		DELETE FROM subscribe_list WHERE ID = #{subId} AND SUBSCRIBE_ID = #{userId}
 	</delete>
@@ -62,10 +67,21 @@
 		UPDATE PROFILE SET PRO_FILEPATH = #{profilePath}
 		WHERE id = #{id}
 	</update>
+	<!-- 구독 신청 -->
 	<insert id="updateSubscribe" parameterType="Map">
 		INSERT INTO SUBSCRIBE_LIST VALUES(#{userId}, #{subToId}, default)
 	</insert>
+	<!-- 친구 및 메이트 신청용 -->
 	<insert id="postFriendORMateRequest" parameterType="Map">
 		INSERT INTO ADD_FRIENDMATELIST(ID, AFML_TYPE, AFML_ID, AFML_YN) VALUES(#{userId},#{type}, #{reqId},'W')
+	</insert>
+	<!-- 친구 및 메이트 삭제용 -->
+	<delete id="deleteFriendORMate" parameterType="Map">
+		DELETE add_friendmatelist
+		WHERE afml_id in (#{id}, #{userId}) and id in (#{id}, #{userId}) and afml_yn='Y' and afml_type=#{type}
+	</delete>
+	<!-- 신고리스트에 값 추가 -->
+	<insert id="saveMateForWarning" parameterType="Map">
+		INSERT INTO complain_list(CL_TYPE, CL_ID, ID, CL_REASON) VALUES(0, #{id},#{userId},#{warningReason})
 	</insert>
 </mapper>

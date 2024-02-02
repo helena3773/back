@@ -15,7 +15,11 @@
 		<result property="update_time" column="UPDATE_TIME"/>
 		<result property="deleted" column="DELETED"/>
 		<result property="level" column="LEVEL"/>
+		<result property="proFilePath" column="PRO_FILEPATH"/>
 	</resultMap>
+	
+	
+	
 
 		
 	<!-- 댓글 전체 뿌리기 -->
@@ -32,6 +36,11 @@
 	 <insert id="save" parameterType="Map">
 		INSERT INTO CommentLine(ID, BBS_NO, CCOMMENT) VALUES (#{id}, #{bbs_no}, #{ccomment})
 	 </insert>
+	 
+	 <select id="userprofiles" parameterType="Map">
+	 	<!-- 특정 게시물에 댓글 작성한 유저 프로필가져오기 -->
+		SELECT DISTINCT CL.ID, CL.BBS_NO, P.PRO_FILEPATH FROM (SELECT * FROM COMMENTLINE CL WHERE BBS_NO = #{bbs_no}) CL JOIN PROFILE P ON CL.ID = P.ID
+	 </select>
 	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)
 	<insert id="saveUser" parameterType="Map">
 		INSERT INTO member VALUES(#{id},#{pwd},#{name},DEFAULT,DEFAULT)
