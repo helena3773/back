@@ -20,4 +20,6 @@ public interface CommentLineService<T> {
 	int delete(CommentLineDto record);
 
 	List<CommentLineDto> findrecent_comment(Map map);
+	List userprofiles(Map map);
+
 }

@@ -174,21 +174,6 @@ public class CommController {
 	}
 	
     // 파일 업로드 처리
-//	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-//	public void uploadFile(MultipartFile file) throws IOException {
-//	    System.out.println("파일 업로드"+file);
-//
-//	    // 파일 처리 로직
-//	    if (file != null && !file.isEmpty()) {
-//	        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//	        String uploadDir = "./src/main/resources/static/images/";
-//	        // 파일 저장 경로 설정
-//	        Path filePath = Paths.get(uploadDir + fileName);
-//
-//	        // 파일 저장
-//	        Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-//	    }
-//	}
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);

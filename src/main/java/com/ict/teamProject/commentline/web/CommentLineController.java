@@ -61,5 +61,16 @@ public class CommentLineController {
 		System.out.println("2번 동작");
 		System.out.println(affected);
 		return affected;
-	}///////////////////	
+	}///////////////////
+	
+	@RequestMapping(value="/GetProfile.do",method = {RequestMethod.GET,RequestMethod.POST})
+	@ResponseBody
+	public List getprofile(@RequestParam Map map) {
+		System.out.println("1번 동작");
+		System.out.println(map);
+		List records = service.userprofiles(map);
+		System.out.println("2번 동작");
+		System.out.println(records);
+		return records;
+	}///////////////////
 }
