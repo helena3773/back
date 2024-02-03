@@ -186,10 +186,30 @@ public class BBSController {
 	}
 	
 	//게시물 전체 뿌려주기
-	@GetMapping("/List.do")
+	@RequestMapping ("/List.do")
 	public List view(@RequestParam Map map) {
-	    //서비스 호출    
-	    List<BBSDto> records = service.selectAll();
+		if(map.get("selected") != null) {
+		    String selected = map.get("selected").toString();
+		    switch(selected) {
+		        case "식단":
+		            map.put("type", 1);
+		            break;
+		        case "운동":
+		            map.put("type", 2);
+		            break;
+		        case "심리":
+		            map.put("type", 4);
+		            break;
+	            default:
+	                map.put("type", 0);
+	                break;
+		    }    
+		}
+		else {
+	        map.put("type", 0);
+	    }
+	    //서비스 호출
+	    List<BBSDto> records = service.selectAll(map);
 	    System.out.println("records:"+records);
 	    for (BBSDto record : records) {
 	        int bno = record.getBno();
