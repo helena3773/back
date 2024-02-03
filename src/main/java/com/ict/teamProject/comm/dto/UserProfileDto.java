@@ -22,4 +22,5 @@ public class UserProfileDto {
 	private Date date;
 	private String profilePath;
 	private String proIntroduction;
+	private int backfiletype;
 }
