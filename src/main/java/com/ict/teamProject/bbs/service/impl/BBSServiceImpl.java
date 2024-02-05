@@ -54,8 +54,8 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 	
 	//게시물 전체 조회
 	@Override
-	public List<BBSDto> selectAll() {
-		List records=mapper.findAll();
+	public List<BBSDto> selectAll(Map map) {
+		List records=mapper.findAll(map);
 		return records;
 	}
 	

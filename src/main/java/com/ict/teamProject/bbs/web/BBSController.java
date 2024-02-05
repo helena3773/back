@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,6 +55,7 @@ import com.ict.teamProject.files.service.FilesDto;
 @Controller
 @RequestMapping("/bbs")
 @RestController
+
 @CrossOrigin(origins = "http://localhost:3333")
 public class BBSController {
 	
@@ -184,10 +186,35 @@ public class BBSController {
 	}
 	
 	//게시물 전체 뿌려주기
-	@GetMapping("/List.do")
-	public List view(@RequestParam Map map) {
-	    //서비스 호출    
-	    List<BBSDto> records = service.selectAll();
+	@RequestMapping ("/List.do")
+	public List view(@RequestBody Map map) {
+	    List<Integer> types = new ArrayList<>();
+	    List<String> selectedItems = (List<String>)map.get("selectedItems");
+	    System.out.println("selectedItems---"+selectedItems);
+	    if(selectedItems != null) {
+	        for(String item : selectedItems) {
+	            switch(item) {
+	                case "식단":
+	                    types.add(1);
+	                    break;
+	                case "운동":
+	                    types.add(2);
+	                    break;
+	                case "심리":
+	                    types.add(4);
+	                    break;
+	                default:
+	                    break;
+	            }
+	        }
+	    }
+	    if(types.isEmpty()) {
+	        types.add(0);
+	    }
+	    map.put("types", types);
+	    System.out.println("types----"+map.get("types"));
+	    //서비스 호출
+	    List<BBSDto> records = service.selectAll(map);
 	    System.out.println("records:"+records);
 	    for (BBSDto record : records) {
 	        int bno = record.getBno();
@@ -197,6 +224,7 @@ public class BBSController {
 	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
 	        System.out.println("files:"+record.getFiles());
 	        System.out.println("record.likes()"+record.getLikes());
+	        System.out.println("record.type()"+record.getType());
 	    }
 	    
 		return records;

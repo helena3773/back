@@ -31,6 +31,7 @@ public interface CommMapper {
 	public void deleteSubTo(Map<String, String> ids); //구독 끊기
 	public void deleteMate(Map<String, String> ids); //메이트 끊기
 	public void deleteSubscriber(Map<String, String> ids); //구독자 삭제
+	public int updateIntro(String id, String proIntroduction); //유저소개 변경
 	public int putProfileImage(UserProfileDto dto); //프로필 사진 교체
 	public void updateSubscribe(Map<String, String> ids); //구독하기
 	public void postFriendORMateRequest(Map<String, String> idsNtype); //친구 또는 메이트 요청보내기

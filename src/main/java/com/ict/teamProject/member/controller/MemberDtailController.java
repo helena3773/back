@@ -26,6 +26,8 @@ public class MemberDtailController {
 
 	
 	
+
+	
 	
 
 	// 로그인 후 user권한으로 쿠키에있는 token전달

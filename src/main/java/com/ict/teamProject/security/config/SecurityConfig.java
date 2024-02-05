@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +20,7 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,19 +28,28 @@ import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import com.ict.teamProject.member.service.MemberDetailService;
+import com.ict.teamProject.security.config.auth.PrincipalDetailsService;
+import com.ict.teamProject.security.config.jwt.JwtAuthenticationEntryPoint;
 import com.ict.teamProject.security.config.jwt.JwtAuthenticationFilter;
 import com.ict.teamProject.security.config.jwt.JwtAuthorizationFilter;
 import com.ict.teamProject.security.config.jwt.OAuth2AuthenticationSuccessHandler;
 import com.ict.teamProject.security.config.oauth.PrincipalOauth2UserService;
+import com.ict.teamProject.security.handler.AuthenticationFailureHandler;
+import com.ict.teamProject.security.handler.UserAccessDeniedHandler;
+import com.ict.teamProject.security.handler.UserLogoutSeccessHandler;
 
 
 
 @Configuration
 @EnableWebSecurity 
-@EnableMethodSecurity 
+@EnableMethodSecurity(prePostEnabled = true) 
+
 public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 	@Autowired
 	private MemberDetailService service;
+	
+	@Autowired
+	 private PrincipalDetailsService principalDetailsService;
 	
 	@Autowired
 	private PrincipalOauth2UserService principalOauth2UserService;
@@ -63,22 +75,37 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
     @Autowired
     UserLogoutSeccessHandler userLogoutSeccessHandler;
     
+    @Autowired
+    AuthenticationFailureHandler authenticationFailureHandler;
     
+    @Autowired
+    UserAccessDeniedHandler accessDeniedHandler;
+    
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 		http.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
 
 		http.csrf( (csrf) -> csrf.disable());
+		http.exceptionHandling((exceptionHandler) -> 
+		exceptionHandler
+		.accessDeniedHandler(accessDeniedHandler)
+		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+				);
 		http.authorizeHttpRequests( (requests)->requests
-				.requestMatchers("/api/v1/uesr/**").hasRole("USER")
-				.requestMatchers("/api/v1/manager/**").hasRole("MANAGER")
-				.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-				.requestMatchers("/user/**").hasRole("USER")
-				.requestMatchers("/manager/**").hasRole("MANAGER")
-				.requestMatchers("/admin/**").hasRole("ADMIN")
-			
-				.anyRequest().permitAll()  )
+				.requestMatchers("/user/**").hasAuthority("ROLE_USER")
+				//.requestMatchers("/api/v1/manager/**").hasRole("MANAGER")
+				//.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+				//.requestMatchers("/user/**").hasRole("USER")
+				//.requestMatchers("/manager/**").hasRole("MANAGER")
+				//.requestMatchers("/admin/**").hasRole("ADMIN")
+				//.requestMatchers("/community_post").hasRole("ADMIN")
+				
+				.anyRequest().permitAll()
+				)
 			.httpBasic( httpBasic->httpBasic.disable() )
 			.addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
 			.addFilter(new JwtAuthorizationFilter(authenticationConfiguration.getAuthenticationManager(),service))
@@ -87,6 +114,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 					.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 			.formLogin((formLogin) ->
 				formLogin
+					
 					.usernameParameter("id")
 					.passwordParameter("pwd")
 					.loginProcessingUrl("/login")
@@ -103,7 +131,9 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 					.invalidateHttpSession(true)
 					.logoutSuccessHandler(userLogoutSeccessHandler)
 					
-			);
+			)
+ 			
+ 			;
 		
 		return http.build();
 	}

@@ -1,4 +1,4 @@
-package com.ict.teamProject.security.config;
+package com.ict.teamProject.security.handler;
 
 import java.io.IOException;
 
