@@ -14,7 +14,7 @@ import com.ict.teamProject.files.service.FilesDto;
 public interface BBSMapper {
 
 	//전체 조회
-	List findAll();
+	List findAll(Map map);
 	List findFile(int bno);
 	
 	//레코드 하나

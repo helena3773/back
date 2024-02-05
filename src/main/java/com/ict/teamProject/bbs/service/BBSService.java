@@ -11,7 +11,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface BBSService<T> {
 
 	//전체보기용
-	List<BBSDto> selectAll();
+	List<BBSDto> selectAll(Map map);
 	List selectFiles(int bno);
 	
 	//자기 게시글 보기

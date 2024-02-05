@@ -26,5 +26,5 @@ public class BBSDto {
 	private List<String> files;  // 파일들을 저장할 필드
 	private String likes;
 	private int likesnum;
-	
+	private String profilepath;
 }

@@ -14,9 +14,10 @@
 		<result property="disclosureYN" column="BBS_DISCLOSUREYN"/>
 		<result property="hashTag" column="BBS_HASHTAG"/>
 		<result property="postDate" column="BBS_POSTDATE"/>
+		<result property="profilepath" column="PRO_FILEPATH"/>
 		<collection property="files" ofType="string" select="findFile" column="BBS_NO"/>
 		<collection property="likes" ofType="string" select="whereLikes" column="BBS_NO"/>
-		<collection property="likesnum" ofType="int" select="findLikes" column="BBS_NO"/>
+		<collection property="likesnum" ofType="int" select="findLikes" column="BBS_NO"/>		
 	</resultMap>
 	
 	<!-- 글번호 가져오기 -->
@@ -35,9 +36,17 @@
 	</insert>
 		
 	<!-- 게시글 전체 뿌리기 -->
-	 <select id="findAll" resultMap="BBSResult">
-	 	SELECT BBS_NO, ID, BBS_TYPE, BBS_CONTENT, BBS_DISCLOSUREYN, BBS_HASHTAG, BBS_POSTDATE FROM BBS WHERE BBS_DISCLOSUREYN = 'Y' ORDER BY BBS_NO DESC
-	 </select>
+	<select id="findAll" parameterType="map" resultMap="BBSResult">
+	    SELECT BBS_NO, ID, BBS_TYPE, BBS_CONTENT, BBS_DISCLOSUREYN, BBS_HASHTAG, BBS_POSTDATE 
+	    FROM BBS 
+	    WHERE BBS_DISCLOSUREYN = 'Y' 
+    	<if test="types != null and types.size > 0 and !types.contains(0)">
+        	<foreach item="type" collection="types" open="AND BBS_TYPE	IN (" separator="," close=")">
+            #{type}
+        	</foreach>
+    	</if>
+	    ORDER BY BBS_NO DESC
+	</select>
 	 
  	<!-- 해당 게시글의 파일 뿌리기 -->
 	 <select id="findFile" parameterType="int" resultType="String">
@@ -46,14 +55,24 @@
 	
 	
 	<!-- 해당 게시글에 해당하는 게시물 출력 -->
+	<!--  
 	<select id="findByBBS" parameterType="int" resultMap="BBSResult">
-		<!-- 글 번호에 따른 댓글 수는 제외하고 조회(상세보기 화면이니까:해당 글번호의 모든 댓글 뿌리니까) -->
+		<!- 글 번호에 따른 댓글 수는 제외하고 조회(상세보기 화면이니까:해당 글번호의 모든 댓글 뿌리니까) ->
 		SELECT * FROM BBS WHERE BBS_NO=#{bno}
 	</select>
-	
+	-->
+	<select id="findByBBS" parameterType="int" resultMap="BBSResult">
+		SELECT * FROM (select b.*, p.pro_filepath from BBS b join profile p on b.id = p.id) WHERE BBS_NO= #{bno}	
+	</select>
 	
 	<!-- 자기가 쓴 게시물 출력 -->
 	<select id="findMyByBBS" parameterType="String" resultMap="BBSResult">
+		<!-- 글 번호에 따른 댓글 수는 제외하고 조회(상세보기 화면이니까:해당 글번호의 모든 댓글 뿌리니까) -->
+		SELECT * FROM BBS WHERE ID=#{id}ORDER BY BBS_NO DESC
+	</select>
+	
+	<!-- 카테고리에 해당하는 게시물 출력 -->
+	<select id="findTypeByBBS" parameterType="String" resultMap="BBSResult">
 		<!-- 글 번호에 따른 댓글 수는 제외하고 조회(상세보기 화면이니까:해당 글번호의 모든 댓글 뿌리니까) -->
 		SELECT * FROM BBS WHERE ID=#{id}ORDER BY BBS_NO DESC
 	</select>

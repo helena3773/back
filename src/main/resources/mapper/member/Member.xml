@@ -19,15 +19,15 @@
 		<result property="regidate" column="regidate"/>
 	</resultMap>
  
-<insert id="saveMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
-	 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate, authority) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default , #{authority}) 
-</insert>
-	<!-- INSERT INTO member VALUES (?, ?, ?, 'M', ?, 'seoul', ?, ?, '1', SYSDATE); -->
-<select id="checkPhoneNumber" parameterType="string" resultType="boolean">
-  SELECT COUNT(*) FROM member WHERE tel = #{tel}
-</select>
+	<insert id="saveMember" parameterType="MemberDto" useGeneratedKeys="true" keyProperty="id">
+		 INSERT INTO member(id, pwd, name, gender, b_day, tel, userAddress, height, weight, goal_No, regidate, authority) VALUES (#{id}, #{pwd}, #{name}, #{gender}, #{b_day}, #{tel}, #{userAddress}, #{height}, #{weight}, #{goal_No}, default , #{authority}) 
+	</insert>
+		<!-- INSERT INTO member VALUES (?, ?, ?, 'M', ?, 'seoul', ?, ?, '1', SYSDATE); -->
+	<select id="checkPhoneNumber" parameterType="string" resultType="boolean">
+	  SELECT COUNT(*) FROM member WHERE tel = #{tel}
+	</select>
 
-		<select id="findByUsername" resultType="MemberDto" parameterType="String">
+	<select id="findByUsername" resultType="MemberDto" parameterType="String">
 		SELECT id,pwd,authority FROM member WHERE id = #{id}
 	</select>
 	
@@ -42,21 +42,19 @@
 		<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
 		SELECT name,id FROM member WHERE id = #{id}
 	</select>
-		<select id="isPreviousUser" resultType="int" parameterType="String">
+	<select id="isPreviousUser" resultType="int" parameterType="String">
 		SELECT count(*) FROM member WHERE id=#{id}
 	</select>
+
+	<select id="findByMember" parameterType="string" resultType="MemberDto">
+	  SELECT * FROM member WHERE id = #{id}
+	</select>
 	
-
-
-<select id="findByMember" parameterType="string" resultType="MemberDto">
-  SELECT * FROM member WHERE id = #{id}
-</select>
-
-<update id="updateMember" parameterType="String" >
-	UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}
-</update>
-
-<select id="logincheck" parameterType="string">
-  SELECT COUNT(*) FROM member WHERE id = #{id} and pwd = #{pwd}
-</select>
+	<update id="updateMember" parameterType="String" >
+		UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}
+	</update>
+	
+	<select id="logincheck" parameterType="string">
+	  SELECT COUNT(*) FROM member WHERE id = #{id} and pwd = #{pwd}
+	</select>
 </mapper>
