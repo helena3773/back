@@ -15,11 +15,11 @@ public interface CommentLineService<T> {
 	T selectOne(Map map);
 	
 	//입력/수정/삭제용
-	int insert(Map map);
-	int update(CommentLineDto record);
-	int delete(CommentLineDto record);
+	//int insert(Map map);
+	int insert(Map map, int type);
+	int update(int c_no, String ccomment);
+	int delete(int c_no);
 
 	List<CommentLineDto> findrecent_comment(Map map);
 	List userprofiles(Map map);
-
 }

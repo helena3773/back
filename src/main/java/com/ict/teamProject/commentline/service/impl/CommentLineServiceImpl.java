@@ -22,10 +22,14 @@ public class CommentLineServiceImpl implements CommentLineService<CommentLineDto
 	
 	//게시물 등록
 	@Override
-	public int insert(Map map) {
-		int affected=0;
+	public int insert(Map map, int type) {
+		int affected=0;		
 		try {
-			affected=mapper.save(map);
+			if(type == 1) {
+				affected=mapper.save(map);
+			}else {
+				affected=mapper.save_parent(map);
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -41,10 +45,10 @@ public class CommentLineServiceImpl implements CommentLineService<CommentLineDto
 
 	//게시물 수정
 	@Override
-	public int update(CommentLineDto record) {
+	public int update(int c_no, String ccomment) {
 		int affected=0;
 		try {			
-			affected= mapper.updatefindByCommentLine(record);
+			affected= mapper.updatefindByCommentLine(c_no, ccomment);
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -58,12 +62,13 @@ public class CommentLineServiceImpl implements CommentLineService<CommentLineDto
 
 	
 	@Override
-	public int delete(CommentLineDto record) {			
+	public int delete(int c_no) {			
 		int affected=0;//특정 글번호에 따른 삭제된 총 댓글 수
 		try {
-
+			affected = mapper.delete(c_no);
 		}
 		catch(Exception e) {
+			System.out.println(e.getMessage());
 			return -1;
 		}
 		return affected;

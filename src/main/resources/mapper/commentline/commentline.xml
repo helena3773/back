@@ -27,15 +27,27 @@
 		ORDER SIBLINGS BY cl.C_NO
 	 </select>
 	 	
-	<!-- 댓글 입력 -->
+	<!-- 최상위 댓글 입력 -->
 	 <insert id="save" parameterType="Map">
 		INSERT INTO CommentLine(ID, BBS_NO, CCOMMENT) VALUES (#{id}, #{bbs_no}, #{ccomment})
+	 </insert>
+	 <!-- 대댓글 -->
+	 <insert id="save_parent" parameterType="Map">
+		INSERT INTO CommentLine(ID, BBS_NO, CCOMMENT, PARENT_COMMENT) VALUES (#{id}, #{bbs_no}, #{ccomment}, #{parent_comment})
 	 </insert>
 	 
 	 <select id="userprofiles" parameterType="Map">
 	 	<!-- 특정 게시물에 댓글 작성한 유저 프로필가져오기 -->
 		SELECT CL.ID, CL.BBS_NO, P.PRO_FILEPATH FROM (SELECT * FROM COMMENTLINE CL WHERE BBS_NO = #{bbs_no}) CL JOIN PROFILE P ON CL.ID = P.ID
 	 </select>
+	 
+	 <delete id="delete" parameterType="int">
+	 	DELETE FROM commentline WHERE C_NO = #{c_no}
+	 </delete>
+	 
+	 <update id="updatefindByCommentLine" parameterType="String">
+	 	UPDATE COMMENTLINE SET CCOMMENT = #{ccomment} WHERE C_NO = #{c_no}
+	 </update>
 	<!-- 스프링 씨큐리티 회원 입력용(REST API서비스)
 	<insert id="saveUser" parameterType="Map">
 		INSERT INTO member VALUES(#{id},#{pwd},#{name},DEFAULT,DEFAULT)
