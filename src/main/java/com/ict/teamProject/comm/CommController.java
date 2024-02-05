@@ -149,6 +149,17 @@ public class CommController {
 		service.postFriendORMateRequest(map);
 	}
 	
+	@PutMapping("/intro/update")
+	public void updateInro(@RequestBody Map<String, Object> requestBody) {
+	    String id = (String) requestBody.get("id");
+	    String proIntroduction = (String) requestBody.get("proIntroduction");
+	    System.out.println("아이디: " + id);
+	    System.out.println("소개: " + proIntroduction);
+	    int check = service.updateIntro(id, proIntroduction);
+	    System.out.println(check);
+	}
+
+	
 	//유저프로필 사진경로 변경
 	@PutMapping("/profile/update")
 	public void updateProfilePath(@RequestBody Map map) {

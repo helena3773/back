@@ -84,4 +84,9 @@
 	<insert id="saveMateForWarning" parameterType="Map">
 		INSERT INTO complain_list(CL_TYPE, CL_ID, ID, CL_REASON) VALUES(0, #{id},#{userId},#{warningReason})
 	</insert>
+	
+	<!-- 유저 소개 변경 -->
+	<update id="updateIntro" parameterType="Map">
+		UPDATE PROFILE SET PRO_INTRODUCTION = #{proIntroduction} WHERE id = #{id}
+	</update>
 </mapper>
