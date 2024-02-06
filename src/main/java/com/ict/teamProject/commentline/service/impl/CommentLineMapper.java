@@ -18,16 +18,17 @@ public interface CommentLineMapper {
 	
 	//입력
 	int save(Map map);
+	int save_parent(Map map);
 	
 	//씨큐리티 용
 	int saveUser(Map<String, String> map);
 	
 
 	//레코드 하나 수정
-	int updatefindByCommentLine(CommentLineDto record);
+	int updatefindByCommentLine(String c_no, String ccomment);
 	
 	//레코드 하나 삭제
-	int deletefindByCommentLine(CommentLineDto record);
+	int delete(int c_no);
 
 	List findrecent_comment(Map map);
 	List userprofiles(Map map);

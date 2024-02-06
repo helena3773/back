@@ -95,6 +95,11 @@ public class CommService {
 		mapper.deleteSubscriber(ids);
 	}
 	
+	//유저소개 변경
+	public int updateIntro(String id, String proIntroduction) {
+		return mapper.updateIntro(id, proIntroduction);
+	}
+	
 	//변경된 유저프로필 사진정보 DB 저장
 	public int putProfileImage(UserProfileDto dto) {
 		return mapper.putProfileImage(dto);

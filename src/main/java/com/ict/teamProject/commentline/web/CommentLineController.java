@@ -16,11 +16,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,21 +48,36 @@ public class CommentLineController {
 	@RequestMapping(value="/View.do",method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public List view(@RequestParam Map map) {
-		System.out.println("1번 동작");
 		List<CommentLineDto> records = service.selectAll(map);
-		System.out.println("2번 동작");
-		System.out.println(records);
 		return records;
 	}///////////////////	
 	
 	//댓글 입력]
 	@PostMapping(value="/Write.do")
 	@ResponseBody
-	public int input(@RequestParam Map map) throws JsonMappingException{
-		System.out.println("map값"+map);
-		int affected = service.insert(map);
-		System.out.println("2번 동작");
+	public int input(@RequestParam Map map, int type) throws JsonMappingException{
+		int affected = service.insert(map, type);
+		return affected;
+	}///////////////////
+	
+	//댓글 삭제]
+	@DeleteMapping(value="/Delete.do")
+	@ResponseBody
+	public int delete(@RequestParam int c_no) throws JsonMappingException{
+		System.out.println(c_no);
+		int affected = service.delete(c_no);
 		System.out.println(affected);
 		return affected;
-	}///////////////////	
+	}///////////////////
+	
+	//댓글 수정]
+	@RequestMapping(value = "/Edit.do", method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
+	@ResponseBody
+	public int update(@RequestParam String c_no, String ccomment) throws JsonMappingException{
+		System.out.println(c_no);
+		System.out.println(ccomment);
+		int affected = service.update(c_no, ccomment);
+		System.out.println(affected);
+		return affected;
+	}///////////////////
 }

@@ -19,7 +19,7 @@ public class UserLogoutSeccessHandler extends SimpleUrlLogoutSuccessHandler {
         response.setCharacterEncoding("UTF-8");
 
         // 클라이언트에게 보낼 JSON 데이터
-        String jsonData = "{\"message\": \"Logout Successful\", \"redirectUrl\": \"http://localhost:3333/login\"}";
+        String jsonData = "{\"message\": \"로그아웃 되었습니다.\", \"redirectUrl\": \"http://localhost:3333/login\"}";
 
         System.out.println("로그아웃");
         

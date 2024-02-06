@@ -39,6 +39,8 @@ public class MemberController {
 	@RequestMapping(value = "/user/Edit", method = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT})
 	public int edit(@RequestParam String id, String colname, String newcolval){
 		int affected = service.updatedata(id, colname, newcolval);
+		
+		System.out.println("여기 들어와 지니?");
 		return affected;
 	}
 	@CrossOrigin(origins = "http://localhost:3333")

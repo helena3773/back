@@ -32,6 +32,7 @@ import com.ict.teamProject.command.FileUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
+
 @RestController
 @RequestMapping("/comm")
 @CrossOrigin(origins = "http://localhost:3333")
@@ -154,6 +155,18 @@ public class CommController {
 		service.postFriendORMateRequest(map);
 	}
 	
+	@PutMapping("/intro/update")
+	
+	public void updateInro(@RequestBody Map<String, Object> requestBody) {
+	    String id = (String) requestBody.get("id");
+	    String proIntroduction = (String) requestBody.get("proIntroduction");
+	    System.out.println("아이디: " + id);
+	    System.out.println("소개: " + proIntroduction);
+	    int check = service.updateIntro(id, proIntroduction);
+	    System.out.println(check);
+	}
+
+	
 	//유저프로필 사진경로 변경
 	@PutMapping("/profile/update")
 	public void updateProfilePath(@RequestBody Map map) {
@@ -175,10 +188,12 @@ public class CommController {
 				.proIntroduction(service.findIntroductionById(id))
 				.date(service.findJoinDateById(id))
 				.build();
+		System.out.println("너의 이름은?"+dto.getProfilePath()+ dto.getProIntroduction());
 		return dto;
 	}
 	
     // 파일 업로드 처리
+	@CrossOrigin(origins = "http://localhost:3333")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);

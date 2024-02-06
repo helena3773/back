@@ -29,6 +29,8 @@ public class MemberDetailService {
         return false;
     }
 
+    
+    
 	public MemberDto findByUsername(String id) {
 	    System.out.println("ID: " + id); // id 출력
 	    MemberDto userEntity = mapper.findByUsername(id);
