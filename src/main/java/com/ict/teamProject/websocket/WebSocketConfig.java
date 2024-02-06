@@ -18,7 +18,7 @@ public class WebSocketConfig implements WebSocketConfigurer{
 	//클라이언트 접속을 위한 엔드 포인트 설정
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(webSocketServer, "/chat-ws").setAllowedOrigins("*");
+		registry.addHandler(webSocketServer, "/chat").setAllowedOrigins("*");
 
 	}
 }

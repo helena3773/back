@@ -73,12 +73,17 @@ public class CommController {
 	@GetMapping("/friend") //조회
 	public List<FriendDto> getAllFriends(@RequestParam String id){
 		List<FriendDto> friends = service.findAllFriendsById(id);
+		System.out.println("나는 누구인가?"+id);
+		System.out.println("friends:"+friends);
 		for(FriendDto f : friends) {
 			f.setName(service.findNameById(f.getFriend_id()));
 			f.setFNum(service.findFMSnumById(f.getFriend_id(), "f"));
 			f.setSNum(service.findFMSnumById(f.getFriend_id(), "s"));
 			f.setMNum(service.findFMSnumById(f.getFriend_id(), "m"));
 			f.setProfilePath(service.findProPathById(f.getFriend_id()));
+			System.out.println("f.getName():"+f.getName());
+			System.out.println("f.getProfilePath():"+f.getProfilePath());
+			System.out.println("f.getFriend_id():"+f.getFriend_id());
 		}
 		return friends;
 	}

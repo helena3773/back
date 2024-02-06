@@ -1,4 +1,5 @@
-package com.ict.teamProject.bbs.web;
+/*
+package com.ict.teamProject.chat.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,41 +49,28 @@ import com.ict.teamProject.bbs.service.BBSDto;
 import com.ict.teamProject.bbs.service.BBSService;
 import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.bbs.service.LikesDto;
+import com.ict.teamProject.chat.service.ChatDto;
+import com.ict.teamProject.chat.service.ChatService;
 import com.ict.teamProject.command.FileUtils;
 import com.ict.teamProject.files.service.FilesDto;
 
 
 @Controller
-@RequestMapping("/bbs")
+@RequestMapping("/chat")
 @RestController
 
 @CrossOrigin(origins = "http://localhost:3333")
-public class BBSController {
+public class ChatController {
 	
 	//서비스 주입
 	@Autowired
-	private BBSService<BBSDto> service;
+	private ChatService<ChatDto> service;
 	
 	//입력처리]
 	@PostMapping("/Write.do")
 	@ResponseBody
-	public int writeOk(//Authentication auth,
-			@RequestParam Map map,@RequestParam(name="files", required=false) MultipartFile[] files, @RequestParam(name="ciu", required=false) String ciuJson) throws JsonMappingException, JsonProcessingException {
+	public int writeOk(@RequestParam Map map,@RequestParam(name="files", required=false) MultipartFile[] files, @RequestParam(name="ciu", required=false) String ciuJson) throws JsonMappingException, JsonProcessingException {
 		
-		//서비스 호출
-		//스프링 씨큐리티 적용시 인증(로그인)되었다면 Authentication객체에 로그인에 관련된 정보가 전달됨
-		//로그인이 안되어 있으면 auth는 null
-		//System.out.println("[Authentication객체]");
-		//System.out.println("auth"+auth);
-		
-		//UserDetails principal = (UserDetails)auth.getPrincipal();
-		//System.out.println("아이디:"+principal.getUsername());
-		//System.out.println("비밀번호:"+principal.getPassword());
-		//System.out.println(principal.getUsername()+"의 권한들]");
-		//Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) principal.getAuthorities();
-		//String authorties = authorities.stream().map(authority -> authority.toString()).collect(Collectors.joining(","));
-		//System.out.println(authorties);
-		//map.put("id", principal.getUsername());
 		System.out.println("머야 왜안돼!!");
 		System.out.println(map.get("id"));
 		System.out.println(map.get("content"));
@@ -365,3 +353,4 @@ public class BBSController {
 		return like;
 	}
 }
+*/
