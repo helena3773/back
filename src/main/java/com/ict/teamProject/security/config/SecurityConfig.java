@@ -97,7 +97,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				);
 		http.authorizeHttpRequests( (requests)->requests
 				
-				.requestMatchers("/user/**").hasAuthority("ROLE_USER")
+				//.requestMatchers("/comm/**").hasAuthority("ROLE_USER")
 				//.requestMatchers("/api/v1/manager/**").hasRole("MANAGER")
 				//.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 				//.requestMatchers("/user/**").hasRole("USER")

@@ -32,8 +32,9 @@ import com.ict.teamProject.command.FileUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
-@RestController
 
+@RestController
+@RequestMapping("/comm")
 @CrossOrigin(origins = "http://localhost:3333")
 public class CommController {
 	CommService service;
@@ -96,7 +97,7 @@ public class CommController {
 	}
 	
 	//subscribe
-	@GetMapping("user/subscribe") //조회
+	@GetMapping("/subscribe") //조회
 	public Map getAllSubInfo(@RequestParam String id){
 		List<SubscribeToDto> subscribeTo = service.findAllSubToById(id); //내가 구독한 목록
 		for(SubscribeToDto dto : subscribeTo) {
@@ -149,7 +150,7 @@ public class CommController {
 		service.postFriendORMateRequest(map);
 	}
 	
-	@PutMapping("user/intro/update")
+	@PutMapping("/intro/update")
 	
 	public void updateInro(@RequestBody Map<String, Object> requestBody) {
 	    String id = (String) requestBody.get("id");
@@ -162,7 +163,7 @@ public class CommController {
 
 	
 	//유저프로필 사진경로 변경
-	@PutMapping("/user/profile/update")
+	@PutMapping("/profile/update")
 	public void updateProfilePath(@RequestBody Map map) {
 		System.out.println(map);
 		UserProfileDto dto = new UserProfileDto().builder()
@@ -173,7 +174,7 @@ public class CommController {
 	}
 	
 	//사용중인 유저프로필
-	@GetMapping("user/profile")
+	@GetMapping("/profile")
 	public UserProfileDto getUserProfile(@RequestParam String id) {
 		UserProfileDto dto = new UserProfileDto().builder()
 				.id(id)
@@ -188,7 +189,7 @@ public class CommController {
 	
     // 파일 업로드 처리
 	@CrossOrigin(origins = "http://localhost:3333")
-	@RequestMapping(value = "user/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
 
