@@ -149,7 +149,8 @@ public class CommController {
 		service.postFriendORMateRequest(map);
 	}
 	
-	@PutMapping("/intro/update")
+	@PutMapping("user/intro/update")
+	
 	public void updateInro(@RequestBody Map<String, Object> requestBody) {
 	    String id = (String) requestBody.get("id");
 	    String proIntroduction = (String) requestBody.get("proIntroduction");

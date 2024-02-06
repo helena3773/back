@@ -55,7 +55,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			
 			Map<String,Object> payloads = new HashMap<>();
 			payloads.put("username",principalDetails.getUsername());
-			long expirationTime = 1000 * 60 * 60 * 1;//1시간
+			long expirationTime = 1000 * 60 * 60 * 24;//24시간
 			
 			JWTTokens tokens = new JWTTokens();
 			String token = tokens.createToken(principalDetails.getUsername(), payloads, expirationTime);
