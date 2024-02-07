@@ -1,4 +1,3 @@
-/*
 package com.ict.teamProject.chat.service.impl;
 
 import java.util.List;
@@ -15,7 +14,7 @@ import com.ict.teamProject.chat.service.ChatService;
 
 
 
-@Service("service")
+@Service
 public class ChatServiceImpl implements ChatService<ChatDto> {
 
 	//매퍼 인터페이스 주입
@@ -25,16 +24,17 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 	
 	//메세지 등록
 	@Override
-	public Map insert(Map map) {
+	public int insert(Map map) {
+		int affected = 0;
 		try {
-			mapper.save(map);	
+			affected = mapper.save(map);	
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return map;
+		return affected;
 	}
-	
+	/*
 	//게시물 파일등록
 	@Override
 	public int insertFile(Map map) {
@@ -79,6 +79,5 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 	public ChatDto selectOne(int bno) {
 		// TODO Auto-generated method stub
 		return null;
-	}
+	}*/
 }
-*/

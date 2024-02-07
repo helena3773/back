@@ -16,13 +16,13 @@ public interface ChatMapper {
 
 	
 	//레코드 하나
-	BBSDto findByBBS(int bno);
+	//BBSDto findByBBS(int bno);
 	
 	//입력
 	int save(Map map);
-	int saveFiles(Map map);
+	//int saveFiles(Map map);
 
-	int update(ChatDto dto);
+	//int update(ChatDto dto);
 
 	
 	

@@ -1,4 +1,3 @@
-/*
 package com.ict.teamProject.chat.web;
 
 import java.io.File;
@@ -55,10 +54,8 @@ import com.ict.teamProject.command.FileUtils;
 import com.ict.teamProject.files.service.FilesDto;
 
 
-@Controller
 @RequestMapping("/chat")
 @RestController
-
 @CrossOrigin(origins = "http://localhost:3333")
 public class ChatController {
 	
@@ -67,83 +64,26 @@ public class ChatController {
 	private ChatService<ChatDto> service;
 	
 	//입력처리]
-	@PostMapping("/Write.do")
+	@PostMapping("/SoloWrite.do")
 	@ResponseBody
-	public int writeOk(@RequestParam Map map,@RequestParam(name="files", required=false) MultipartFile[] files, @RequestParam(name="ciu", required=false) String ciuJson) throws JsonMappingException, JsonProcessingException {
-		
-		System.out.println("머야 왜안돼!!");
-		System.out.println(map.get("id"));
-		System.out.println(map.get("content"));
-		System.out.println(map.get("hashTag"));
-		System.out.println(map.get("type"));
-		System.out.println(map.get("disclosureYN"));
+	public int writeOk(@RequestParam Map map) {
 		int affected = 0;
-	    
-		map= service.insert(map);
-		if (ciuJson != null) {
-			 // ciuJson을 파싱하여 List<Map<String, String>> 형태로 변환
-		    ObjectMapper objectMapper = new ObjectMapper();
-		    JavaType type = objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class);
-		    List<Map<String, String>> ciu = objectMapper.readValue(ciuJson, type);
-	
-		    // ciu를 사용하여 필요한 처리 수행
-		    for (Map<String, String> item : ciu) {
-		        String url = item.get("url");
-		        File file = new File(url);
-		        String name = file.getName();
-	    		map.put("urls", url);
-	    		map.put("names", name);
-		        System.out.println(name);
-		        System.out.println(url);
-		        affected += service.insertFile(map);
-
-		    }
-		}
+		System.out.println(map.get("id"));
+		System.out.println(map.get("ruser"));
+		System.out.println(map.get("content"));
+		System.out.println(map.get("notice"));
+		System.out.println(map.get("sendDate"));
 		
-	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
-	    String uploadimages = "src/main/resources/static/images/";
-	    if (files != null) {
-		    try {
-		        Path uploadPath = Paths.get(uploadDirectory);
-		        Path uploadimagePath = Paths.get(uploadimages);
-		        if (!Files.exists(uploadPath)) {
-		            Files.createDirectories(uploadPath);// 디렉토리가 없으면 생성
-		        }
-		        if (!Files.exists(uploadimagePath)) {
-		            Files.createDirectories(uploadimagePath);// 디렉토리가 없으면 생성
-		        }
-		        for (MultipartFile file : files) {
-		            String filename = file.getOriginalFilename();
-		            String newFilename = FileUtils.getNewFileName(uploadDirectory, filename);
-		            Path filePath = uploadPath.resolve(newFilename);  // 파일이 저장될 경로
-		            Path fileimgaePath = uploadimagePath.resolve(newFilename);  // 파일이 저장될 경로
-		            String filePathStr = filePath.toString().replace("\\", "/");  // 역슬래시를 슬래시로 바꾸기
-		            
-		            String baseUrl = "http://localhost:4000";  // 기본 URL
-		            String imagePath = filePathStr.substring(filePathStr.indexOf("/images"));
-		            imagePath = filePathStr.replace("E:/images", "/images");
-		            
-		    		map.put("urls", baseUrl+imagePath);
-		    		map.put("names", newFilename);
-		    	    System.out.println(map.get("urls"));
-		    	    System.out.println(map.get("names"));
-		            file.transferTo(filePath);  // 파일 저장
-		            file.transferTo(fileimgaePath);  // 파일 저장
-		            System.out.println("fileimgaePath:---"+fileimgaePath);
-		            affected += service.insertFile(map);
-		        }
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		        return 0;
-		    }
-	    }
+		ChatDto dto = new ChatDto();
+		affected = service.insert(map);
+		
 		if(affected==0) {//입력 실패
 			return affected;
 		}
 		return affected;
 	}/////
 	
-
+/*
 	@RequestMapping(value="/ViewOne.do",method = {RequestMethod.GET,RequestMethod.POST})
 	@ResponseBody
 	public BBSDto viewOne(@RequestParam String bno) {
@@ -351,6 +291,5 @@ public class ChatController {
 	    like.put("likes", likesId);
 	    
 		return like;
-	}
+	}*/
 }
-*/
