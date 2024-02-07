@@ -40,7 +40,8 @@
 	</select>
 	
 		<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
-		SELECT name,id FROM member WHERE id = #{id}
+			SELECT m.name, m.id, p.PRO_FILEPATH from (SELECT name,id FROM member WHERE id = #{id}) m
+			JOIN PROFILE p ON m.ID = p.ID
 	</select>
 	<select id="isPreviousUser" resultType="int" parameterType="String">
 		SELECT count(*) FROM member WHERE id=#{id}
@@ -49,6 +50,12 @@
 	<select id="findByMember" parameterType="string" resultType="MemberDto">
 	  SELECT * FROM member WHERE id = #{id}
 	</select>
+	
+		<insert id="joinSocialMember" parameterType="MemberDto">
+		INSERT INTO member(ID, PWD, NAME , REGIDATE , AUTHORITY ,PROFILEIMAGE , PROVIDER) 
+		VALUES(#{id},#{pwd},#{name} , SYSDATE ,#{authority},#{profileimage} ,#{provider} )
+	</insert>
+	
 	
 	<update id="updateMember" parameterType="String" >
 		UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}

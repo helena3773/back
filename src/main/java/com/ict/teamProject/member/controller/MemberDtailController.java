@@ -70,16 +70,16 @@ public class MemberDtailController {
 		    if (token == null || !JWTTokens.verifyToken(token)) {
 		        throw new AccessDeniedException("비회원은 접근할 수 없습니다.");
 		    }
-
+		    
 		    Map username = JWTTokens.getTokenPayloads(token);
 		    String id = (String)username.get("username");
-
+		    
 		    MemberDto userInfo = service.findByMemberInfo(id);
-
+		    System.out.println("너니?" +userInfo);
 		    return userInfo;
 		}
 	
-	  @GetMapping("/isSocialLogin")
+	  @GetMapping("/user/isSocialLogin")
 	    @CrossOrigin(origins = "http://localhost:3333")
 	public String isSocialLogin(HttpServletRequest request) {
 		
@@ -90,7 +90,7 @@ public class MemberDtailController {
 	            if ("User-Token".equals(cookie.getName())) {  // 쿠키의 이름이 "User-Token"인 경우
 	                String cookieValue = cookie.getValue();
 	                token = cookieValue;
-	                
+	                System.out.println("토큰아 너 있니?");
 	            }
 	        }
 	    }
