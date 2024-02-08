@@ -198,7 +198,7 @@ public class CommController {
 	public void uploadFile(MultipartFile file) throws IOException {
 	    System.out.println("파일 업로드"+file);
 
-	    String uploadDirectory = "D:/images/";  // 파일을 저장할 디렉토리
+	    String uploadDirectory = "E:/images/";  // 파일을 저장할 디렉토리
 	    String uploadimages = "src/main/resources/static/images/";
 	    if (file != null) {
 		    try {
