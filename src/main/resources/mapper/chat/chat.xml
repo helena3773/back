@@ -4,7 +4,7 @@
 
 <!-- 매퍼파일 -->
 <mapper namespace="com.ict.teamProject.chat.service.impl.ChatMapper">
-    <!-- <resultMap type="ChatDto" id="ChatResult">
+   <resultMap type="ChatDto" id="ChatResult">
 		<result property="mno" column="MESSAGE_NO"/>
 		<result property="rno" column="ROOM_TYPE"/>
 		<result property="id" column="ID"/>
@@ -12,15 +12,12 @@
 		<result property="tno" column="TYPE_NO"/>
 		<result property="content" column="MESSAGE_CONTENT"/>
 		<result property="notice" column="MESSAGE_NOTICE"/>
-		<result property="sendDate" column="MESSAGE_SENDDATE"/>
-		<collection property="files" ofType="string" select="findFile" column="BBS_NO"/>
-		<collection property="likes" ofType="string" select="whereLikes" column="BBS_NO"/>
-		<collection property="likesnum" ofType="int" select="findLikes" column="BBS_NO"/>		
-	</resultMap>-->
+		<result property="sendDate" column="MESSAGE_SENDDATE"/>		
+	</resultMap>
 	
 	<!-- 메세지 입력 -->
 	<insert id="save" parameterType="Map">
-		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE,1,#{id},#{ruser},0,#{content},default,SYSDATE)
+		INSERT INTO CHATMESSAGE VALUES(SEQ_CHATMESSAGE.NEXTVAL,1,#{id},#{ruser},0,#{content},'N',SYSDATE)
 	</insert>
 	
  	<!-- 메세지 가져오기 -->
@@ -37,7 +34,7 @@
 	</select>
 
  	<!-- 모든 메세지 가져오기 -->
-	 <select id="allChat" parameterType="String" resultType="ChatDto">
+	 <select id="allChat" parameterType="String" resultMap="ChatResult">
 	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id}
 	 </select>
 

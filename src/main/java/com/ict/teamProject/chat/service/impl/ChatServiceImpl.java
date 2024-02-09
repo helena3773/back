@@ -48,8 +48,8 @@ public class ChatServiceImpl implements ChatService<ChatDto> {
 	}
 	
 	@Override
-	public ChatDto allChating(String id) {
-		ChatDto chat = mapper.allChat(id);
+	public List<ChatDto> allChating(String id) {
+		List<ChatDto> chat = mapper.allChat(id);
 		return chat;
 	}
 	/*

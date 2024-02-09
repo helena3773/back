@@ -66,13 +66,11 @@ public class ChatController {
 	//입력처리]
 	@PostMapping("/SoloWrite.do")
 	@ResponseBody
-	public int writeOk(@RequestParam Map map) {
+	public int writeOk(@RequestBody Map map) {
 		int affected = 0;
 		System.out.println(map.get("id"));
 		System.out.println(map.get("ruser"));
 		System.out.println(map.get("content"));
-		System.out.println(map.get("notice"));
-		System.out.println(map.get("sendDate"));
 		
 		ChatDto dto = new ChatDto();
 		affected = service.insert(map);
@@ -119,19 +117,24 @@ public class ChatController {
 	
 	@RequestMapping(value="/allChating.do")
 	@ResponseBody
-	public ChatDto allChating(@RequestParam String id) {
-		System.out.println("접속한 사람:"+id);
-		
-		//서비스 호출
-		ChatDto record= service.allChating(id);
-		//줄바꿈
-		if (record != null) {
-			record.setContent(record.getContent().replace("\r\n", "<br/>"));
-		}
-		System.out.println("record-----"+record);
-		//뷰정보 반환
-		return record;
+	public List<ChatDto> allChating(@RequestParam String id) {
+	    System.out.println("접속한 사람:"+id);
+
+	    //서비스 호출
+	    List<ChatDto> records = service.allChating(id);
+	    //줄바꿈
+	    for (ChatDto record : records) {
+	    	if (record != null && record.getContent() != null) {
+	    	    record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	    	}
+	    	System.out.println("record-----"+record.getId());
+	    	System.out.println("record-----"+record.getRuser());
+	        System.out.println("record-----"+record.getContent());
+	    }
+	    //뷰정보 반환
+	    return records;
 	}
+
 	
 	/*
 	

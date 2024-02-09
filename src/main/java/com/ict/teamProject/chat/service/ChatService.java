@@ -24,6 +24,6 @@ public interface ChatService<T> {
 
 	ChatDto whoChating(String id);
 
-	ChatDto allChating(String id);
+	List<ChatDto> allChating(String id);
 
 }
