@@ -28,22 +28,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		String provider = userRequest.getClientRegistration().getRegistrationId(); 
 		if(provider.equals("google")) {
 			String id= oauth2User.getAttribute("sub");
-			String profileimage = oauth2User.getAttribute("picture");
+			String pro_filepath = oauth2User.getAttribute("picture");
 			String name = oauth2User.getAttribute("name");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setProfileimage(profileimage);
-			userEntity.setAuthority("ROLE_USER");
-			userEntity.setProvider(provider);
-			isUser = service.isPreviousUser(id);
-		}
-		else if(provider.equals("facebook")) {
-			String id= oauth2User.getAttribute("id");
-			String profileimage = "0";
-			String name = oauth2User.getAttribute("name");
-			userEntity.setId(id);
-			userEntity.setName(name);
-			userEntity.setProfileimage(profileimage);
+			userEntity.setPro_filepath(pro_filepath);
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
@@ -51,11 +40,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		else if(provider.equals("kakao")) {
 			Long longid= (Long)oauth2User.getAttributes().get("id");
 			String id = longid.toString();
-			String profileimage = (String)((Map)oauth2User.getAttributes().get("properties")).get("profile_image");
+			String pro_filepath = (String)((Map)oauth2User.getAttributes().get("properties")).get("profile_image");
 			String name = (String)((Map)oauth2User.getAttributes().get("properties")).get("nickname");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setProfileimage(profileimage);
+			userEntity.setPro_filepath(pro_filepath);
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
@@ -64,11 +53,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			Map<String, Object> attributes = oauth2User.getAttributes();
 			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 			String id = (String) response.get("id");
-			String profileimage = (String) response.get("profile_image");
-			String name = (String) response.get("nickname");
+			String pro_filepath = (String) response.get("profile_image");
+			String name = (String) response.get("name");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setProfileimage(profileimage);
+			userEntity.setPro_filepath(pro_filepath);
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);

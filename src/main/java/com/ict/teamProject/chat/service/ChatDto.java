@@ -23,5 +23,5 @@ public class ChatDto {
 	private int tno;
 	private String content;
 	private char notice;
-	private java.sql.Date sendDate;
+	private String sendDate;
 }

@@ -35,7 +35,7 @@
 
  	<!-- 모든 메세지 가져오기 -->
 	 <select id="allChat" parameterType="String" resultMap="ChatResult">
-	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id}
+	 	SELECT * FROM CHATMESSAGE WHERE ID = #{id} or RECEIVE_USER = #{id} ORDER BY MESSAGE_SENDDATE ASC
 	 </select>
 
 	

@@ -75,7 +75,7 @@ public class MemberDtailController {
 		    String id = (String)username.get("username");
 		    
 		    MemberDto userInfo = service.findByMemberInfo(id);
-		    System.out.println("너니?" +userInfo);
+		    System.out.println("getMemberInfo -> userInfo"+userInfo);
 		    return userInfo;
 		}
 	

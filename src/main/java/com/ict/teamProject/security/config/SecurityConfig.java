@@ -130,7 +130,6 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				logout
 					.deleteCookies("User-Token")
 					.invalidateHttpSession(true)
-					
 					.logoutSuccessHandler(userLogoutSeccessHandler)
 					
 			)
