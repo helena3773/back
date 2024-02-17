@@ -104,6 +104,7 @@ public class CommController {
 	//subscribe
 	@GetMapping("/subscribe") //조회
 	public Map getAllSubInfo(@RequestParam String id){
+		System.out.println("구독 파라미터 id:"+id);
 		List<SubscribeToDto> subscribeTo = service.findAllSubToById(id); //내가 구독한 목록
 		for(SubscribeToDto dto : subscribeTo) {
 			dto.setName(service.findNameById(dto.getSubscribe_id()));

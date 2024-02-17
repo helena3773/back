@@ -28,11 +28,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		String provider = userRequest.getClientRegistration().getRegistrationId(); 
 		if(provider.equals("google")) {
 			String id= oauth2User.getAttribute("sub");
-			String pro_filepath = oauth2User.getAttribute("picture");
+			String profileimage = oauth2User.getAttribute("picture");
 			String name = oauth2User.getAttribute("name");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setPro_filepath("picture");
+			userEntity.setProfileimage(profileimage);
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
@@ -40,11 +40,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		else if(provider.equals("kakao")) {
 			Long longid= (Long)oauth2User.getAttributes().get("id");
 			String id = longid.toString();
-			String pro_filepath = (String)((Map)oauth2User.getAttributes().get("properties")).get("profile_image");
+			String profileimage = (String)((Map)oauth2User.getAttributes().get("properties")).get("profile_image");
 			String name = (String)((Map)oauth2User.getAttributes().get("properties")).get("nickname");
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setPro_filepath("profile_image");
+			userEntity.setProfileimage(profileimage);
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
@@ -53,14 +53,20 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 			Map<String, Object> attributes = oauth2User.getAttributes();
 			Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 			String id = (String) response.get("id");
-			String pro_filepath = (String) response.get("profile_image");
+			String profileimage = (String) response.get("profile_image");
 			String name = (String) response.get("name");
+			if (profileimage == null) {
+			    profileimage = "/src/assets/images/userProfile/default.png";  // 기본 이미지 경로
+			}
 			userEntity.setId(id);
 			userEntity.setName(name);
-			userEntity.setPro_filepath("profile_image");
+			userEntity.setProfileimage(profileimage);
+
 			userEntity.setAuthority("ROLE_USER");
 			userEntity.setProvider(provider);
 			isUser = service.isPreviousUser(id);
+			System.out.println(profileimage+"profile_image");
+			System.out.println(response);
 		}
 		
 		if(!isUser) {
@@ -69,6 +75,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 		else {
 			System.out.println("이미 로그인했던 회원");
 			//여기다가 해줘야할거같고,
+			service.updateUser(userEntity);
 		}
 		
 		System.out.println("여기가 로그인맞을껄?");

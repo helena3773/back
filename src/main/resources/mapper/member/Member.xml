@@ -66,6 +66,12 @@
     WHERE ID = #{id}
 	</update>
 	
+	<update id="updateUser" parameterType="MemberDto">
+    UPDATE member
+    SET name=#{name}, profileimage=#{profileimage}  <!-- 필요한 필드를 추가하시면 됩니다 -->
+    WHERE id=#{id}
+	</update>
+	
 	<update id="updateMember" parameterType="String" >
 		UPDATE member SET ${colname} = #{newcolval} WHERE id = #{id}
 	</update>
