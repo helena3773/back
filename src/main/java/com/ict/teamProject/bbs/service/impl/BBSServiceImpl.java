@@ -147,5 +147,15 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		return likes;
 	}
 
+	@Override
+	public String findUserProfileByLike(String like) {
+		return mapper.findUserProfileByLike(like);
+	}
+
+	@Override
+	public List<String> findUserByLike(int bno) {
+		return mapper.findUserByLike(bno);
+	}
+
 
 }

@@ -134,4 +134,12 @@
 		SELECT ID FROM LIKES WHERE BBS_NO=#{bno} and (LC_NO IS NULL OR LC_NO = '')
 	</select>
 	
+	<select id="findUserProfileByLike" parameterType="String" resultType="String">
+		SELECT m.PROFILEIMAGE FROM LIKES l join MEMBER m on l.id=m.id WHERE m.id=#{like}
+	</select>
+	
+	<select id="findUserByLike" parameterType="int" resultType="String">
+	    SELECT id FROM LIKES WHERE BBS_NO=#{bno}
+	</select>
+	
 </mapper>

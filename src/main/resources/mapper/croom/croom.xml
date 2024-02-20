@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--24.02.18 생성 -->
+<!-- 매퍼파일 -->
+<mapper namespace="com.ict.teamProject.challenge_room.service.impl.CRMapper">
+	<resultMap type="CRoom" id="CRResult">
+		<result property="challNo" column="CHALL_NO"/>
+		<result property="goalNo" column="GOAL_NO"/>
+		<result property="challCapacity" column="CHALL_CAPACITY"/>
+		<result property="implementation" column="IMPLEMENTATION_RATE"/>
+		<result property="gLimit" column="GENDER_LIMIT"/>
+		<result property="ageMin" column="AGE_LIMIT_MIN"/>
+		<result property="ageMax" column="AGE_LIMIT_MAX"/>
+		<result property="pFee" column="PARTICIPATION_FEE"/>	
+		<result property="cYN" column="CHALL_DISCLOSUREYN"/>
+		<result property="cCreateDate" column="CHALL_CREATEDATE"/>
+		<result property="cStartDate" column="CHALL_STARTDATE"/>
+		<result property="cEndDate" column="CHALL_ENDDATE"/>
+		<result property="challContent" column="CHALL_CONTENT"/>
+		<result property="challTitle" column="CHALL_TITLE"/>
+		<result property="challArea" column="CHALL_AREA"/>
+	    <result property="manager" column="CHALL_MANAGER"/>					
+	</resultMap>
+	
+	<!-- 시퀀스 값 생성 및 저장 -->
+	<select id="getSeqValue" resultType="int">
+	  SELECT SEQ_CHALLENGEROOM.NEXTVAL FROM dual
+	</select>
+	
+	<!-- 방생성 -->
+	<insert id="save" parameterType="Map">
+		INSERT INTO CHALLENGE_ROOM VALUES(SEQ_CHALLENGEROOM.NEXTVAL,1,#{challCapacity},#{implementation},#{gLimit},#{ageMin},
+		#{ageMax},#{pFee},#{cYN},SYSDATE,#{cStartDate},#{cEndDate},#{challContent},#{challTitle},#{challArea})
+	</insert>
+	
+	<!-- 방생성 -->
+	<insert id="insertP" parameterType="CP">
+		INSERT INTO CHALLENGE_PARTICIPANTS VALUES(SEQ_CHALLP.NEXTVAL,#{challNo},#{id},'Y')
+	</insert>
+	
+ 	<!-- 방 번호 가져오기 -->
+	 <select id="getMyRoom" parameterType="String" resultType="Integer">
+	 	SELECT Chall_NO FROM CHALLENGE_PARTICIPANTS WHERE ID = #{id}
+	 </select>
+	 
+	<!-- 해당 방 삭제 -->
+	<delete id="delete" parameterType="int">
+	  DELETE FROM CHALLENGE_ROOM WHERE Chall_NO = #{challNo}
+	</delete>
+	
+	<!-- 해당 방 삭제 -->
+	<delete id="deletep" parameterType="String">
+	  DELETE FROM CHALLENGE_PARTICIPANTS WHERE ID = #{id}
+	</delete>
+
+	<!-- 모든 챌린지방과 해당 방의 방장 정보 가져오기-->
+	<select id="findAll" resultMap="CRResult">
+	    SELECT CR.*, CP.id AS manager 
+	    FROM CHALLENGE_ROOM CR 
+	    LEFT JOIN CHALLENGE_PARTICIPANTS CP ON CR.Chall_NO = CP.Chall_NO AND CP.Chall_MANAGER = 'Y'
+	</select>
+	
+</mapper>
