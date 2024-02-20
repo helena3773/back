@@ -39,6 +39,11 @@ public interface MemberMapper {
 	 void updateUser(MemberDto userEntity);
 	//int updateSocialUser(MemberDto dto);
 
+	 int saveFMCToken(Map map); //사용자의 FMC 토큰 저장
+	 
+	 void deleteFMCToken(String id); //사용자의 FMC 토큰 삭제
+	 
+	 String findFMCTokenById(String id); //사용자의 FMC 토큰 불러오기
 	Map getUserAddress(String id);
 
 

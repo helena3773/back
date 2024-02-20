@@ -1,11 +1,15 @@
 package com.ict.teamProject.member.service;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.ict.teamProject.member.service.impl.MemberMapper;
+
+import oracle.jdbc.OracleDatabaseException;
 
 @Service
 public class MemberService {
@@ -45,5 +49,15 @@ public class MemberService {
 //		return mapper.updateSocialUser(dto);
 //	
 //	}
-
+	
+	public void saveFMCToken(Map map) {
+		if(findFMCTokenById(String.valueOf(map.get("id"))) != null) { //id에 대한 토큰 값이 있다면 기존의 값을 삭제
+			mapper.deleteFMCToken(String.valueOf(map.get("id")));
+		}
+		mapper.saveFMCToken(map); 
+	}
+	
+	public String findFMCTokenById(String id) {
+		return mapper.findFMCTokenById(id);
+	}
 }

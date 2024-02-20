@@ -84,6 +84,21 @@
 	  SELECT id, point FROM member WHERE id = #{id}
 	</select>
 	
+	<!-- FMC 토큰 저장용 -->
+	<insert id="saveFMCToken" parameterType="map">
+	  INSERT INTO FIREBASE VALUES(#{id}, #{token})
+	</insert>
+	
+	<!-- FMC 토큰 삭제용 -->
+	<delete id="deleteFMCToken" parameterType="String">
+	  DELETE FIREBASE WHERE ID=#{id}
+	</delete>
+	
+	<!-- FCM 토큰 불러오기용 -->
+	<select id="findFMCTokenById" parameterType="String">
+	  SELECT NOTIC_TOKEN FROM FIREBASE WHERE ID = #{id}
+	</select>
+	
 	<select id="getUserAddress" parameterType="String">
 		SELECT ID, USERADDRESS FROM MEMBER WHERE ID = #{id}
 	</select>
