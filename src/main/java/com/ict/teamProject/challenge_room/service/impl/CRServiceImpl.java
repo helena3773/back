@@ -51,9 +51,8 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int update(CRDto dto) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(String id) {
+		return mapper.update(id);
 	}
 
 	@Override
@@ -97,8 +96,11 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public CRDto findRoomData(int challNo) {
 		return mapper.findRoomData(challNo);
 	}
-	
-	
+
+	@Override
+	public String selectManager(int room) {
+		return mapper.selectManager(room);
+	}
 
 
 }

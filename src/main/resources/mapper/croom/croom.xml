@@ -87,4 +87,16 @@
 	    where CR.CHALL_NO = #{challNo}
 	</select>
 	
+	<!-- 다음 방장 찾기 -->
+	<select id="selectManager" parameterType="int" resultMap="String">
+		SELECT id
+    	FROM (SELECT id, CHALL_P_NO FROM CHALLENGE_PARTICIPANTS WHERE CHALL_NO = #{challNo} ORDER BY CHALL_P_NO ASC)
+    	WHERE ROWNUM = 1
+	</select>
+	
+	<!-- 방장이 나갔을 때 수정 -->
+	<update id="update" parameterType="String" >
+		UPDATE CHALLENGE_PARTICIPANTS SET CHALL_MANAGER='Y' WHERE id=#{manager}
+	</update>
+	
 </mapper>

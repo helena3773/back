@@ -21,7 +21,7 @@ public interface CRMapper {
 		
 	//입력/수정/삭제
 	int save(CRDto map);
-	int update(int cRno);
+	int update(String id);
 	int delete(int room);
 	
 	// 자기 방 번호 가져오기
@@ -39,6 +39,8 @@ public interface CRMapper {
 	int join(CPDto dto);
 
 	CRDto findRoomData(int challNo);
+
+	String selectManager(int room);
 
 	
 

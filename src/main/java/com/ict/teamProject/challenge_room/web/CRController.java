@@ -210,5 +210,22 @@ public class CRController {
 	    dto = service.findRoomData(challNo);
 	    return dto;
 	}/////
+	
+	//방장이 방 나갔을때]
+	@DeleteMapping("/deleteManager.do")
+	@ResponseBody
+	public int deleteManager(@RequestBody Map<String, String> map) {
+		String id = map.get("id");
+		int room = 0;
+		int affected = 0;
+		System.out.println("id:"+id);
+		room = service.selectMyRoom(id);
+		String manager = service.selectManager(room);
+		service.deletep(id);
+		System.out.println("room:"+room);
+		affected = service.update(manager);
+		System.out.println("너의 수정된 방 번호는?"+room);
+		return affected;
+	}/////
 
 }

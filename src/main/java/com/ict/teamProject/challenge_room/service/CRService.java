@@ -20,7 +20,7 @@ public interface CRService<T> {
 		
 	//입력/수정/삭제용
 	int insert(CRDto dto);
-	int update(CRDto dto);
+	int update(String id);
 	int delete(int room);
 
 	int insertP(CPDto dto);
@@ -36,5 +36,8 @@ public interface CRService<T> {
 	int join(CPDto dto);
 
 	CRDto findRoomData(int challNo);
+
+	String selectManager(int room);
+
 	
 }
