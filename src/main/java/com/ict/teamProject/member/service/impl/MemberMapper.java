@@ -39,6 +39,8 @@ public interface MemberMapper {
 	 void updateUser(MemberDto userEntity);
 	//int updateSocialUser(MemberDto dto);
 
+	Map getUserAddress(String id);
+
 
 
 

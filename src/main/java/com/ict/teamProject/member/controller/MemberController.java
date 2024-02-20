@@ -74,5 +74,10 @@ public class MemberController {
 		return service.searchPoint(id);
 	}
 	
-	
+	@CrossOrigin(origins = "http://localhost:3333")
+	@RequestMapping(value = "/getUserAddress", method = {RequestMethod.GET,RequestMethod.POST,})
+	public Map getUserAddress(@RequestParam String id) {
+		System.out.println("찾을 유저:"+id);
+		return service.getUserAddress(id);
+	}
 }
