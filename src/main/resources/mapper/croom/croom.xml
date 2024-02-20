@@ -7,7 +7,7 @@
 <mapper namespace="com.ict.teamProject.challenge_room.service.impl.CRMapper">
 	<resultMap type="CRoom" id="CRResult">
 		<result property="challNo" column="CHALL_NO"/>
-		<result property="goalNo" column="GOAL_NO"/>
+		<result property="goal" column="GOAL_NO"/>
 		<result property="challCapacity" column="CHALL_CAPACITY"/>
 		<result property="implementation" column="IMPLEMENTATION_RATE"/>
 		<result property="gLimit" column="GENDER_LIMIT"/>
@@ -21,7 +21,7 @@
 		<result property="challContent" column="CHALL_CONTENT"/>
 		<result property="challTitle" column="CHALL_TITLE"/>
 		<result property="challArea" column="CHALL_AREA"/>
-	    <result property="manager" column="CHALL_MANAGER"/>					
+	    <result property="manager" column="manager"/>					
 	</resultMap>
 	
 	<!-- 시퀀스 값 생성 및 저장 -->
@@ -31,13 +31,13 @@
 	
 	<!-- 방생성 -->
 	<insert id="save" parameterType="Map">
-		INSERT INTO CHALLENGE_ROOM VALUES(SEQ_CHALLENGEROOM.NEXTVAL,1,#{challCapacity},#{implementation},#{gLimit},#{ageMin},
-		#{ageMax},#{pFee},#{cYN},SYSDATE,#{cStartDate},#{cEndDate},#{challContent},#{challTitle},#{challArea})
+		INSERT INTO CHALLENGE_ROOM VALUES(SEQ_CHALLENGEROOM.NEXTVAL,#{challCapacity},#{implementation}, #{gLimit}, #{ageMin}, 
+		 #{ageMax}, #{pFee}, #{cYN},SYSDATE, #{cStartDate}, #{cEndDate}, #{challContent},#{challTitle},#{challArea}, #{goal})
 	</insert>
 	
 	<!-- 방생성 -->
 	<insert id="insertP" parameterType="CP">
-		INSERT INTO CHALLENGE_PARTICIPANTS VALUES(SEQ_CHALLP.NEXTVAL,#{challNo},#{id},'Y')
+		INSERT INTO CHALLENGE_PARTICIPANTS VALUES(SEQ_CHALLP.NEXTVAL,#{challNo},#{id},'Y', 0)
 	</insert>
 	
  	<!-- 방 번호 가져오기 -->
@@ -60,6 +60,18 @@
 	    SELECT CR.*, CP.id AS manager 
 	    FROM CHALLENGE_ROOM CR 
 	    LEFT JOIN CHALLENGE_PARTICIPANTS CP ON CR.Chall_NO = CP.Chall_NO AND CP.Chall_MANAGER = 'Y'
+	    where CHALL_DISCLOSUREYN = 'Y' 
+	</select>
+	
+	<!-- 내 데이타 가져오기 -->
+	<select id="findmyData" parameterType="String" resultType="map">
+	    SELECT m.name, m.GENDER, m.B_DAY, p.PRO_FILEPATH from member m join profile p on m.id=p.id
+	    where m.id = #{id}
+	</select>
+	
+	<!-- 참여자 데이타 가져오기 -->
+	<select id="participantsdata" resultType="map">
+	    SELECT c.CHALL_NO, c.ID, c.CHALL_P_NO,c.CHALL_MANAGER, c.CHALL_IMPLEMENTATION_RATE, p.PRO_FILEPATH from CHALLENGE_PARTICIPANTS c join profile p on c.id=p.id
 	</select>
 	
 </mapper>

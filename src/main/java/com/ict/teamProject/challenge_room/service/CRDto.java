@@ -19,7 +19,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CRDto {
 	private int challNo; //방 번호
-	private int goalNo; //목표
+	private String goal; //목표
 	private int challCapacity; // 정원
 	private int implementation; //이행률
 	private int gLimit; // 성별 제한

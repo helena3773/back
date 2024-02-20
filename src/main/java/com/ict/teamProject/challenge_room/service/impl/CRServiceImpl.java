@@ -16,6 +16,7 @@ import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
 import com.ict.teamProject.files.service.FilesDto;
+import com.ict.teamProject.member.service.MemberDto;
 
 
 //24.02.18 생성
@@ -75,6 +76,16 @@ public class CRServiceImpl implements CRService<CRDto> {
 	@Override
 	public void deletep(String id) {
 		mapper.deletep(id);
+	}
+
+	@Override
+	public Map findmyData(String id) {
+		return mapper.findmyData(id);
+	}
+
+	@Override
+	public List participantsdata() {
+		return mapper.participantsdata();
 	}
 	
 	

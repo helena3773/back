@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
+import com.ict.teamProject.member.service.MemberDto;
 
 //24.02.18 생성
 @Mapper
@@ -30,6 +31,10 @@ public interface CRMapper {
 	int getSeqValue();
 
 	void deletep(String id);
+	
+	Map findmyData(String id);
+
+	List participantsdata();
 
 	
 

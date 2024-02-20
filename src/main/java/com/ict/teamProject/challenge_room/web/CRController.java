@@ -2,6 +2,7 @@ package com.ict.teamProject.challenge_room.web;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
+import com.ict.teamProject.member.service.MemberDto;
 
 
 //24.02.18 생성
@@ -57,6 +60,12 @@ public class CRController {
 		System.out.println("room.get(\"dateRange\"):"+room.get("dateRange"));
 		System.out.println("room.get(\"content\"):"+room.get("content"));
 		CRDto dto = new CRDto();
+		Map<String, String> goalMap = (Map<String, String>) room.get("goal");
+		String goalValue = goalMap.get("value");
+
+		dto.setGoal(goalValue);
+		System.out.println("dto.dto.getGoal():"+dto.getGoal());
+		
 		dto.setChallCapacity(Integer.parseInt(room.get("userset").toString()));
 		System.out.println("dto.getChallCapacity():"+dto.getChallCapacity());
 		
@@ -147,7 +156,34 @@ public class CRController {
 	public List listChall() {
 		CRDto dto = new CRDto();
 		List<CRDto> record = new ArrayList();
-		record = service.selectAll();	
+		record = service.selectAll();
+		for (CRDto item : record) {
+		    System.out.println("방장은??----" + item.getManager());
+		}
+		return record;
+	}/////
+	
+	//내 정보 가져오기]
+	@GetMapping("/myData.do")
+	@ResponseBody
+	public Map myData(@RequestParam String id) {
+		System.out.println("받은 아이디 값:"+id);
+		Map map = new HashMap();
+		map = service.findmyData(id);
+		System.out.println("map.get(\"name\")" + (map.get("name") != null ? map.get("name").toString() : "null"));
+		System.out.println("map.get(\"GENDER\")" + (map.get("GENDER") != null ? map.get("GENDER").toString() : "null"));
+		System.out.println("map.get(\"B_DAY\")" + (map.get("B_DAY") != null ? map.get("B_DAY").toString() : "null"));
+		System.out.println("map.get(\"PRO_FILEPATH\")" + (map.get("PRO_FILEPATH") != null ? map.get("PRO_FILEPATH").toString() : "null"));
+		return map;
+	}/////
+	
+	//참여자 정보 가져오기]
+	@GetMapping("/participantsData.do")
+	@ResponseBody
+	public List participantsData() {
+		List record = new ArrayList();
+		record = service.participantsdata();
+		System.out.println("여기 들어와????");
 		return record;
 	}/////
 }
