@@ -38,6 +38,8 @@ public interface CRMapper {
 
 	int join(CPDto dto);
 
+	CRDto findRoomData(int challNo);
+
 	
 
 }

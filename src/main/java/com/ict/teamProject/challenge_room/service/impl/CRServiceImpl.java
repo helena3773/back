@@ -92,6 +92,11 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public int join(CPDto dto) {
 		return mapper.join(dto);
 	}
+
+	@Override
+	public CRDto findRoomData(int challNo) {
+		return mapper.findRoomData(challNo);
+	}
 	
 	
 

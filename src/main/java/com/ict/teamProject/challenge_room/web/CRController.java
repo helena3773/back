@@ -199,5 +199,16 @@ public class CRController {
 	    record = service.join(dto);
 	    return record;
 	}/////
+	
+	//방의 데이타 가져오기]
+	@PostMapping("/roomData.do")
+	@ResponseBody
+	public CRDto roomData(@RequestBody Map map) {
+	    System.out.println("challNo----"+Integer.parseInt(map.get("challNo").toString()));
+	    int challNo = Integer.parseInt(map.get("challNo").toString());
+	    CRDto dto = new CRDto();
+	    dto = service.findRoomData(challNo);
+	    return dto;
+	}/////
 
 }

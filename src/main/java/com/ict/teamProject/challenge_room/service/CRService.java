@@ -34,5 +34,7 @@ public interface CRService<T> {
 	List participantsdata();
 
 	int join(CPDto dto);
+
+	CRDto findRoomData(int challNo);
 	
 }

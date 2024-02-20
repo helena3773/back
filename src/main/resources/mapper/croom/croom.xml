@@ -79,4 +79,12 @@
 		INSERT INTO CHALLENGE_PARTICIPANTS VALUES(SEQ_CHALLP.NEXTVAL,#{challNo},#{id},'N', 0)
 	</insert>
 	
+	<!-- 방의 데이타 가져오기 -->
+	<select id="findRoomData" parameterType="int" resultMap="CRResult">
+		SELECT CR.* , CP.id AS manager 
+	    FROM CHALLENGE_ROOM CR 
+	    JOIN CHALLENGE_PARTICIPANTS CP ON CR.Chall_NO = CP.Chall_NO AND CP.Chall_MANAGER = 'Y'
+	    where CR.CHALL_NO = #{challNo}
+	</select>
+	
 </mapper>
