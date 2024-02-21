@@ -36,11 +36,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +46,7 @@ import com.ict.teamProject.bbs.service.BBSService;
 import com.ict.teamProject.bbs.service.BBSUsersProfileDto;
 import com.ict.teamProject.bbs.service.LikesDto;
 import com.ict.teamProject.command.FileUtils;
-import com.ict.teamProject.files.service.FilesDto;
+
 
 
 @Controller
@@ -66,23 +63,9 @@ public class BBSController {
 	//입력처리]
 	@PostMapping("/Write.do")
 	@ResponseBody
-	public int writeOk(//Authentication auth,
+	public int writeOk(
 			@RequestParam Map map,@RequestParam(name="files", required=false) MultipartFile[] files, @RequestParam(name="ciu", required=false) String ciuJson) throws JsonMappingException, JsonProcessingException {
 		
-		//서비스 호출
-		//스프링 씨큐리티 적용시 인증(로그인)되었다면 Authentication객체에 로그인에 관련된 정보가 전달됨
-		//로그인이 안되어 있으면 auth는 null
-		//System.out.println("[Authentication객체]");
-		//System.out.println("auth"+auth);
-		
-		//UserDetails principal = (UserDetails)auth.getPrincipal();
-		//System.out.println("아이디:"+principal.getUsername());
-		//System.out.println("비밀번호:"+principal.getPassword());
-		//System.out.println(principal.getUsername()+"의 권한들]");
-		//Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>) principal.getAuthorities();
-		//String authorties = authorities.stream().map(authority -> authority.toString()).collect(Collectors.joining(","));
-		//System.out.println(authorties);
-		//map.put("id", principal.getUsername());
 		System.out.println("머야 왜안돼!!");
 		System.out.println(map.get("id"));
 		System.out.println(map.get("content"));
@@ -363,5 +346,24 @@ public class BBSController {
 	    like.put("likes", likesId);
 	    
 		return like;
+	}
+	
+	//좋아요 얻어오기
+	@GetMapping("/likesPro.do")
+	public Map likesPro(@RequestParam("bno") int bno) {
+	    Map likeMap = new HashMap();
+	    List<String> userIds = service.findUserByLike(bno);
+	    List<String> userProfiles = new ArrayList<>();
+
+	    if (userIds != null && !userIds.isEmpty()) {
+	        for (String userId : userIds) {
+	            String userProfile = service.findUserProfileByLike(userId);
+	            userProfiles.add(userProfile);
+	        }
+	    }
+
+	    likeMap.put("likesPro", userProfiles);
+	    likeMap.put("likes", userIds);
+	    return likeMap;
 	}
 }

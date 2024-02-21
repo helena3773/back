@@ -39,7 +39,7 @@
 		SELECT authority,provider FROM member WHERE id=#{id}
 	</select>
 	
-		<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
+	<select id="findByMemberInfo" resultType="MemberDto" parameterType="String">
 		SELECT name,m.id,pro_filepath FROM member m join profile p on m.id = p.id WHERE m.id = #{id}
 	</select>
 	<select id="isPreviousUser" resultType="int" parameterType="String">
@@ -50,7 +50,7 @@
 	  SELECT * FROM member WHERE id = #{id}
 	</select>
 	
-<insert id="joinSocialMember" parameterType="MemberDto">
+	<insert id="joinSocialMember" parameterType="MemberDto">
 		INSERT INTO member(ID, PWD, NAME , REGIDATE , AUTHORITY ,PROFILEIMAGE , PROVIDER)
 		VALUES(#{id},#{pwd},#{name} , SYSDATE ,#{authority},#{profileimage,jdbcType=VARCHAR} ,#{provider} )
 	</insert>
@@ -84,6 +84,25 @@
 	
 	<select id="searchPoint" parameterType="string">
 	  SELECT id, point FROM member WHERE id = #{id}
+	</select>
+	
+	<!-- FMC 토큰 저장용 -->
+	<insert id="saveFMCToken" parameterType="map">
+	  INSERT INTO FIREBASE VALUES(#{id}, #{token})
+	</insert>
+	
+	<!-- FMC 토큰 삭제용 -->
+	<delete id="deleteFMCToken" parameterType="String">
+	  DELETE FIREBASE WHERE ID=#{id}
+	</delete>
+	
+	<!-- FCM 토큰 불러오기용 -->
+	<select id="findFMCTokenById" parameterType="String">
+	  SELECT NOTIC_TOKEN FROM FIREBASE WHERE ID = #{id}
+	</select>
+	
+	<select id="getUserAddress" parameterType="String">
+		SELECT ID, USERADDRESS FROM MEMBER WHERE ID = #{id}
 	</select>
 	
 	<select id="findByMemberId" parameterType="string" resultType="MemberDto">
