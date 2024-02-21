@@ -69,9 +69,10 @@
 	    where m.id = #{id}
 	</select>
 	
-	<!-- 참여자 데이타 가져오기 -->
-	<select id="participantsdata" resultType="map">
+	<!-- 방에 참여자 데이타 가져오기 -->
+	<select id="participantsdata" parameterType="int" resultType="map">
 	    SELECT c.CHALL_NO, c.ID, c.CHALL_P_NO,c.CHALL_MANAGER, c.CHALL_IMPLEMENTATION_RATE, p.PRO_FILEPATH from CHALLENGE_PARTICIPANTS c join profile p on c.id=p.id
+	    where C.CHALL_NO = #{challNo}
 	</select>
 	
 	<!-- 방 입장 -->

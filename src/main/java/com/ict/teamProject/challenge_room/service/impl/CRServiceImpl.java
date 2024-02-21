@@ -83,8 +83,8 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public List participantsdata() {
-		return mapper.participantsdata();
+	public List participantsdata(int room) {
+		return mapper.participantsdata(room);
 	}
 
 	@Override

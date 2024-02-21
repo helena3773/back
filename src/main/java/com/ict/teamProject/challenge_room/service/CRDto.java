@@ -34,5 +34,6 @@ public class CRDto {
 	private String challTitle; //제목
 	private String challArea; //지역
 	private String manager; //방장
+	private List participantsData;
 	
 }

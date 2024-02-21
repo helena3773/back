@@ -60,6 +60,7 @@ public class CRController {
 		System.out.println("room.get(\"dateRange\"):"+room.get("dateRange"));
 		System.out.println("room.get(\"content\"):"+room.get("content"));
 		CRDto dto = new CRDto();
+		System.out.println("room.get(\"goal\"):"+room.get("goal"));
 		Map<String, String> goalMap = (Map<String, String>) room.get("goal");
 		String goalValue = goalMap.get("value");
 
@@ -155,11 +156,13 @@ public class CRController {
 	@GetMapping("/listChall.do")
 	@ResponseBody
 	public List listChall() {
-		CRDto dto = new CRDto();
 		List<CRDto> record = new ArrayList();
 		record = service.selectAll();
 		for (CRDto item : record) {
 		    System.out.println("방장은??----" + item.getManager());
+		    System.out.println("방번호는???---"+item.getChallNo());
+		    List result = service.participantsdata(item.getChallNo());
+	        item.setParticipantsData(result);
 		}
 		return record;
 	}/////
@@ -178,12 +181,15 @@ public class CRController {
 		return map;
 	}/////
 	
+	
 	//참여자 정보 가져오기]
 	@GetMapping("/participantsData.do")
 	@ResponseBody
-	public List participantsData() {
+	public List participantsData(@RequestParam int challNo) {
+		System.out.println("받은 방 번호는???----"+challNo);
 		List record = new ArrayList();
-		record = service.participantsdata();
+		List result = service.participantsdata(challNo);
+		record.add(result);
 		return record;
 	}/////
 	

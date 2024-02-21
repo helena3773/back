@@ -31,7 +31,7 @@ public interface CRService<T> {
 
 	Map findmyData(String id);
 
-	List participantsdata();
+	List participantsdata(int i);
 
 	int join(CPDto dto);
 

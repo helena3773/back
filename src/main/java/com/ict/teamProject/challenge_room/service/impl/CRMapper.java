@@ -34,7 +34,7 @@ public interface CRMapper {
 	
 	Map findmyData(String id);
 
-	List participantsdata();
+	List participantsdata(int room);
 
 	int join(CPDto dto);
 
