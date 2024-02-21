@@ -55,4 +55,8 @@ public class SelftestService {
 	public int deleteAllHateFood(String id) {
 		return mapper.deleteAllHateFood(id);
 	}
+
+	public int saveInbody(Map map) {
+		return mapper.saveInbody(map);
+	}
 }

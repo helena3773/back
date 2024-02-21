@@ -114,4 +114,11 @@ public class SelftestController {
 		System.out.println(hatefoodlist);
 		return hatefoodlist;
 	}
+	
+	@PostMapping("/Inbody/Save.do")
+	public int saveInbody(@RequestBody Map map) {	    
+		System.out.println("들어온 인바디 값:"+map);
+		int affected = service.saveInbody(map);
+		return affected;
+	}
 }

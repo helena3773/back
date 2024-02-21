@@ -10,6 +10,7 @@ import com.ict.teamProject.selftest.dto.AllergyInfoDto;
 import com.ict.teamProject.selftest.dto.HateFoodInfoDto;
 import com.ict.teamProject.selftest.dto.MemberAllergyDto;
 import com.ict.teamProject.selftest.dto.MemberHateFoodDto;
+import com.ict.teamProject.selftest.dto.InbodyInfoDto;
 
 @Mapper
 public interface SelftestMapper {
@@ -22,5 +23,6 @@ public interface SelftestMapper {
 	public List<AllergyInfoDto> findAllergy(String allergyNo);
 	public List<HateFoodInfoDto> findHateFood(String hatefoodNo);
 	public int deleteAllAllergy(String id);
-	public int deleteAllHateFood(String id);	
+	public int deleteAllHateFood(String id);
+	public int saveInbody(Map map);	
 }
