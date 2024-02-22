@@ -17,7 +17,7 @@ import lombok.Setter;
 public class FoodListDto {
 	private String foodname;
 	private int dataType;
-	private int category;
+	private String category;
 	private String recipe_title;
 	private String recipe_url;
 	private String recipe_img;

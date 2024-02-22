@@ -17,7 +17,7 @@
 		FROM 
 		    (SELECT FOODNAME, CATEGORY 
 		    FROM FoodList 
-		    WHERE foodname LIKE '%${foodname}%') fl 
+		    WHERE category = #{category}) fl 
 		JOIN RECIPE r ON fl.foodname = r.foodname
 		JOIN RECIPE_INGREDIENTS ri ON r.recipecode = ri.recipecode
 		WHERE NOT EXISTS 

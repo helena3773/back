@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@MapperScan(value = {"com.ict.teamProject.member.service.impl","com.ict.teamProject.bbs.service.impl", "com.ict.teamProject.comm","com.ict.teamProject.manage", "com.ict.teamProject.member_history.service.impl", "com.ict.teamProject.commentline.service.impl","com.ict.teamProject.chat.service.impl","com.ict.teamProject.pay","com.ict.teamProject.notic", "com.ict.teamProject.selftest","com.ict.teamProject.challenge_room.service.impl", "com.ict.teamProject.food","com.ict.teamProject.mate_room.service.impl"},sqlSessionFactoryRef ="sqlSessionFactory" )
+@MapperScan(value = {"com.ict.teamProject.member.service.impl","com.ict.teamProject.bbs.service.impl", "com.ict.teamProject.comm","com.ict.teamProject.manage", "com.ict.teamProject.member_history.service.impl", "com.ict.teamProject.commentline.service.impl","com.ict.teamProject.chat.service.impl","com.ict.teamProject.pay","com.ict.teamProject.notic", "com.ict.teamProject.selftest","com.ict.teamProject.challenge_room.service.impl", "com.ict.teamProject.food","com.ict.teamProject.mate_room.service.impl", "com.ict.teamProject.eating_record"},sqlSessionFactoryRef ="sqlSessionFactory" )
 public class MybatisConfig {
 	
 	//생성자 인젝션을 통해 ApplicationContext를 컨테이너로 부터 받는다
