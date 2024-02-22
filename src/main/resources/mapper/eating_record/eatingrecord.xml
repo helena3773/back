@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ict.teamProject.eating_record.EatingRecordMapper">	
+	
+	<insert id="savediet" parameterType="Map">
+		Insert INTO Eating_Record(ID, MEALTYPE,EATING_FOODNAME,EATING_RECIPECODE) VALUES(#{id},#{mealtype}, #{eating_foodname}, #{eating_recipeCode})
+	</insert>
+
+	<select id="getdailydiet" resultType="EatingRecordDto">
+		SELECT * FROM eating_record WHERE ID = #{id} AND EATING_DATE = #{eating_date}
+	</select>
+</mapper>
