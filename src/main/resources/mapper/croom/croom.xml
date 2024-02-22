@@ -100,4 +100,27 @@
 		UPDATE CHALLENGE_PARTICIPANTS SET CHALL_MANAGER='Y' WHERE id=#{manager}
 	</update>
 	
+	<!-- 목표 찾기 -->
+	<select id="findGoal" parameterType="String" resultType="map">
+		SELECT CR.GOAL_NO, CP.CHALL_IMPLEMENTATION_RATE
+    	FROM CHALLENGE_ROOM CR join CHALLENGE_PARTICIPANTS CP on CR.CHALL_NO = CP.CHALL_NO
+    	WHERE CP.id =#{id}
+	</select>
+	
+	<!-- 이행률 반영 -->
+	<insert id="insertImpl" parameterType="IM">
+		INSERT INTO CHALLENGE_RECORD VALUES(#{id},#{exercise},#{eatting},SYSDATE)
+	</insert>
+	
+	<!-- 이행률 찾기 -->
+	<select id="findImpl" parameterType="String">
+		SELECT RECORD_DATE 
+		FROM CHALLENGE_RECORD 
+		WHERE id =#{id}
+	</select>
+	
+	<!-- 이행률 변경 -->
+	<update id="updateImpl" parameterType="IM" >
+		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise}, EATING=#{eatting} WHERE id =#{id}
+	</update>
 </mapper>

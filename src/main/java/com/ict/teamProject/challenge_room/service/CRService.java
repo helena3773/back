@@ -1,5 +1,6 @@
 package com.ict.teamProject.challenge_room.service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +38,14 @@ public interface CRService<T> {
 	CRDto findRoomData(int challNo);
 
 	String selectManager(int room);
+
+	Map findGoal(String id);
+
+	void insertImpl(ImplDto dto);
+
+	Date findImpl(String id);
+
+	void updateImpl(ImplDto dto);
 
 	
 }

@@ -46,7 +46,7 @@
 	 
 	<!-- 해당 방 삭제 -->
 	<delete id="delete" parameterType="int">
-	  DELETE FROM MATEROOM WHERE Chall_NO = #{challNo}
+	  DELETE FROM MATEROOM WHERE MR_NO = #{room}
 	</delete>
 	
 	<!-- 해당 방 삭제 -->
@@ -82,7 +82,7 @@
 	<!-- 방의 데이타 가져오기 -->
 	<select id="findRoomData" parameterType="int" resultMap="MRResult">
 		SELECT MR.* , MP.id AS manager 
-	    FROM MATEROOM_ROOM MR 
+	    FROM MATEROOM MR 
 	    JOIN MATEROOM_PARTICIPANTS MP ON MR.MR_NO = MP.MR_NO AND MP.MRP_MANAGER = 'Y'
 	    where MP.MR_NO = #{challNo}
 	</select>

@@ -1,5 +1,6 @@
 package com.ict.teamProject.challenge_room.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
+import com.ict.teamProject.challenge_room.service.ImplDto;
 
 
 //24.02.18 생성
@@ -92,5 +94,25 @@ public class CRServiceImpl implements CRService<CRDto> {
 		return mapper.selectManager(room);
 	}
 
+	@Override
+	public Map findGoal(String id) {
+		return mapper.findGoal(id);
+	}
 
+	@Override
+	public void insertImpl(ImplDto dto) {
+		mapper.insertImpl(dto);
+		
+	}
+
+	@Override
+	public Date findImpl(String id) {
+		return mapper.findImpl(id);
+	}
+
+	@Override
+	public void updateImpl(ImplDto dto) {
+		mapper.updateImpl(dto);
+		
+	}
 }
