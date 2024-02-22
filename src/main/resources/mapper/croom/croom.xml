@@ -72,7 +72,7 @@
 	<!-- 방에 참여자 데이타 가져오기 -->
 	<select id="participantsdata" parameterType="int" resultType="map">
 	    SELECT c.CHALL_NO, c.ID, c.CHALL_P_NO,c.CHALL_MANAGER, c.CHALL_IMPLEMENTATION_RATE, p.PRO_FILEPATH from CHALLENGE_PARTICIPANTS c join profile p on c.id=p.id
-	    where C.CHALL_NO = #{challNo}
+	    where C.CHALL_NO = #{challNo} ORDER BY CHALL_P_NO ASC
 	</select>
 	
 	<!-- 방 입장 -->
@@ -100,4 +100,27 @@
 		UPDATE CHALLENGE_PARTICIPANTS SET CHALL_MANAGER='Y' WHERE id=#{manager}
 	</update>
 	
+	<!-- 목표 찾기 -->
+	<select id="findGoal" parameterType="String" resultType="map">
+		SELECT CR.GOAL_NO, CP.CHALL_IMPLEMENTATION_RATE
+    	FROM CHALLENGE_ROOM CR join CHALLENGE_PARTICIPANTS CP on CR.CHALL_NO = CP.CHALL_NO
+    	WHERE CP.id =#{id}
+	</select>
+	
+	<!-- 이행률 반영 -->
+	<insert id="insertImpl" parameterType="IM">
+		INSERT INTO CHALLENGE_RECORD VALUES(#{id},#{exercise},#{eatting},SYSDATE)
+	</insert>
+	
+	<!-- 이행률 찾기 -->
+	<select id="findImpl" parameterType="String">
+		SELECT RECORD_DATE 
+		FROM CHALLENGE_RECORD 
+		WHERE id =#{id}
+	</select>
+	
+	<!-- 이행률 변경 -->
+	<update id="updateImpl" parameterType="IM" >
+		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise}, EATING=#{eatting} WHERE id =#{id}
+	</update>
 </mapper>

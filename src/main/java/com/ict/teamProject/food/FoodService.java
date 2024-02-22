@@ -17,7 +17,7 @@ public class FoodService {
 	}
 	
 
-	public List<FoodListDto> findrecipe(String foodname) {
-		return mapper.findrecipe(foodname);
+	public List<FoodListDto> findrecipe(String id, String category) {
+		return mapper.findrecipe(id, category);
 	}
 }

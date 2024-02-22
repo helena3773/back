@@ -1,31 +1,29 @@
-package com.ict.teamProject.challenge_room.service.impl;
+package com.ict.teamProject.mate_room.service.impl;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ict.teamProject.challenge_room.service.CPDto;
-import com.ict.teamProject.challenge_room.service.CRDto;
-import com.ict.teamProject.challenge_room.service.CRService;
-import com.ict.teamProject.challenge_room.service.ImplDto;
+import com.ict.teamProject.mate_room.service.MPDto;
+import com.ict.teamProject.mate_room.service.MRDto;
+import com.ict.teamProject.mate_room.service.MRService;
 
 
 //24.02.18 생성
 @Service
-public class CRServiceImpl implements CRService<CRDto> {
+public class MRServiceImpl implements MRService<MRDto> {
 
 	//매퍼 인터페이스 주입
 	@Autowired
-	private CRMapper mapper;
+	private MRMapper mapper;
 
 	@Override
-	public List<CRDto> selectAll() {
+	public List<MRDto> selectAll() {
 		return mapper.findAll();
 	}
 
 	@Override
-	public CRDto viewMyRoom(String id) {
+	public MRDto viewMyRoom(String id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -37,7 +35,7 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int insert(CRDto map) {
+	public int insert(MRDto map) {
 		int affected = mapper.save(map);
 		return affected;
 	}
@@ -54,7 +52,7 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int insertP(CPDto dto) {
+	public int insertP(MPDto dto) {
 		int affected = mapper.insertP(dto);
 		return affected;
 	}
@@ -80,12 +78,12 @@ public class CRServiceImpl implements CRService<CRDto> {
 	}
 
 	@Override
-	public int join(CPDto dto) {
+	public int join(MPDto dto) {
 		return mapper.join(dto);
 	}
 
 	@Override
-	public CRDto findRoomData(int challNo) {
+	public MRDto findRoomData(int challNo) {
 		return mapper.findRoomData(challNo);
 	}
 
@@ -94,25 +92,5 @@ public class CRServiceImpl implements CRService<CRDto> {
 		return mapper.selectManager(room);
 	}
 
-	@Override
-	public Map findGoal(String id) {
-		return mapper.findGoal(id);
-	}
 
-	@Override
-	public void insertImpl(ImplDto dto) {
-		mapper.insertImpl(dto);
-		
-	}
-
-	@Override
-	public Date findImpl(String id) {
-		return mapper.findImpl(id);
-	}
-
-	@Override
-	public void updateImpl(ImplDto dto) {
-		mapper.updateImpl(dto);
-		
-	}
 }

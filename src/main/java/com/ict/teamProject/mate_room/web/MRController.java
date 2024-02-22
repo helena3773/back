@@ -1,8 +1,7 @@
-package com.ict.teamProject.challenge_room.web;
+package com.ict.teamProject.mate_room.web;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,25 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ict.teamProject.challenge_room.service.CPDto;
-import com.ict.teamProject.challenge_room.service.CRDto;
-import com.ict.teamProject.challenge_room.service.CRService;
-import com.ict.teamProject.challenge_room.service.ImplDto;
+import com.ict.teamProject.mate_room.service.MPDto;
+import com.ict.teamProject.mate_room.service.MRDto;
+import com.ict.teamProject.mate_room.service.MRService;
 
 
 //24.02.18 생성
 @Controller
-@RequestMapping("/croom")
+@RequestMapping("/mroom")
 @RestController
 @CrossOrigin(origins = "http://localhost:3333")
-public class CRController {
+public class MRController {
 	
 	//서비스 주입
 	@Autowired
-	private CRService<CRDto> service;
+	private MRService<MRDto> service;
 	
 	//방 찾기]
 	@PostMapping("/myRoomNum.do")
@@ -56,29 +52,31 @@ public class CRController {
 	public int createRoom(@RequestBody Map room) throws Exception {
 		System.out.println("room.get(\"selectedCheckbox\"):"+room.get("selectedCheckbox"));
 		System.out.println("room.get(\"sliderValues\"):"+room.get("sliderValues"));
-		System.out.println("room.get(\"selectedOption1\"):"+room.get("selectedOption1"));
+		System.out.println("room.get(\"sport\"):"+room.get("sport"));
 		System.out.println("room.get(\"openRoomYN\"):"+room.get("openRoomYN"));
-		System.out.println("room.get(\"dateRange\"):"+room.get("dateRange"));
+		System.out.println("room.get(\"matchingYN\"):"+room.get("matchingYN"));
+		System.out.println("room.get(\"date\"):"+room.get("date"));
 		System.out.println("room.get(\"content\"):"+room.get("content"));
-		CRDto dto = new CRDto();
-		System.out.println("room.get(\"goal\"):"+room.get("goal"));
-		Map<String, String> goalMap = (Map<String, String>) room.get("goal");
+		System.out.println("room.get(\"title\"):"+room.get("title"));
+		System.out.println("room.get(\"userset\"):"+room.get("userset"));
+		System.out.println("room.get(\"areaSet\"):"+room.get("areaSet"));
+		System.out.println("room.get(\"id\"):"+room.get("id"));
+		
+		MRDto dto = new MRDto();
+		Map<String, String> goalMap = (Map<String, String>) room.get("sport");
 		String goalValue = goalMap.get("value");
 
-		dto.setGoal(goalValue);
-		System.out.println("dto.dto.getGoal():"+dto.getGoal());
+		dto.setMateSport(goalValue);
+		System.out.println("dto.getMateSport():"+dto.getMateSport());
 		
-		dto.setChallCapacity(Integer.parseInt(room.get("userset").toString()));
-		System.out.println("dto.getChallCapacity():"+dto.getChallCapacity());
+		dto.setMateCapacity(Integer.parseInt(room.get("userset").toString()));
+		System.out.println("dto.getMateCapacity():"+dto.getMateCapacity());
 		
-		dto.setImplementation(Integer.parseInt(room.get("achievementset").toString()));
-		System.out.println("dto.getImplementation():"+dto.getImplementation());
+		dto.setMateArea(room.get("areaSet").toString());
+		System.out.println("dto.getMateArea():"+dto.getMateArea());	
 		
-		dto.setChallArea(room.get("areaSet").toString());
-		System.out.println("dto.getChallArea():"+dto.getChallArea());	
-		
-		dto.setChallTitle(room.get("title").toString());
-		System.out.println("dto.getChallTitle():"+dto.getChallTitle());
+		dto.setMateTitle(room.get("title").toString());
+		System.out.println("dto.getMateTitle():"+dto.getMateTitle());
 		
 	    ObjectMapper mapper = new ObjectMapper();
 	    int[] selectedCheckbox = mapper.readValue(room.get("selectedCheckbox").toString(), int[].class);
@@ -99,38 +97,34 @@ public class CRController {
 	    dto.setAgeMax(ageRange[1]); // 나이 최대값
 		System.out.println("dto.getAgeMax():"+dto.getAgeMax());
 		
-	    String feeWithCurrency = room.get("selectedOption1").toString();
-	    String feeOnlyDigits = feeWithCurrency.replaceAll("[^0-9]", ""); // 숫자만 추출
-	    dto.setPFee(Integer.parseInt(feeOnlyDigits));
-		System.out.println("dto.getPFee():"+dto.getPFee());
-		
 	    String openRoomYN = Boolean.parseBoolean(room.get("openRoomYN").toString()) ? "Y" : "N";
-	    dto.setCYN(openRoomYN);
-		System.out.println("dto.getCYN():"+dto.getCYN());
+	    dto.setRYN(openRoomYN);
+		System.out.println("dto.getRYN():"+dto.getRYN());
 		
-	    String[] dateRange = room.get("dateRange").toString().split(" to ");
+	    String matchingYN = Boolean.parseBoolean(room.get("matchingYN").toString()) ? "Y" : "N";
+	    dto.setMYN(matchingYN);
+		System.out.println("dto.getMYN():"+dto.getMYN());
+		
+	    String dateR = room.get("date").toString();
 	    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	    java.util.Date startDateUtil = formatter.parse(dateRange[0]);
-	    java.util.Date endDateUtil = formatter.parse(dateRange[1]);
-	    
-	    Date startDate = new Date(startDateUtil.getTime()); 
-	    Date endDate = new Date(endDateUtil.getTime());
+	    java.util.Date dateUtil = formatter.parse(dateR);
+	    Date date = new Date(dateUtil.getTime()); 
 
-	    dto.setCStartDate(startDate); // 챌린지 시작일
-	    System.out.println("dto.getCStartDate():"+dto.getCStartDate());
-	    dto.setCEndDate(endDate); // 챌린지 종료일
-	    System.out.println("dto.getCEndDate():"+dto.getCEndDate());
+	    dto.setMateDate(date); // 메이트 시작일
+	    System.out.println("dto.getMateDate():"+dto.getMateDate());
 	    
-		dto.setChallContent(room.get("content").toString());
+		dto.setMateContent(room.get("content").toString());
+		
 		int affected = 0;
 		int seqValue = service.getSeqValue()+1;
 		System.out.println("seqValue---"+seqValue);
 		service.insert(dto);
 		System.out.println("성공했으면 1 아니면 0?"+affected);
-		CPDto cpdto = new CPDto();
+		
+		MPDto cpdto = new MPDto();
 		System.out.println("room.get(\"id\")"+room.get("id"));
 		cpdto.setId(room.get("id").toString());
-		cpdto.setChallNo(seqValue);
+		cpdto.setMateNo(seqValue);
 		affected = service.insertP(cpdto);
 		return seqValue;
 	}/////
@@ -157,12 +151,12 @@ public class CRController {
 	@GetMapping("/listChall.do")
 	@ResponseBody
 	public List listChall() {
-		List<CRDto> record = new ArrayList();
+		List<MRDto> record = new ArrayList();
 		record = service.selectAll();
-		for (CRDto item : record) {
+		for (MRDto item : record) {
 		    System.out.println("방장은??----" + item.getManager());
-		    System.out.println("방번호는???---"+item.getChallNo());
-		    List result = service.participantsdata(item.getChallNo());
+		    System.out.println("방번호는???---"+item.getMateNo());
+		    List result = service.participantsdata(item.getMateNo());
 	        item.setParticipantsData(result);
 		}
 		return record;
@@ -201,8 +195,8 @@ public class CRController {
 	    int record = 0;
 	    System.out.println("map.get(\"challNo\").toString()"+map.get("challNo").toString());
 	    System.out.println("map.get(\"id\").toString()"+map.get("id").toString());
-	    CPDto dto = new CPDto();
-	    dto.setChallNo(Integer.parseInt(map.get("challNo").toString()));
+	    MPDto dto = new MPDto();
+	    dto.setMateNo(Integer.parseInt(map.get("challNo").toString()));
 	    dto.setId(map.get("id").toString());
 	    record = service.join(dto);
 	    return record;
@@ -211,10 +205,10 @@ public class CRController {
 	//방의 데이타 가져오기]
 	@PostMapping("/roomData.do")
 	@ResponseBody
-	public CRDto roomData(@RequestBody Map map) {
+	public MRDto roomData(@RequestBody Map map) {
 	    System.out.println("challNo----"+Integer.parseInt(map.get("challNo").toString()));
 	    int challNo = Integer.parseInt(map.get("challNo").toString());
-	    CRDto dto = new CRDto();
+	    MRDto dto = new MRDto();
 	    dto = service.findRoomData(challNo);
 	    return dto;
 	}/////
@@ -251,42 +245,5 @@ public class CRController {
 		System.out.println("나간 방 번호는?"+room);
 		return affected;
 	}/////
-	
-	//이행률 반영]
-	@PostMapping("/implementation.do")
-	@ResponseBody
-	public void implementation(@RequestBody Map<String, Object> data) {
-		String foodCheckCount = data.get("foodCheckCount").toString();
-		String exerciseCheckCount = data.get("exerciseCheckCount").toString();
-		String id = data.get("id").toString();
-		ImplDto dto = new ImplDto();
-		Date now = service.findImpl(id);
-		
-		if(now == null) {
-			dto.setId(id);
-			dto.setExercise(exerciseCheckCount);
-			dto.setEatting(foodCheckCount);
-			service.insertImpl(dto);
-		} else {
-			Calendar cal1 = Calendar.getInstance();
-			Calendar cal2 = Calendar.getInstance();
-			cal1.setTime(now);
-			cal2.setTime(new Date(System.currentTimeMillis()));
-
-			if(cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) && 
-			   cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && 
-			   cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH)) {
-				dto.setId(id);
-				dto.setExercise(exerciseCheckCount);
-				dto.setEatting(foodCheckCount);
-				service.updateImpl(dto);
-			} else {
-				dto.setId(id);
-				dto.setExercise(exerciseCheckCount);
-				dto.setEatting(foodCheckCount);
-				service.insertImpl(dto);
-			}
-		}
-	}
 
 }

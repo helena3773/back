@@ -4,12 +4,58 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ict.teamProject.food.FoodMapper">	
 <!-- SELECT fl.*,r.RECIPE_TITLE,r.RECIPE_URL,r.RECIPE_IMG FROM (SELECT FOODNAME,CATEGORY FROM FoodList WHERE foodname LIKE '%${foodname}%') fl JOIN RECIPE r ON fl.foodname = r.foodname -->
+<!--  
 	<select id="findrecipe" resultType="Map">		
-		SELECT fl.*,r.RECIPE_TITLE,r.RECIPE_URL,r.RECIPE_IMG,r.RECIPECODE,ri.INGREDIENT, ri.RI_AMOUNT FROM 
+		SELECT fl.*,r.RECIPE_TITLE,r.RECIPE_URL,r.RECIPE_IMG,r.RECIPECODE,r.RECIPE_SEQ,ri.INGREDIENT, ri.RI_AMOUNT FROM 
 		    (SELECT FOODNAME,CATEGORY FROM FoodList WHERE foodname LIKE '%${foodname}%') fl 
 		    JOIN RECIPE r ON fl.foodname = r.foodname
 		    JOIN RECIPE_INGREDIENTS ri ON r.recipecode = ri.recipecode
 	</select>	
+-->
+	<select id="findrecipe" resultType="Map">		
+		SELECT fl.*, r.RECIPE_TITLE, r.RECIPE_URL, r.RECIPE_IMG, r.RECIPECODE, r.RECIPE_SEQ, ri.INGREDIENT, ri.RI_AMOUNT 
+		FROM 
+		    (SELECT FOODNAME, CATEGORY 
+		    FROM FoodList 
+		    WHERE category = #{category}) fl 
+		JOIN RECIPE r ON fl.foodname = r.foodname
+		JOIN RECIPE_INGREDIENTS ri ON r.recipecode = ri.recipecode
+		WHERE NOT EXISTS 
+		    (SELECT 1
+		    FROM member_hatefood mh
+		    JOIN hatefood_info hi ON mh.hatefood_no = hi.hatefood_no
+		    WHERE mh.ID = #{id}
+		    AND ri.INGREDIENT LIKE '%' || hi.HATEFOOD_NAME || '%'
+		    
+		    UNION 
+		    
+		    SELECT 1
+		    FROM member_allergy ma
+		    JOIN allergy_info ai ON ma.allergy_no = ai.allergy_no
+		    WHERE ma.ID = #{id}
+		    
+		    AND ri.INGREDIENT LIKE '%' || ai.ALLERGY_NAME || '%')
+		AND r.recipecode NOT IN (
+		    SELECT ri.recipecode
+		    FROM RECIPE_INGREDIENTS ri
+		    WHERE EXISTS (
+		        SELECT 1
+		        FROM member_hatefood mh
+		        JOIN hatefood_info hi ON mh.hatefood_no = hi.hatefood_no
+		        WHERE mh.ID = #{id}
+		        AND ri.INGREDIENT LIKE '%' || hi.HATEFOOD_NAME || '%'
+		    )
+		    OR EXISTS (
+		        SELECT 1
+		        FROM member_allergy ma
+		        JOIN allergy_info ai ON ma.allergy_no = ai.allergy_no
+		        WHERE ma.ID = #{id}
+		        AND ri.INGREDIENT LIKE '%' || ai.ALLERGY_NAME || '%'
+		    )
+		)
+	</select>
+	
+	
 	
 	<!--  
 	<select id="findcategory" resultType="FoodListDto">

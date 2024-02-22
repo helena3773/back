@@ -1,5 +1,6 @@
 package com.ict.teamProject.challenge_room.service.impl;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
-import com.ict.teamProject.member.service.MemberDto;
+import com.ict.teamProject.challenge_room.service.ImplDto;
 
 //24.02.18 생성
 @Mapper
@@ -42,6 +43,12 @@ public interface CRMapper {
 
 	String selectManager(int room);
 
+	Map findGoal(String id);
+
+	void insertImpl(ImplDto dto);
 	
+	Date findImpl(String id);
+
+	void updateImpl(ImplDto dto);
 
 }
