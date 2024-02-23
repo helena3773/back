@@ -29,6 +29,7 @@
 		<result property="eatting" column="EATING"/>
 		<result property="recordDate" column="RECORD_DATE"/>				
 	</resultMap>
+
 	
 	<!-- 시퀀스 값 생성 및 저장 -->
 	<select id="getSeqValue" resultType="int">
@@ -56,6 +57,11 @@
 	  DELETE FROM CHALLENGE_ROOM WHERE Chall_NO = #{challNo}
 	</delete>
 	
+	<!-- 해당 방 참여자 삭제 -->
+	<delete id="deletePeople" parameterType="int">
+	  DELETE FROM CHALLENGE_PARTICIPANTS WHERE Chall_NO = #{challNo}
+	</delete>
+	
 	<!-- 해당 방 삭제 -->
 	<delete id="deletep" parameterType="String">
 	  DELETE FROM CHALLENGE_PARTICIPANTS WHERE ID = #{id}
@@ -77,11 +83,44 @@
 	
 	<!-- 방에 참여자 데이타 가져오기 -->
 	<select id="participantsdata" parameterType="int" resultType="map">
-	    SELECT c.CHALL_NO, c.ID, c.CHALL_P_NO,c.CHALL_MANAGER, c.CHALL_IMPLEMENTATION_RATE, p.PRO_FILEPATH, r.EXERCISE, r.EATING, r.RECORD_DATE
+	    SELECT c.CHALL_NO, c.ID, c.CHALL_P_NO,c.CHALL_MANAGER, c.CHALL_IMPLEMENTATION_RATE, p.PRO_FILEPATH
 	    from CHALLENGE_PARTICIPANTS c join profile p on c.id=p.id
-	    join CHALLENGE_RECORD r on p.id = r.id 
 	    where C.CHALL_NO = #{challNo} ORDER BY CHALL_P_NO ASC
 	</select>
+	
+	<!--이행률 계산 -->
+	<select id="implcal" parameterType="int" resultMap="IMResult">
+	    SELECT CE.*
+	    from CHALLENGE_RECORD CE join CHALLENGE_PARTICIPANTS CP on CE.id = CP.id
+	    join CHALLENGE_ROOM CR on CR.CHALL_NO = CP.CHALL_NO
+	    where CR.Chall_NO = #{challNo}
+	</select>
+	
+	<!--이행률 넣기 -->
+	<update id="implinsert" parameterType="map" >
+	    UPDATE CHALLENGE_PARTICIPANTS SET CHALL_IMPLEMENTATION_RATE=#{rate} WHERE id=#{id}
+	</update>
+	
+	<!--목표 가져오기-->
+	<select id="findGoalOfNum" parameterType="int" resultType="String">
+	    SELECT GOAL_NO
+	    from CHALLENGE_ROOM
+   	    where Chall_NO = #{challNo} 
+	</select>
+	
+	<!--챌린지 시작 날짜 가져오기 -->
+	<select id="startchall" parameterType="int" resultType="java.sql.Date">
+	    SELECT CHALL_STARTDATE
+	    FROM CHALLENGE_ROOM
+	    WHERE Chall_NO = #{challNo}
+	</select>
+	
+	<!--참여자 아이디만 가져오기-->
+	<select id="getId" parameterType="int" resultType="String">
+    	SELECT CP.id
+	    from CHALLENGE_ROOM CR join CHALLENGE_PARTICIPANTS CP on CR.CHALL_NO = CP.CHALL_NO
+	    where CR.Chall_NO = #{challNo}
+	</select> 
 	
 	<!-- 방 입장 -->
 	<insert id="join" parameterType="CP">

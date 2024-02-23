@@ -1,4 +1,6 @@
 package com.ict.teamProject.challenge_room.service;
+import java.sql.Date;
+
 import org.apache.ibatis.type.Alias;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,6 +20,6 @@ public class ImplDto {
 	private String id; //아이디
 	private String exercise; //운동 이행률
 	private String eatting; //식단 이행률
-	private java.util.Date recordDate; //입력날짜
+	private Date recordDate; //입력날짜
 
 }

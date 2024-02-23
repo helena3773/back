@@ -17,5 +17,7 @@ public class CPDto {
 	private int challNo; //방 번호
 	private String id; //아이디
 	private char Chall_Manager; //방장유무
+	private int CIR; //이행률
+	private String PRO_FILEPATH; //프로필
 
 }

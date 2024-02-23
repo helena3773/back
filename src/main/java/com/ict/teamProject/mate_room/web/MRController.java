@@ -182,9 +182,7 @@ public class MRController {
 	@ResponseBody
 	public List participantsData(@RequestParam int challNo) {
 		System.out.println("받은 방 번호는???----"+challNo);
-		List record = new ArrayList();
-		List result = service.participantsdata(challNo);
-		record.add(result);
+		List record = service.participantsdata(challNo);
 		return record;
 	}/////
 	

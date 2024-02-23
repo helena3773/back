@@ -162,8 +162,23 @@ public class CRController {
 		for (CRDto item : record) {
 		    System.out.println("방장은??----" + item.getManager());
 		    System.out.println("방번호는???---"+item.getChallNo());
-		    List result = service.participantsdata(item.getChallNo());
-	        item.setParticipantsData(result);
+		    System.out.println("챌린지 끝나는 날짜는????---"+item.getCEndDate());
+		    
+		 // item.getCEndDate()와 오늘 날짜를 비교하여 로직 실행
+		    if (item.getCEndDate() != null) { // item의 CEndDate가 null이 아닌지 확인
+		        Date today = new Date(System.currentTimeMillis()); // 오늘 날짜를 가져옴
+
+		        // item의 CEndDate가 오늘 날짜보다 이후인지 확인
+		        if (item.getCEndDate().after(today)) {
+		            // CEndDate가 오늘 날짜를 지나지 않았으므로 로직 실행
+		            List result = service.participantsdata(item.getChallNo());
+		            item.setParticipantsData(result);
+		        } else {
+		            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
+		        	service.deletePeople(item.getChallNo()); //참여자 삭제
+		        	service.delete(item.getChallNo()); //방 삭제
+		        }
+		    }
 		}
 		return record;
 	}/////
@@ -188,10 +203,48 @@ public class CRController {
 	@ResponseBody
 	public List participantsData(@RequestParam int challNo) {
 		System.out.println("받은 방 번호는???----"+challNo);
-		List record = new ArrayList();
-		List result = service.participantsdata(challNo);
-		record.add(result);
-		return record;
+		List<String> people = service.getId(challNo);
+		List<ImplDto> cal = service.implcal(challNo);
+		Date start = service.startchall(challNo);
+		String goal = service.findGoalOfNum(challNo);
+		System.out.println("챌린지 시작 날짜는???----"+start);
+		for (String p : people) {
+		    int eating = 0;
+		    int exercise = 0;
+		    for (ImplDto record : cal) {
+		        if (record.getRecordDate() != null && start.before(record.getRecordDate())) {
+			        if (record != null && record.getId() != null && p.equals(record.getId())) {
+			            String eatingStr = record.getEatting();
+			            if (eatingStr != null) {
+			                eating += eatingStr.length();
+			            }
+			            String exerciseStr = record.getExercise();
+			            if (exerciseStr != null) {
+			                exercise += exerciseStr.length();
+			            }
+					    System.out.println("EATING : " + eating/3);
+					    System.out.println("EXERCISE : " + exercise/3);
+				        System.out.println("record.getRecordDate()"+record.getRecordDate());
+				        System.out.println("goal----"+goal);
+			        }
+		        }
+		    }
+		    // 추출한 값들을 활용하여 원하는 작업 수행
+		    System.out.println("ID: " + p);
+		    if(goal.contains("감량") || goal.contains("식단")) {
+		    	Map map = new HashMap();
+		    	map.put("rate", eating/3);
+		    	map.put("id", p);
+		    	service.implinsert(map);
+		    }else if(goal.contains("증가") || goal.contains("강화") || goal.contains("관리")) {
+		    	Map map = new HashMap();
+		    	map.put("rate", exercise/3);
+		    	map.put("id", p);
+		    	service.implinsert(map);
+		    }
+		}
+		List records = service.participantsdata(challNo);
+		return records;
 	}/////
 	
 	//방 참가]

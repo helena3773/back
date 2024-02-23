@@ -18,7 +18,7 @@
 		<result property="mateContent" column="MR_CONTENT"/>
 		<result property="gLimit" column="MR_GENDER_LIMIT"/>
 		<result property="ageMin" column="MR_AGE_LIMIT_MIN"/>
-		<result property="ageMax" column="MR_AGE_LIMIT_MIN"/>
+		<result property="ageMax" column="MR_AGE_LIMIT_Max"/>
 		<result property="mYN" column="MR_MATCHINGYN"/>
 		<result property="manager" column="manager"/>			
 	</resultMap>
@@ -76,7 +76,7 @@
 	
 	<!-- 방 입장 -->
 	<insert id="join" parameterType="CP">
-		INSERT INTO MATEROOM_PARTICIPANTS VALUES(SEQ_MRP.NEXTVAL,#{challNo},#{id},'N')
+		INSERT INTO MATEROOM_PARTICIPANTS VALUES(SEQ_MRP.NEXTVAL,#{mateNo},#{id},'N')
 	</insert>
 	
 	<!-- 방의 데이타 가져오기 -->

@@ -120,4 +120,35 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public ImplDto findImplAll(String id) {
 		return mapper.findImplAll(id);
 	}
+
+	@Override
+	public List implcal(int challNo) {
+		return mapper.implcal(challNo);
+	}
+
+	@Override
+	public List<String> getId(int challNo) {
+		return mapper.getId(challNo);
+	}
+
+	@Override
+	public Date startchall(int challNo) {
+		return mapper.startchall(challNo);
+	}
+
+	@Override
+	public String findGoalOfNum(int challNo) {
+		return mapper.findGoalOfNum(challNo);
+	}
+
+	@Override
+	public void implinsert(Map map) {
+		mapper.implinsert(map);
+	}
+
+	@Override
+	public void deletePeople(int challNo) {
+		mapper.deletePeople(challNo);
+		
+	}
 }
