@@ -19,7 +19,21 @@
 			        ELSE 3
 			    END
 	</select>
+	
+	<update id="updatediet" parameterType="Map">
+		UPDATE Eating_Record
+			SET 
+			    EATING_FOODNAME = #{eating_foodname},
+			    EATING_RECIPECODE = #{eating_recipeCode}
+			WHERE
+			    ID = #{id} AND MEALTYPE = #{mealtype}
+	</update>
 
+<!--  
+	<select id="getingredients" resultType="Map">
+		SELECT INGREDIENT,RECIPECODE,RI_AMOUNT FROM RECIPE_INGREDIENTS WHERE RECIPECODE = #{eating_recipeCode}
+	</select>
+-->	
 <!--  
 	<select id="getdailydiet" resultType="EatingRecordDto">
 		SELECT rec.*, ri.INGREDIENT, ri.RI_AMOUNT FROM

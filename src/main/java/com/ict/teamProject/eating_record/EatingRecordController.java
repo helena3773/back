@@ -39,19 +39,47 @@ public class EatingRecordController {
 		this.service = service;
 	}
 	
-    @PostMapping("/Dietfood/Insert.do")
-    public void saveDiet(@RequestBody List<Map<String, Object>> dataToSave) {
+//    @PostMapping("/Dietfood/Insert.do")
+//    public void saveDiet(@RequestBody List<Map<String, Object>> dataToSave) {
+//        System.out.println("Received request data: " + dataToSave);
+//
+//        for (Map<String, Object> mealData : dataToSave) {
+//            String id = (String) mealData.get("id");
+//            String mealtype = (String) mealData.get("mealtype");
+//            String eating_foodname = (String) mealData.get("eating_foodname");
+//            int eating_recipeCode = (int) mealData.get("eating_recipeCode");
+//
+//            // 데이터베이스에 저장
+//            int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
+//            System.out.println(affected);
+//        }
+//    }
+    
+    @PostMapping("/Dietfood/SaveBulk.do")
+    public void saveBulkDiet(@RequestBody List<Map<String, Object>> dataToSave) {
         System.out.println("Received request data: " + dataToSave);
 
         for (Map<String, Object> mealData : dataToSave) {
-            String id = (String) mealData.get("id");
-            String mealtype = (String) mealData.get("mealtype");
-            String eating_foodname = (String) mealData.get("eating_foodname");
-            int eating_recipeCode = (int) mealData.get("eating_recipeCode");
+            String action = (String) mealData.get("action");
+            if ("insert".equals(action)) {
+                String id = (String) mealData.get("id");
+                String mealtype = (String) mealData.get("mealtype");
+                String eating_foodname = (String) mealData.get("eating_foodname");
+                int eating_recipeCode = (int) mealData.get("eating_recipeCode");
 
-            // 데이터베이스에 저장
-            int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
-            System.out.println(affected);
+                // 데이터베이스에 저장
+                int affected = service.savediet(id, mealtype, eating_foodname, eating_recipeCode);
+                System.out.println("Insert 처리 - "+affected);
+            } else if ("update".equals(action)) {
+                String id = (String) mealData.get("id");
+                String mealtype = (String) mealData.get("mealtype");
+                String eating_foodname = (String) mealData.get("eating_foodname");
+                int eating_recipeCode = (int) mealData.get("eating_recipeCode");
+
+                // 데이터베이스에 저장
+                int affected = service.updatediet(id, mealtype, eating_foodname, eating_recipeCode);
+                System.out.println("Update 처리 - "+affected);
+            }
         }
     }
     @GetMapping("/Dietfood/DailyView.do")

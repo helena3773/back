@@ -21,5 +21,11 @@ public class EatingRecordService {
 	public List<EatingRecordDto> getdailydiet(String id){
 		return mapper.getdailydiet(id);
 	}
+	public int updatediet(String id, String mealtype, String eating_foodname, int eating_recipeCode) {
+		return mapper.updatediet(id, mealtype, eating_foodname, eating_recipeCode);
+	}
 	
+//	public List<Map<String, Object>> getIngredients(int recipeCode) {
+//	    return mapper.getIngredients(recipeCode);
+//	}
 }
