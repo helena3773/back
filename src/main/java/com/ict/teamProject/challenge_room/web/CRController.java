@@ -276,14 +276,14 @@ public class CRController {
 	@DeleteMapping("/deleteManager.do")
 	@ResponseBody
 	public int deleteManager(@RequestBody Map<String, String> map) {
-		System.out.println("난 방장~~~");
-		String id = map.get("id");
 		int room = 0;
 		int affected = 0;
+		System.out.println("난 방장~~~");
+		String id = map.get("id");
 		System.out.println("id:"+id);
 		room = service.selectMyRoom(id);
-		String manager = service.selectManager(room);
 		service.deletep(id);
+		String manager = service.selectManager(room);
 		System.out.println("manager:"+manager);
 		affected = service.update(manager);
 		System.out.println("너의 수정된 방 번호는?"+room);
