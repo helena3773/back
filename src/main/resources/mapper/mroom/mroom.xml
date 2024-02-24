@@ -71,8 +71,13 @@
 	<!-- 방에 참여자 데이타 가져오기 -->
 	<select id="participantsdata" parameterType="int" resultType="map">
 	    SELECT m.MRP_NO, m.ID, m.MR_NO,m.MRP_MANAGER, p.PRO_FILEPATH from MATEROOM_PARTICIPANTS m join profile p on m.id=p.id
-	    where m.MR_NO = #{challNo} ORDER BY MRP_NO ASC
+	    where m.MR_NO = #{challNo} ORDER BY MRP_NO DESC
 	</select>
+	
+	<!-- 해당 방 참여자 삭제 -->
+	<delete id="deletePeople" parameterType="int">
+	  DELETE FROM MATEROOM_PARTICIPANTS WHERE Chall_NO = #{mateNo}
+	</delete>
 	
 	<!-- 방 입장 -->
 	<insert id="join" parameterType="CP">

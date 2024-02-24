@@ -41,6 +41,8 @@ public interface MRMapper {
 
 	String selectManager(int room);
 
+	void deletePeople(int mateNo);
+
 	
 
 }

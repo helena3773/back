@@ -36,5 +36,7 @@ public interface MRService<T> {
 
 	String selectManager(int room);
 
+	void deletePeople(int mateNo);
+
 	
 }
