@@ -15,4 +15,5 @@ public interface EatingRecordMapper {
 	List<EatingRecordDto> getdailydiet(String id);
 	int updatediet(String id, String mealtype, String eating_foodname, int eating_recipeCode);
 //	List<Map<String, Object>> getIngredients(int recipeCode);
+	int checkdailydata(String id);
 }

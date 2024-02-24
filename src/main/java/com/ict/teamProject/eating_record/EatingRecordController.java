@@ -92,4 +92,12 @@ public class EatingRecordController {
         }
         return ERList;
     }
+    
+    @GetMapping("/dietfood/search.do")
+    public int checkDailydata(@RequestParam String id) {
+    	System.out.println("들어온 아이디"+id);
+    	int chkdata = service.checkdailydata(id);
+    	System.out.println("조회된 행"+chkdata);
+    	return chkdata;
+    }
 }

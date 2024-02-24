@@ -28,6 +28,11 @@
 			WHERE
 			    ID = #{id} AND MEALTYPE = #{mealtype}
 	</update>
+	
+	<select id="checkdailydata" resultType="int">
+		SELECT COUNT(*) FROM eating_record 
+		WHERE id = #{id} and TO_CHAR(EATING_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
+	</select>
 
 <!--  
 	<select id="getingredients" resultType="Map">

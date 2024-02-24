@@ -24,6 +24,9 @@ public class EatingRecordService {
 	public int updatediet(String id, String mealtype, String eating_foodname, int eating_recipeCode) {
 		return mapper.updatediet(id, mealtype, eating_foodname, eating_recipeCode);
 	}
+	public int checkdailydata(String id) {
+		return mapper.checkdailydata(id);
+	}
 	
 //	public List<Map<String, Object>> getIngredients(int recipeCode) {
 //	    return mapper.getIngredients(recipeCode);
