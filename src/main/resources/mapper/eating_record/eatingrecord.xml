@@ -33,6 +33,25 @@
 		SELECT COUNT(*) FROM eating_record 
 		WHERE id = #{id} and TO_CHAR(EATING_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</select>
+	
+	<select id="checkAlldata" resultType="int">
+		SELECT COUNT(*) FROM eating_record 
+	    WHERE id = #{id}
+	    AND TO_CHAR(EATING_DATE, 'YYYY-MM-DD') NOT IN (TO_CHAR(SYSDATE, 'YYYY-MM-DD'), TO_CHAR(SYSDATE - 1, 'YYYY-MM-DD'))
+	</select>
+	
+	
+	<insert id="defaultbdata" parameterType="Map">
+		INSERT INTO Eating_Record(ID, MEALTYPE,EATING_FOODNAME,EATING_RECIPECODE) VALUES(#{id},'아침', '바질페스토볶음밥', 7006903)
+	</insert>
+	
+	<insert id="defaultldata" parameterType="Map">
+		INSERT INTO Eating_Record(ID, MEALTYPE,EATING_FOODNAME,EATING_RECIPECODE) VALUES(#{id},'점심', '새우두부찌개', 6859909)
+	</insert>
+	
+	<insert id="defaultddata" parameterType="Map">
+		INSERT INTO Eating_Record(ID, MEALTYPE,EATING_FOODNAME,EATING_RECIPECODE) VALUES(#{id},'저녁', '마요네즈닭다리스테이크', 6940886)
+	</insert>
 
 <!--  
 	<select id="getingredients" resultType="Map">

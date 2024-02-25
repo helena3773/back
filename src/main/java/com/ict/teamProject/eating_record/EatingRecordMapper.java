@@ -16,4 +16,8 @@ public interface EatingRecordMapper {
 	int updatediet(String id, String mealtype, String eating_foodname, int eating_recipeCode);
 //	List<Map<String, Object>> getIngredients(int recipeCode);
 	int checkdailydata(String id);
+	int checkAlldata(String id);
+	int defaultbdata(String id);
+	int defaultldata(String id);
+	int defaultddata(String id);
 }

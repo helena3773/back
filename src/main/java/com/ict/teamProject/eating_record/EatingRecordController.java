@@ -97,7 +97,18 @@ public class EatingRecordController {
     public int checkDailydata(@RequestParam String id) {
     	System.out.println("들어온 아이디"+id);
     	int chkdata = service.checkdailydata(id);
-    	System.out.println("조회된 행"+chkdata);
+    	int chkAlldata = service.checkAlldata(id);
+    	if(chkdata == 0) { //오늘 데이터 미존재
+        	if(chkAlldata == 0) {//어제, 오늘 말고 데이터가 없음..
+        		//랜덤으로 값을 넣어줘야함
+        		service.defaultbdata(id);
+        		service.defaultldata(id);
+        		service.defaultddata(id);
+        		return 3;
+        	}else if(chkAlldata > 0){
+        		return 0;
+        	}
+    	}
     	return chkdata;
     }
 }

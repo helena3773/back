@@ -27,6 +27,18 @@ public class EatingRecordService {
 	public int checkdailydata(String id) {
 		return mapper.checkdailydata(id);
 	}
+	public int checkAlldata(String id) {
+		return mapper.checkAlldata(id);
+	}
+	public int defaultbdata(String id) {
+		return mapper.defaultbdata(id);
+	}
+	public int defaultldata(String id) {
+		return mapper.defaultldata(id);		
+	}
+	public int defaultddata(String id) {
+		return mapper.defaultddata(id);
+	}
 	
 //	public List<Map<String, Object>> getIngredients(int recipeCode) {
 //	    return mapper.getIngredients(recipeCode);
