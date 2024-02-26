@@ -159,6 +159,7 @@ public class BBSController {
 	@RequestMapping ("/List.do")
 	public List view(@RequestBody Map map) {
 	    List<Integer> types = new ArrayList<>();
+	    System.out.println("selectedItems---"+map.get("selectedItems").toString());
 	    List<String> selectedItems = (List<String>)map.get("selectedItems");
 	    System.out.println("selectedItems---"+selectedItems);
 	    if(selectedItems != null) {
