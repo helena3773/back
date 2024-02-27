@@ -26,14 +26,15 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ict.teamProject.selftest.dto.AllergyInfoDto;
 import com.ict.teamProject.selftest.dto.HateFoodInfoDto;
+import com.ict.teamProject.selftest.dto.InbodyInfoDto;
 import com.ict.teamProject.selftest.dto.MemberAllergyDto;
 import com.ict.teamProject.selftest.dto.MemberHateFoodDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
-@RestController
 
+@RestController
 @CrossOrigin(origins = "http://localhost:3333")
 public class SelftestController {
 	SelftestService service;
@@ -120,5 +121,20 @@ public class SelftestController {
 		System.out.println("들어온 인바디 값:"+map);
 		int affected = service.saveInbody(map);
 		return affected;
+	}
+	
+	@PostMapping("/Inbody/findinbody.do")
+	public InbodyInfoDto findinbody(@RequestBody Map map) {	    
+		System.out.println("들어온 아이디 값:"+map.get("id").toString());
+		InbodyInfoDto dto = service.findinbody(map.get("id").toString());
+		System.out.println("인바디 잘 나오는지 확인"+dto.getInb_date());
+		return dto;
+	}
+	
+	@PostMapping("/Inbody/findAllInbody.do")
+	public List<InbodyInfoDto> findAllInbody(@RequestBody Map map) {	    
+		System.out.println("들어온 아이디 값:"+map.get("id").toString());
+		List<InbodyInfoDto> dto = service.findAllInbody(map.get("id").toString());
+		return dto;
 	}
 }

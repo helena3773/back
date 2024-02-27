@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ict.teamProject.selftest.dto.AllergyInfoDto;
 import com.ict.teamProject.selftest.dto.HateFoodInfoDto;
+import com.ict.teamProject.selftest.dto.InbodyInfoDto;
 import com.ict.teamProject.selftest.dto.MemberAllergyDto;
 import com.ict.teamProject.selftest.dto.MemberHateFoodDto;
 @Service
@@ -58,5 +59,14 @@ public class SelftestService {
 
 	public int saveInbody(Map map) {
 		return mapper.saveInbody(map);
+	}
+
+	public InbodyInfoDto findinbody(String string) {
+		return mapper.findinbody(string);
+		
+	}
+
+	public List<InbodyInfoDto> findAllInbody(String string) {
+		return mapper.findAllInbody(string);
 	}
 }

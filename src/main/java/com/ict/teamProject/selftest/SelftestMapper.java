@@ -24,5 +24,7 @@ public interface SelftestMapper {
 	public List<HateFoodInfoDto> findHateFood(String hatefoodNo);
 	public int deleteAllAllergy(String id);
 	public int deleteAllHateFood(String id);
-	public int saveInbody(Map map);	
+	public int saveInbody(Map map);
+	public InbodyInfoDto findinbody(String string);
+	public List<InbodyInfoDto> findAllInbody(String string);	
 }
