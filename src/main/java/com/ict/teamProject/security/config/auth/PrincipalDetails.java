@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -37,14 +38,10 @@ public class PrincipalDetails implements UserDetails,OAuth2User {
 	//해당 유저의 권한을 리턴하는 곳
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collection<GrantedAuthority> collect = new ArrayList<>();
-		collect.add(new GrantedAuthority() {
-			@Override
-			public String getAuthority() {
-				return user.getAuthority();
-			}
-		});
-		return collect;
+	    Collection<GrantedAuthority> collect = new ArrayList<>();
+	    String authority = user.getAuthority(); // getAuthority 메소드를 이용해 사용자의 권한을 가져옴
+	    collect.add(new SimpleGrantedAuthority(authority)); // 가져온 권한을 부여
+	    return collect;
 	}
 
 	@Override

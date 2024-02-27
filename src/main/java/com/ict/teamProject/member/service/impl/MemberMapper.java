@@ -59,6 +59,8 @@ public interface MemberMapper {
 	 String findFMCTokenById(String id); //사용자의 FMC 토큰 불러오기
 	Map getUserAddress(String id);
 
+	MemberDto findByUsernameAndRole(String username, String authority);
+
 
 
 

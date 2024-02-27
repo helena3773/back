@@ -85,10 +85,13 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     
+ 
+
+    
 	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+	public SecurityFilterChain userfilterChain(HttpSecurity http) throws Exception{
 		http.addFilterBefore(corsFilter, ChannelProcessingFilter.class);
-		
+
 		http.csrf( (csrf) -> csrf.disable());
 		http.exceptionHandling((exceptionHandler) -> 
 		exceptionHandler
@@ -97,15 +100,10 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 				);
 		http.authorizeHttpRequests( (requests)->requests
 				
-				//.requestMatchers("/comm/**").hasAuthority("ROLE_USER")
-				//.requestMatchers("/api/v1/manager/**").hasRole("MANAGER")
-				//.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-				//.requestMatchers("/user/**").hasRole("USER")
-				//.requestMatchers("/manager/**").hasRole("MANAGER")
-				//.requestMatchers("/admin/**").hasRole("ADMIN")
-				//.requestMatchers("/community_post").hasRole("ADMIN")
 				.requestMatchers("/forgot-id","/forgot-password","/login-password",
 				"/forgot-password-phone","/forgot-password-email").permitAll()
+				.requestMatchers("/admin/**", "/access-control").hasAuthority("ROLE_ADMIN")
+				
 				.requestMatchers("/main").permitAll()
 				.anyRequest().permitAll() 
 				)
@@ -122,6 +120,7 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 					.passwordParameter("pwd")
 					.loginProcessingUrl("/login")
 			)
+
 			.oauth2Login( (oauth2)-> 
 				oauth2
 					.userInfoEndpoint( userInfoEndpoint -> userInfoEndpoint 
@@ -141,6 +140,6 @@ public class SecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFil
 		return http.build();
 	}
 	
-
+	
 	
 }

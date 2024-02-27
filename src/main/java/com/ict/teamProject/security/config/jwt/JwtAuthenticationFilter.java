@@ -48,27 +48,35 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
-			Authentication authResult) throws IOException, ServletException {
-		
-			PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
-			System.out.println("principalDetails :"+principalDetails);
-			
-			Map<String,Object> payloads = new HashMap<>();
-			payloads.put("username",principalDetails.getUsername());
-			long expirationTime = 1000 * 60 * 60 * 24;//24시간
-			
-			JWTTokens tokens = new JWTTokens();
-			String token = tokens.createToken(principalDetails.getUsername(), payloads, expirationTime);
-			
-			System.out.println("jwtAuthentication:"+principalDetails.getUsername());
-			Cookie cookie = new Cookie("User-Token", token);
-			cookie.setHttpOnly(true);
-			cookie.setMaxAge((int)expirationTime);
-			cookie.setPath("/");
-			cookie.setSecure(true);
-			
-			response.addCookie(cookie);
-			System.out.println(principalDetails.getUsername()+ "쿠키 생성 되니?");
+	        Authentication authResult) throws IOException, ServletException {
+
+	    PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+	    System.out.println("principalDetails :" + principalDetails);
+
+	    Map<String, Object> payloads = new HashMap<>();
+	    payloads.put("username", principalDetails.getUsername());
+	    payloads.put("authority", principalDetails.getAuthorities().iterator().next().getAuthority());
+
+	    long expirationTime = 1000 * 60 * 60 * 24;
+
+	    JWTTokens tokens = new JWTTokens();
+	    String token = tokens.createToken(principalDetails.getUsername(), payloads, expirationTime);
+
+	    System.out.println("jwtAuthentication:" + principalDetails.getUsername());
+	    Cookie cookie = new Cookie("User-Token", token);
+	    cookie.setHttpOnly(true);
+	    cookie.setMaxAge((int)expirationTime);
+	    cookie.setPath("/");
+	    cookie.setSecure(true);
+
+	    // 모든 사용자에게 쿠키를 보냅니다.
+	    response.addCookie(cookie);
+	    System.out.println(principalDetails.getUsername() + "쿠키 생성 되니?" + cookie);
+
+	    // 권한이 'ROLE_ADMIN'인 경우에만 HTTP 응답 본문에 토큰을 넣어 보냅니다.
+	    if ("ROLE_ADMIN".equals(payloads.get("authority"))) {
+	        response.getWriter().write(token);
+	    }
 	}
 	
 	

@@ -124,7 +124,12 @@
 <select id="getMemberByIdAndEmail" resultType="MemberDto">
     SELECT * FROM member WHERE id = #{id} 
 </select>
-
+<select id="findByUsernameAndRole" resultType="MemberDto">
+    SELECT *
+    FROM member
+    WHERE username = #{username}
+    AND authority = #{authority}
+</select>
 <update id="updatePassword" parameterType="string">
     UPDATE member
     SET pwd = #{pwd}

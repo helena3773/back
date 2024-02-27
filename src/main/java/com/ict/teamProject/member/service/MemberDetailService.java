@@ -62,7 +62,10 @@ public class MemberDetailService {
 	public MemberDto findByMemberInfo(String id) {
 		return mapper.findByMemberInfo(id);
 	}
-
+	
+	public MemberDto findByUsernameAndRole(String username, String authority) {
+	    return mapper.findByUsernameAndRole(username, authority);
+	}
 
 
 	public void updateUser(MemberDto userEntity) {
