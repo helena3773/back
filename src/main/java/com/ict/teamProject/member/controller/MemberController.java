@@ -1,5 +1,6 @@
 package com.ict.teamProject.member.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ict.teamProject.mate_room.service.MRDto;
 import com.ict.teamProject.member.service.MemberDto;
 import com.ict.teamProject.member.service.MemberService;
 
@@ -120,4 +122,12 @@ public class MemberController {
 		System.out.println("찾을 유저:"+id);
 		return service.getUserAddress(id);
 	}
+	
+	//모든 유저의 데이타 가져오기]
+	@GetMapping("/user/findAllUser")
+	@ResponseBody
+	public List findAllUser() {
+	    List<Map<String, Object>> userList = service.findAllUser();
+	    return userList;
+	}/////
 }

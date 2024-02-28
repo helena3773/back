@@ -61,6 +61,8 @@ public interface MemberMapper {
 
 	MemberDto findByUsernameAndRole(String username, String authority);
 
+	List<Map<String, Object>> findAllUser();
+
 
 
 

@@ -89,6 +89,10 @@ public class MemberService {
 		return mapper.updatePassword(id, pwd);
 	}
 
+	public List<Map<String, Object>> findAllUser() {
+		return mapper.findAllUser();
+	}
+
 
 
 

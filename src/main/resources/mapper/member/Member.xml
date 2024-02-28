@@ -109,32 +109,39 @@
     SELECT id, gender, weight, height, goal_No, tel, userAddress
     FROM Member
     WHERE id = #{id}
-</select>
-
+	</select>
+	
 	<select id="findMemberById" parameterType="string" resultType="MemberDto">
-    SELECT b_day, gender, weight, height, goal_No, tel, userAddress
-    FROM Member
-    WHERE id = #{id}
-</select>
-
-<select id="getMemberByNameAndBday" resultType="MemberDto">
-    SELECT * FROM member WHERE name = #{name} AND b_day = #{b_day}
-</select>
-
-<select id="getMemberByIdAndEmail" resultType="MemberDto">
-    SELECT * FROM member WHERE id = #{id} 
-</select>
-<select id="findByUsernameAndRole" resultType="MemberDto">
-    SELECT *
-    FROM member
-    WHERE username = #{username}
-    AND authority = #{authority}
-</select>
-<update id="updatePassword" parameterType="string">
-    UPDATE member
-    SET pwd = #{pwd}
-    WHERE id = #{id}
-</update>
+	    SELECT b_day, gender, weight, height, goal_No, tel, userAddress
+	    FROM Member
+	    WHERE id = #{id}
+	</select>
+	
+	<select id="getMemberByNameAndBday" resultType="MemberDto">
+	    SELECT * FROM member WHERE name = #{name} AND b_day = #{b_day}
+	</select>
+	
+	<select id="getMemberByIdAndEmail" resultType="MemberDto">
+	    SELECT * FROM member WHERE id = #{id} 
+	</select>
+	<select id="findByUsernameAndRole" resultType="MemberDto">
+	    SELECT *
+	    FROM member
+	    WHERE username = #{username}
+	    AND authority = #{authority}
+	</select>
+	<update id="updatePassword" parameterType="string">
+	    UPDATE member
+	    SET pwd = #{pwd}
+	    WHERE id = #{id}
+	</update>
+	
+	<select id="findAllUser" resultType="map">
+	    SELECT m.*, g.GOAL_NAME
+	    FROM member m 
+	    JOIN GOAL g on m.GOAL_NO = g.GOAL_NO
+	    ORDER BY m.REGIDATE DESC
+	</select>
 
 	
 </mapper>
