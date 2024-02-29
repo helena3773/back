@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ict.teamProject.tabcount.service.TabDto;
+
 
 @Mapper
 public interface TabMapper {
@@ -33,5 +35,7 @@ public interface TabMapper {
 	void setDiary(Integer num);
 
 	void insertDiary();
+
+	List<TabDto> findAllTab();
 
 }

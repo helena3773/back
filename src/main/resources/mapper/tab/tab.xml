@@ -55,6 +55,11 @@
 	<insert id="insertDiary">
 		INSERT INTO TABCOUNT VALUES(TRUNC(SYSDATE),0,0,1,0)
 	</insert>	
+	
+	<!-- 전체 데이타 가져오기 -->
+	<select id="findAllTab" resultType="Tab">
+		SELECT * FROM TABCOUNT ORDER BY TABDATE
+	</select>	
 
 
 	

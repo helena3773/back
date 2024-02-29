@@ -89,6 +89,11 @@ public class TabServiceImpl implements TabService<TabDto> {
 	public void insertDiary() {
 		mapper.insertDiary();	
 	}
+
+	@Override
+	public List<TabDto> findAllTab() {
+		return mapper.findAllTab();
+	}
 	
 	
 }

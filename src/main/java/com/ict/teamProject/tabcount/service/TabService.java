@@ -35,6 +35,8 @@ public interface TabService<T> {
 
 	void insertDiary();
 
+	List<TabDto> findAllTab();
+
 
 
 

@@ -89,4 +89,12 @@ public class TabController {
 	    }
 	}
 	
+	//페이지 카운트 입력]
+	@GetMapping("/getCount.do")
+	@ResponseBody
+	public List getCount() {
+		List<TabDto> dto = new ArrayList();
+		dto = service.findAllTab();
+		return dto;
+	}
 }
