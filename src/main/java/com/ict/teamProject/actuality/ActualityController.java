@@ -25,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ict.teamProject.actuality.dto.ActualityEatingDto;
-import com.ict.teamProject.comm.dto.MateDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
