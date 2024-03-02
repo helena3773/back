@@ -142,4 +142,18 @@
 	    SELECT id FROM LIKES WHERE BBS_NO=#{bno}
 	</select>
 	
+	
+	<!-- 관리자 페이지 게시글 전체 뿌리기 -->
+	<select id="findAllList" parameterType="map" resultMap="BBSResult">
+	    SELECT BBS_NO, ID, BBS_TYPE, BBS_CONTENT, BBS_DISCLOSUREYN, BBS_HASHTAG, BBS_POSTDATE 
+	    FROM BBS 
+	    WHERE  
+    	<if test="types != null and types.size > 0 and !types.contains(0)">
+        	<foreach item="type" collection="types" open="BBS_TYPE IN (" separator="," close=")">
+            #{type}
+        	</foreach>
+    	</if>
+	    ORDER BY BBS_NO DESC
+	</select>
+	
 </mapper>

@@ -55,6 +55,7 @@ public interface BBSMapper {
 	String whereLikes(int bno);
 	String findUserProfileByLike(String like);
 	List<String> findUserByLike(int bno);
+	List<BBSDto> findAllList(Map map);
 
 	
 

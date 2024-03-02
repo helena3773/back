@@ -375,4 +375,67 @@ public class BBSController {
 	    likeMap.put("likes", userIds);
 	    return likeMap;
 	}
+	
+	
+	//관리자 페이지 게시글 전체 뿌려주기
+	@RequestMapping ("/allList.do")
+	public List allView(@RequestBody Map map) {
+	    List<Integer> types = new ArrayList<>();
+	    System.out.println("selectedItems---"+map.get("selectedItems").toString());
+	    List<String> selectedItems = (List<String>)map.get("selectedItems");
+	    System.out.println("selectedItems---"+selectedItems);
+	    if(selectedItems != null) {
+	        for(String item : selectedItems) {
+	            switch(item) {
+	                case "식단":
+	                    types.add(1);
+	                    break;
+	                case "운동":
+	                    types.add(2);
+	                    break;
+	                case "심리":
+	                    types.add(4);
+	                    break;
+	                default:
+	                    break;
+	            }
+	        }
+	    }
+	    if(types.isEmpty()) {
+	        types.add(0);
+	    }
+	    map.put("types", types);
+	    System.out.println("types----"+map.get("types"));
+	    //서비스 호출
+	    List<BBSDto> records = service.findAllList(map);
+	    //구독목록
+	    List<String> subs = new ArrayList<>();
+	    if(map.get("id") != null) {
+	    	System.out.println("map.get(id):"+map.get("id"));
+	    	for(SubscribeToDto dto : commservice.findAllSubToById(String.valueOf(map.get("id")))) {
+	    		subs.add(dto.getSubscribe_id());
+	    	}
+	    	System.out.println("subs:"+subs.size());
+	    }
+	    System.out.println("records:"+records);
+	    for (BBSDto record : records) {
+	        int bno = record.getBno();
+	        System.out.println("bno:"+bno);
+	        List<String> files = service.selectFiles(bno);
+	        record.setFiles(files);  // 게시글에 파일들을 추가
+	        record.setContent(record.getContent().replace("\r\n", "<br/>"));
+	        if(subs != null) {
+	        	System.out.println("record.getId()"+record.getId());
+	        	int subToFlag = subs.contains(String.valueOf(record.getId())) ? 1 : 0;
+		        record.setIsSubto(subToFlag);
+	        }
+	        record.setProfilepath(service.findProfilePathById(record.getId()));
+	        System.out.println("files:"+record.getFiles());
+	        System.out.println("record.likes()"+record.getLikes());
+	        System.out.println("record.type()"+record.getType());
+	        System.out.println("record.getIsSubto()"+record.getIsSubto());
+	    }
+	    
+		return records;
+	}
 }

@@ -157,5 +157,10 @@ public class BBSServiceImpl implements BBSService<BBSDto> {
 		return mapper.findUserByLike(bno);
 	}
 
+	@Override
+	public List<BBSDto> findAllList(Map map) {
+		return mapper.findAllList(map);
+	}
+
 
 }
