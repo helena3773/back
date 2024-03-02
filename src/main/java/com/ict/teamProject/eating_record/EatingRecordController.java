@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.ict.teamProject.eating_record.dto.EatingRecordDto;
+import com.ict.teamProject.eating_record.dto.ER_IngredientsDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
@@ -89,8 +90,11 @@ public class EatingRecordController {
         System.out.println("가져온 데이터를 보자 : ");
         for (EatingRecordDto record : ERList) {
             System.out.println(record.toString());
-//            List recipeNingredients = service.getrecipeNingredients(record.geteating_recipeCode());
-//            record.setingredients(recipeNingredients); // 조회한 재료를 EatingRecordDto에 설정
+            List<ER_IngredientsDto> recipeNingredients = service.getrecipeNingredients(record.getEating_recipeCode());
+            for(ER_IngredientsDto eri : recipeNingredients) {
+            	System.out.println(eri.getIngredient());
+            }
+            record.setIngredients(recipeNingredients); // 조회한 재료를 EatingRecordDto에 설정
         }
         return ERList;
     }

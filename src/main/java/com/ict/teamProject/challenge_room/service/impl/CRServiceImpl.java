@@ -9,7 +9,7 @@ import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
 import com.ict.teamProject.challenge_room.service.ImplDto;
-
+import com.ict.teamProject.challenge_room.service.SuccessPeopleDto;
 
 //24.02.18 생성
 @Service
@@ -174,5 +174,20 @@ public class CRServiceImpl implements CRService<CRDto> {
 	public void updateEattingImpl(ImplDto dto) {
 		mapper.updateEattingImpl(dto);
 		
+	}
+
+	@Override
+	public List<SuccessPeopleDto> successPeople(int challNo) {
+		return mapper.successPeople(challNo);
+	}
+	
+	@Override
+	public int successCount(int challNo) {
+		return mapper.successCount(challNo);
+	}
+
+	@Override
+	public int givePoint(String id, int point) {
+		return mapper.givePoint(id, point);
 	}
 }

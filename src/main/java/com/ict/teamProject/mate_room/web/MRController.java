@@ -224,6 +224,20 @@ public class MRController {
 		    int challNo = Integer.parseInt(map.get("challNo").toString());
 		    MRDto dto = new MRDto();
 		    dto = service.findRoomData(challNo);
+		    // item.getCEndDate()와 오늘 날짜를 비교하여 로직 실행
+		    if (dto.getMateDate() != null) { // item의 CEndDate가 null이 아닌지 확인
+		        Date today = new Date(System.currentTimeMillis()); // 오늘 날짜를 가져옴
+
+		        // item의 CEndDate가 오늘 날짜보다 이후인지 확인
+		        if (dto.getMateDate().after(today)) {
+		            return dto;
+		        } else {
+		            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
+		        	service.deletePeople(dto.getMateNo()); //참여자 삭제
+		        	service.delete(dto.getMateNo()); //방 삭제
+		        }
+		    }
+		    
 		    return dto;
 		}
 		return null;

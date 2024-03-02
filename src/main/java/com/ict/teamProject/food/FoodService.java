@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ict.teamProject.food.dto.FoodListDto;
+
 @Service
 public class FoodService {
 	
@@ -24,5 +25,10 @@ public class FoodService {
 
 	public List<FoodListDto> findAllrecipe(String id) {
 		return mapper.findAllrecipe(id);
+	}
+
+
+	public List<FoodListDto> getfoodinfo(String foodname) {
+		return mapper.getfoodinfo(foodname);
 	}
 }

@@ -18,4 +18,7 @@ public interface FoodMapper {
 	public List<FoodListDto> findrecipe(String id, String category);
 
 	public List<FoodListDto> findAllrecipe(String id);
+
+	public List<FoodListDto> getfoodinfo(String foodname);
+	
 }

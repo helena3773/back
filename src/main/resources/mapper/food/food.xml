@@ -88,4 +88,8 @@
 		    )
 		)
 	</select>
+	
+	<select id="getfoodinfo" parameterType="String">
+		SELECT FOODNAME as foodname, CALORY as calory, Carbohydrate as carbohydrate, protein as protein, fat as fat, sodium as sodium, cholesterol as cholesterol FROM FOODLIST WHERE FOODNAME = #{foodname}
+	</select>
 </mapper>

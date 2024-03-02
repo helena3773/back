@@ -206,4 +206,162 @@
 	<update id="updateImpl" parameterType="IM" >
 		UPDATE CHALLENGE_RECORD SET EXERCISE=#{exercise}, EATING=#{eatting} WHERE id =#{id} and RECORD_DATE = #{recordDate}
 	</update>
+	
+	<!-- 챌린지 성공 유무 확인 -->
+	<select id="successPeople" parameterType="int" resultType="SuccessPeopleDto">
+		SELECT 
+		    cr.CHALL_NO,
+		    subquery.ID,
+		    cr.TOTAL_FEE,
+		    cr.SUCCESS_COUNT,
+		    subquery.TOTAL_COUNT,
+		    CASE
+		        WHEN cr.SUCCESS_COUNT > subquery.TOTAL_COUNT THEN '실패'
+		        ELSE '성공' 
+		    END AS RESULT
+		FROM 
+		    (
+		        SELECT 
+		            cr.CHALL_NO,
+		            cp.ID,
+		            SUM(
+		                CASE 
+		                    WHEN cr.type = '식단' THEN LENGTH(chr.eating) - LENGTH(REPLACE(chr.eating, ',', '')) + 1
+		                    WHEN cr.type = '건강' THEN LENGTH(chr.exercise) - LENGTH(REPLACE(chr.exercise, ',', '')) + 1
+		                    ELSE 0
+		                END
+		            ) AS TOTAL_COUNT
+		        FROM 
+		            (
+		                SELECT 
+		                    cr.*, 
+		                    CASE 
+		                        WHEN (goal_no = '체중 감량' or goal_no = '다이어트 식단') THEN '식단'
+		                        ELSE '건강' 
+		                    END AS TYPE
+		                FROM 
+		                    challenge_room cr
+		                WHERE 
+		                    CHALL_NO = #{challNo}
+		            ) cr
+		        JOIN 
+		            CHALLENGE_PARTICIPANTS cp ON cr.CHALL_NO = cp.CHALL_NO
+		        JOIN 
+		            CHALLENGE_RECORD chr ON chr.ID = cp.ID
+		        WHERE 
+		            chr.RECORD_DATE BETWEEN cr.CHALL_STARTDATE AND cr.CHALL_ENDDATE
+		        GROUP BY 
+		            cr.CHALL_NO, cp.ID
+		    ) subquery
+		JOIN 
+		    (
+		        SELECT 
+		            cr.CHALL_NO,
+		            (cp.PARTICIPANTS * cr.PARTICIPATION_FEE) AS TOTAL_FEE,        
+		            ((cr.CHALL_ENDDATE - cr.CHALL_STARTDATE) * 3 * cr.IMPLEMENTATION_RATE / 100) AS SUCCESS_COUNT 
+		        FROM 
+		            (
+		                SELECT 
+		                    CHALL_NO, IMPLEMENTATION_RATE, CHALL_CAPACITY, 
+		                    PARTICIPATION_FEE, CHALL_STARTDATE, CHALL_ENDDATE 
+		                FROM 
+		                    CHALLENGE_ROOM 
+		                WHERE 
+		                    CHALL_NO = #{challNo}
+		            ) cr
+		        JOIN 
+		            (
+		                SELECT 
+		                    CHALL_NO, COUNT(*) AS PARTICIPANTS
+		                FROM 
+		                    CHALLENGE_PARTICIPANTS
+		                WHERE 
+		                    CHALL_NO = #{challNo}
+		                GROUP BY 
+		                    CHALL_NO
+		            ) cp ON cr.CHALL_NO = cp.CHALL_NO
+		    ) cr ON subquery.CHALL_NO = cr.CHALL_NO
+	</select>
+	
+	<select id="successCount" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM
+			(
+				SELECT 
+				    cr.CHALL_NO,
+				    subquery.ID,
+				    cr.TOTAL_FEE,
+				    cr.SUCCESS_COUNT,
+				    subquery.TOTAL_COUNT,
+				    CASE
+				        WHEN cr.SUCCESS_COUNT > subquery.TOTAL_COUNT THEN '실패'
+				        ELSE '성공' 
+				    END AS RESULT
+				FROM 
+				    (
+				        SELECT 
+				            cr.CHALL_NO,
+				            cp.ID,
+				            SUM(
+				                CASE 
+				                    WHEN cr.type = '식단' THEN LENGTH(chr.eating) - LENGTH(REPLACE(chr.eating, ',', '')) + 1
+				                    WHEN cr.type = '건강' THEN LENGTH(chr.exercise) - LENGTH(REPLACE(chr.exercise, ',', '')) + 1
+				                    ELSE 0
+				                END
+				            ) AS TOTAL_COUNT
+				        FROM 
+				            (
+				                SELECT 
+				                    cr.*, 
+				                    CASE 
+				                        WHEN (goal_no = '체중 감량' or goal_no = '다이어트 식단') THEN '식단'
+				                        ELSE '건강' 
+				                    END AS TYPE
+				                FROM 
+				                    challenge_room cr
+				                WHERE 
+				                    CHALL_NO = #{challNo}
+				            ) cr
+				        JOIN 
+				            CHALLENGE_PARTICIPANTS cp ON cr.CHALL_NO = cp.CHALL_NO
+				        JOIN 
+				            CHALLENGE_RECORD chr ON chr.ID = cp.ID
+				        WHERE 
+				            chr.RECORD_DATE BETWEEN cr.CHALL_STARTDATE AND cr.CHALL_ENDDATE
+				        GROUP BY 
+				            cr.CHALL_NO, cp.ID
+				    ) subquery
+				JOIN 
+				    (
+				        SELECT 
+				            cr.CHALL_NO,
+				            (cp.PARTICIPANTS * cr.PARTICIPATION_FEE) AS TOTAL_FEE,        
+				            ((cr.CHALL_ENDDATE - cr.CHALL_STARTDATE) * 3 * cr.IMPLEMENTATION_RATE / 100) AS SUCCESS_COUNT 
+				        FROM 
+				            (
+				                SELECT 
+				                    CHALL_NO, IMPLEMENTATION_RATE, CHALL_CAPACITY, 
+				                    PARTICIPATION_FEE, CHALL_STARTDATE, CHALL_ENDDATE 
+				                FROM 
+				                    CHALLENGE_ROOM 
+				                WHERE 
+				                    CHALL_NO = #{challNo}
+				            ) cr
+				        JOIN 
+				            (
+				                SELECT 
+				                    CHALL_NO, COUNT(*) AS PARTICIPANTS
+				                FROM 
+				                    CHALLENGE_PARTICIPANTS
+				                WHERE 
+				                    CHALL_NO = #{challNo}
+				                GROUP BY 
+				                    CHALL_NO
+				            ) cp ON cr.CHALL_NO = cp.CHALL_NO
+				    ) cr ON subquery.CHALL_NO = cr.CHALL_NO
+			    ) WHERE RESULT = '성공'
+	</select>
+	
+	<insert id="givePoint" parameterType="Map">
+		INSERT INTO PAYMENT_LIST(ID, PAY_TYPE, PAY_NAME, PAY_PRICE, PAY_METHOD) VALUES(#{id}, 2, '챌린지 달성 보상', #{point} ,'포인트 지급')
+	</insert>
 </mapper>

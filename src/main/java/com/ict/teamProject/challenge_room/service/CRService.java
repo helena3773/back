@@ -70,5 +70,10 @@ public interface CRService<T> {
 
 	void implinsert(Map map);
 
+	List<SuccessPeopleDto> successPeople(int challNo);
+
+	int successCount(int challNo);
+
+	int givePoint(String id, int point);
 	
 }

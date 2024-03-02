@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.ict.teamProject.eating_record.dto.EatingRecordDto;
+import com.ict.teamProject.eating_record.dto.ER_IngredientsDto;
 @Service
 public class EatingRecordService {
 	
@@ -39,7 +40,7 @@ public class EatingRecordService {
 	public int defaultddata(String id) {
 		return mapper.defaultddata(id);
 	}
-	public List getrecipeNingredients(int eating_recipeCode) {
+	public List<ER_IngredientsDto> getrecipeNingredients(int eating_recipeCode) {
 		return mapper.getrecipeNingredients(eating_recipeCode);
 	}
 	

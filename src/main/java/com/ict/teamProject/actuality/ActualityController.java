@@ -1,4 +1,4 @@
-package com.ict.teamProject.food;
+package com.ict.teamProject.actuality;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.ict.teamProject.food.dto.FoodListDto;
+import com.ict.teamProject.actuality.dto.ActualityEatingDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
@@ -32,31 +32,30 @@ import java.nio.file.StandardCopyOption;
 @RestController
 
 @CrossOrigin(origins = "http://localhost:3333")
-public class FoodController {
-	FoodService service;
-	public FoodController(FoodService service) {
+public class ActualityController {
+	ActualityService service;
+	public ActualityController(ActualityService service) {
 		this.service = service;
 	}
 	
-	@GetMapping("/recipe/View.do") //조회
-	public List<FoodListDto> findAllList(String id, String category){
-		System.out.println("받은 이름:"+id);
-		System.out.println("받은 카테고리:"+category);
-		if(category == null || category.equals("전체")) {
-			System.out.println("들어왔나..?");
-			List<FoodListDto> foodlist = service.findAllrecipe(id);
-			return foodlist;
+	@GetMapping("/saverecord/dietinfo.do") //조회
+	public List<ActualityEatingDto> saveActualityEating(String id, String ae_foodname, String ae_diettype){
+		System.out.println("들어온 유저 아이디 :" + id + "받은 음식:" + ae_foodname+ "식사 : " + ae_diettype);
+		int checkdiet = service.checkdailydiet(id, ae_diettype);
+		if(checkdiet == 0) {
+			int saveYN = service.saveActuality(id, ae_foodname, ae_diettype);
+			System.out.println("삽입 결과 : "+ saveYN);
+		}else if(checkdiet == 1){
+			System.out.println("들어왔는지 체크");
+			int updateYN = service.updateActuality(id, ae_foodname, ae_diettype);
+			System.out.println("업데이트 결과 : "+ updateYN);
 		}else {
-			List<FoodListDto> foodlist = service.findrecipe(id, category);
-			return foodlist;
+			System.out.println("null이나 undefined 말고는.. 여기 들어올 이유가 없는데");
 		}
+		List<ActualityEatingDto> list = service.dailyActuality(id);
+//		for(ActualityEatingDto l : list) {
+//			System.out.println("가져온 Id 값은?"+l.getId());
+//		}		
+		return list;
 	}
-	
-	@GetMapping("/foodlist/foodinfo.do") //조회
-	public List<FoodListDto> getfoodinfo(String foodname){
-		System.out.println("받은 음식:" + foodname);
-		List<FoodListDto> foodlist = service.getfoodinfo(foodname);
-		System.out.println("결과 : "+ foodlist);
-		return foodlist;
-	}	
 }

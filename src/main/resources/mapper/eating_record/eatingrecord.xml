@@ -53,11 +53,11 @@
 		INSERT INTO Eating_Record(ID, MEALTYPE,EATING_FOODNAME,EATING_RECIPECODE) VALUES(#{id},'저녁', '마요네즈닭다리스테이크', 6940886)
 	</insert>
 
-<!--  
-	<select id="getingredients" resultType="Map">
+  
+	<select id="getrecipeNingredients" resultType="ER_IngredientsDto">
 		SELECT INGREDIENT,RECIPECODE,RI_AMOUNT FROM RECIPE_INGREDIENTS WHERE RECIPECODE = #{eating_recipeCode}
 	</select>
--->	
+
 <!--  
 	<select id="getdailydiet" resultType="EatingRecordDto">
 		SELECT rec.*, ri.INGREDIENT, ri.RI_AMOUNT FROM

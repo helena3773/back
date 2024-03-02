@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.ImplDto;
+import com.ict.teamProject.challenge_room.service.SuccessPeopleDto;
 
 //24.02.18 생성
 @Mapper
@@ -72,5 +73,11 @@ public interface CRMapper {
 	void updateExerciseImpl(ImplDto dto);
 
 	void updateEattingImpl(ImplDto dto);
+	
+	List<SuccessPeopleDto> successPeople(int challNo);
+	
+	int successCount(int challNo);
+	
+	int givePoint(String id, int point);
 
 }

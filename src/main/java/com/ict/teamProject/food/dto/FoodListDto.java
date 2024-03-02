@@ -25,4 +25,10 @@ public class FoodListDto {
 	private String recipe_seq;
 	private String INGREDIENT;
 	private String RI_AMOUNT;
+	private int calory;
+	private int carbohydrate;
+	private int protein;
+	private int fat;
+	private int sodium;
+	private int cholesterol;
 }

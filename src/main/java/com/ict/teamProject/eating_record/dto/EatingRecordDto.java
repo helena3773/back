@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import com.ict.teamProject.eating_record.dto.ER_IngredientsDto;
 
 @Alias("EatingRecordDto")
 @Getter
@@ -28,5 +29,5 @@ public class EatingRecordDto {
 	private String recipe_url;
 	private String recipe_seq;
 	private String recipe_img;
-	private List<Map<String, Object>> ingredients;
+	private List<ER_IngredientsDto> ingredients;
 }

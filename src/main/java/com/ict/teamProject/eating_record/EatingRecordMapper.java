@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.eating_record.dto.EatingRecordDto;
+import com.ict.teamProject.eating_record.dto.ER_IngredientsDto;
 
 @Mapper
 public interface EatingRecordMapper {
@@ -20,5 +21,5 @@ public interface EatingRecordMapper {
 	int defaultbdata(String id);
 	int defaultldata(String id);
 	int defaultddata(String id);
-	List getrecipeNingredients(int eating_recipeCode);
+	List<ER_IngredientsDto> getrecipeNingredients(int eating_recipeCode);
 }

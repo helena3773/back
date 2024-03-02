@@ -25,6 +25,7 @@ import com.ict.teamProject.challenge_room.service.CPDto;
 import com.ict.teamProject.challenge_room.service.CRDto;
 import com.ict.teamProject.challenge_room.service.CRService;
 import com.ict.teamProject.challenge_room.service.ImplDto;
+import com.ict.teamProject.challenge_room.service.SuccessPeopleDto;
 
 
 //24.02.18 생성
@@ -171,9 +172,11 @@ public class CRController {
 		        // item의 CEndDate가 오늘 날짜보다 이후인지 확인
 		        if (item.getCEndDate().after(today)) {
 		            // CEndDate가 오늘 날짜를 지나지 않았으므로 로직 실행
+		        	System.out.println("체크1 - 오늘 날짜 지나지 않았다??");
 		            List result = service.participantsdata(item.getChallNo());
+		            System.out.println("너는 뭐지..?"+result);
 		            item.setParticipantsData(result);
-		        } else {
+		        } else {		        	
 		            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
 		        	service.deletePeople(item.getChallNo()); //참여자 삭제
 		        	service.delete(item.getChallNo()); //방 삭제
@@ -269,6 +272,36 @@ public class CRController {
 	    int challNo = Integer.parseInt(map.get("challNo").toString());
 	    CRDto dto = new CRDto();
 	    dto = service.findRoomData(challNo);
+	    
+		 // item.getCEndDate()와 오늘 날짜를 비교하여 로직 실행
+	    if (dto.getCEndDate() != null) { // item의 CEndDate가 null이 아닌지 확인
+	        Date today = new Date(System.currentTimeMillis()); // 오늘 날짜를 가져옴
+
+	        // item의 CEndDate가 오늘 날짜보다 이후인지 확인
+	        if (dto.getCEndDate().after(today)) {
+	            // CEndDate가 오늘 날짜를 지나지 않았으므로 로직 실행
+	        	return dto;
+	        } else {
+	        	System.out.println("체크2 - 오늘 날짜!!");
+	        	List<SuccessPeopleDto> successYN = service.successPeople(dto.getChallNo());
+	        	int successCount = service.successCount(dto.getChallNo());	        	
+	        	System.out.println("성공한 유저 수 - "+successCount);
+	        	System.out.println(successYN);
+	        	for(SuccessPeopleDto list : successYN) {
+	        		if("성공".equals(list.getResult())) {
+	        			int point = list.getTotal_fee() / successCount;
+	        			int affected = service.givePoint(list.getId(), point);
+	        			System.out.println("지급된 행의 수 :" + affected);
+	        		}
+	        		System.out.println(list.getId());
+	        		System.out.println(list.getTotal_fee());
+	        		System.out.println(list.getResult());
+	        	}
+	            // CEndDate가 오늘 날짜를 지났으므로 해당 방을 없앰
+	        	service.deletePeople(dto.getChallNo()); //참여자 삭제
+	        	service.delete(dto.getChallNo()); //방 삭제
+	        }
+	    }
 	    return dto;
 	}/////
 	
