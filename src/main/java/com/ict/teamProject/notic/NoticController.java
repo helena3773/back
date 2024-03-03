@@ -51,4 +51,10 @@ public class NoticController {
 		System.out.println("아웃풋 : "+affected);
 	}
 	
+	@GetMapping("/Notic/Delete.do")
+	public void DeleteNotic(@RequestParam int trigger_pk){
+		System.out.println("들어온 pk:"+trigger_pk);
+		int affected = service.deleteNotic(trigger_pk);
+		System.out.println("아웃풋 : "+affected);
+	}
 }
