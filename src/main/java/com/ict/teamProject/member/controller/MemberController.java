@@ -1,6 +1,7 @@
 package com.ict.teamProject.member.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ict.teamProject.comm.CommService;
 import com.ict.teamProject.mate_room.service.MRDto;
 import com.ict.teamProject.member.service.MemberDto;
 import com.ict.teamProject.member.service.MemberService;
@@ -31,7 +33,7 @@ import org.springframework.ui.Model;
 public class MemberController {
 
 	private MemberService service;
-	
+	private CommService commService;
 	
 	
 	@CrossOrigin(origins = "http://localhost:3333")
@@ -43,10 +45,11 @@ public class MemberController {
 	    return affected;
 	}
 	
-	public MemberController(MemberService service) {
+	public MemberController(MemberService service, CommService commService) {
 		this.service=service;
-		System.out.println("MemberController 생성자");
+		this.commService = commService;
 	}
+	
 	
 	@RequestMapping(value = "/user/View", method = {RequestMethod.GET,RequestMethod.POST})
 	public MemberDto view(@RequestParam String id){
@@ -130,4 +133,13 @@ public class MemberController {
 	    List<Map<String, Object>> userList = service.findAllUser();
 	    return userList;
 	}/////
+	
+	@GetMapping("/user/relationship")
+	public Map<String, Integer> findUserFMSById(String id){
+		Map<String, Integer> relation = new HashMap<String, Integer>();
+		relation.put("f", commService.findFMSnumById(id, "f"));
+		relation.put("m", commService.findFMSnumById(id, "m"));
+		relation.put("s", commService.findFMSnumById(id, "s"));
+		return relation;
+	}
 }
