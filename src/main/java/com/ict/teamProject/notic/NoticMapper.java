@@ -13,4 +13,6 @@ public interface NoticMapper {
 	public List<NoticDto> findAllNotic(String id);
 
 	public int updateNotic(int trigger_pk);
+
+	public int deleteNotic(int trigger_pk);
 }

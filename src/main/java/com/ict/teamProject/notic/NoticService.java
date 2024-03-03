@@ -26,4 +26,8 @@ public class NoticService {
 	public int updateNotic(int trigger_pk) {
 		return mapper.updateNotic(trigger_pk);
 	}
+
+	public int deleteNotic(int trigger_pk) {
+		return mapper.deleteNotic(trigger_pk);
+	}
 }

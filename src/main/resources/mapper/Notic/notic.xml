@@ -28,4 +28,8 @@
 	<update id="updateNotic" parameterType="Int">
 		UPDATE NOTIC SET CHECKED_TIME = CURRENT_TIMESTAMP WHERE TRIGGER_PK = #{trigger_pk}
 	</update>
+	
+	<delete id="deleteNotic" parameterType="Int"> 	
+		DELETE FROM NOTIC WHERE trigger_pk = #{trigger_no}
+	</delete>
 </mapper>
