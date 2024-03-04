@@ -135,7 +135,7 @@
 	</select>
 	
 	<select id="findUserProfileByLike" parameterType="String" resultType="String">
-		SELECT m.PROFILEIMAGE FROM LIKES l join MEMBER m on l.id=m.id WHERE m.id=#{like}
+	    SELECT m.PRO_FILEPATH FROM LIKES l join PROFILE m on l.id=m.id WHERE m.id=#{userId} AND ROWNUM = 1
 	</select>
 	
 	<select id="findUserByLike" parameterType="int" resultType="String">
