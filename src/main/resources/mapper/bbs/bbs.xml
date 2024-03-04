@@ -68,7 +68,10 @@
 	<!-- 자기가 쓴 게시물 출력 -->
 	<select id="findMyByBBS" parameterType="String" resultMap="BBSResult">
 		<!-- 글 번호에 따른 댓글 수는 제외하고 조회(상세보기 화면이니까:해당 글번호의 모든 댓글 뿌리니까) -->
-		SELECT * FROM BBS WHERE ID=#{id}ORDER BY BBS_NO DESC
+		SELECT b.*, p.PRO_FILEPATH as PRO_FILEPATH
+		FROM BBS b join PROFILE p on b.id = p.id 
+		WHERE b.ID=#{id}
+		ORDER BY BBS_NO DESC
 	</select>
 	
 	<!-- 카테고리에 해당하는 게시물 출력 -->
