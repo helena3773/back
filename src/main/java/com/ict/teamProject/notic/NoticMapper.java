@@ -15,4 +15,8 @@ public interface NoticMapper {
 	public int updateNotic(int trigger_pk);
 
 	public int deleteNotic(int trigger_pk);
+
+	public int afmlSaveY(int trigger_no);
+
+	public int afmlDeleteN(int trigger_no);
 }

@@ -30,4 +30,12 @@ public class NoticService {
 	public int deleteNotic(int trigger_pk) {
 		return mapper.deleteNotic(trigger_pk);
 	}
+
+	public int afmlSaveY(int trigger_no) {
+		return mapper.afmlSaveY(trigger_no);
+	}
+
+	public int afmlDeleteN(int trigger_no) {
+		return mapper.afmlDeleteN(trigger_no);
+	}
 }
