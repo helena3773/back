@@ -49,7 +49,7 @@ public class EmailService {
             helper.setText("다음 링크를 클릭하여 이메일 인증을 완료해주세요: " + link + "<br>" + linkedImage, true);
 
             // 이미지 첨부
-            URL imageUrl = new URL("https://teamprojectimg.s3.ap-northeast-2.amazonaws.com/image/logo.png");
+            URL imageUrl = new URL("https://ictimg.s3.ap-northeast-2.amazonaws.com/logo+(1).png");
             Path imageFile = Files.createTempFile("logo",".png");
             try(InputStream in = imageUrl.openStream();
             		OutputStream out = new FileOutputStream(imageFile.toFile())){
@@ -100,7 +100,7 @@ public class EmailService {
             helper.setText("다음 링크를 클릭하여 비밀번호 재설정을 완료해주세요: " + link + "<br>" + linkedImage, true);
 
             // 이미지 첨부
-            URL imageUrl = new URL("https://teamprojectimg.s3.ap-northeast-2.amazonaws.com/image/logo.png");
+            URL imageUrl = new URL("https://ictimg.s3.ap-northeast-2.amazonaws.com/logo+(1).png");
             Path imageFile = Files.createTempFile("logo",".png");
             try(InputStream in = imageUrl.openStream();
             		OutputStream out = new FileOutputStream(imageFile.toFile())){

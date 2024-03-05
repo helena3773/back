@@ -34,6 +34,8 @@ public class CommService {
 		return mapper.findAllFriendsById(id);
 	}
 	
+	
+	
 	public List<SubscribeToDto> findAllSubToById(String id){//구독한 목록
 		return mapper.findAllSubToById(id);
 	}
@@ -155,5 +157,9 @@ public class CommService {
 			}
 		}
 		return friends;
+	}
+	
+	public List<String> findRequestedFriendORMate(Map map){
+		return mapper.findRequestedFriendORMate(map);
 	}
 }

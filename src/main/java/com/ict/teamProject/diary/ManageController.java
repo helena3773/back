@@ -1,4 +1,4 @@
-package com.ict.teamProject.manage;
+package com.ict.teamProject.diary;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ict.teamProject.command.FileUtils;
-import com.ict.teamProject.manage.dto.DiaryDto;
-import com.ict.teamProject.manage.dto.DiaryImagesDto;
+import com.ict.teamProject.diary.dto.DiaryDto;
+import com.ict.teamProject.diary.dto.DiaryImagesDto;
 
 @RestController
 @RequestMapping("/manage")

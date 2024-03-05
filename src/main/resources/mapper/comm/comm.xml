@@ -76,6 +76,10 @@
 	<insert id="postFriendORMateRequest" parameterType="Map">
 		INSERT INTO ADD_FRIENDMATELIST(ID, AFML_TYPE, AFML_ID, AFML_YN) VALUES(#{userId},#{type}, #{reqId},'W')
 	</insert>
+	<!-- 신청한 친구 및 메이트 목록 확인용 -->
+	<select id="findRequestedFriendORMate" parameterType="Map">
+		SELECT ID FROM ADD_FRIENDMATELIST WHERE AFML_ID = #{userId} AND AFML_TYPE = #{type}
+	</select>
 	<!-- 친구 및 메이트 삭제용 -->
 	<delete id="deleteFriendORMate" parameterType="Map">
 		DELETE add_friendmatelist

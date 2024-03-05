@@ -39,7 +39,7 @@ import java.nio.file.StandardCopyOption;
 
 @RestController
 @RequestMapping("/comm")
-@CrossOrigin(origins = "http://localhost:3333")
+@CrossOrigin(origins = {"http://localhost:3333", "http://localhost:5000"})
 public class CommController {
 	
 	@Autowired
@@ -163,6 +163,15 @@ public class CommController {
 		service.postFriendORMateRequest(map);
 	}
 	
+	//요청을 넣은 목록 모두 확인 용
+	@GetMapping("/request/check")
+	public List<String> findRequestedFriendORMate(@RequestParam String id){
+		Map map = new HashMap();
+		map.put("userId", id);
+		map.put("type", 1);
+		return service.findRequestedFriendORMate(map);
+	}
+	
 	@PutMapping("/intro/update")
 	public void updateInro(@RequestBody Map<String, Object> requestBody) {
 	    String id = (String) requestBody.get("id");
@@ -189,7 +198,9 @@ public class CommController {
 	@GetMapping("/profile")
 	public UserProfileDto getUserProfile(@RequestParam String id) {
 		List<FriendDto> friendsList = service.findAllFriendsById(id);
-		
+		Map map = new HashMap();
+		map.put("userId", id);
+		map.put("type", 1);
 		UserProfileDto dto = new UserProfileDto().builder()
 				.id(id)
 				.name(service.findNameById(id))
@@ -197,6 +208,7 @@ public class CommController {
 				.proIntroduction(service.findIntroductionById(id))
 				.date(service.findJoinDateById(id))
 				.friendsList(friendsList)
+				.requestedFriendsList(service.findRequestedFriendORMate(map))
 				.build();
 		System.out.println("여기 안들어오나?"+dto);
 		return dto;
@@ -246,4 +258,6 @@ public class CommController {
 		}
 		return friends;
 	}
+	
+	
 }

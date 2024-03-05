@@ -38,5 +38,5 @@ public interface CommMapper {
 	public void saveMateForWarning(Map<String, String> idsNReason); //신고리스트에 값 추가
 	public int getAllUserNum(); //모든 사용자 수 얻기
 	public List<String> findAllUserId(); //모든 유저 아이디 얻기
-	
+	public List<String> findRequestedFriendORMate(Map map); //신청한 메이트 혹은 친구 목록 모두 보기
 }

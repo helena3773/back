@@ -22,4 +22,8 @@ public interface EatingRecordMapper {
 	int defaultldata(String id);
 	int defaultddata(String id);
 	List<ER_IngredientsDto> getrecipeNingredients(int eating_recipeCode);
+	int checkdailyexercisedata(String id);
+	void defaultexercise1(String id);
+	void defaultexercise2(String id);
+	void defaultexercise3(String id);
 }

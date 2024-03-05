@@ -1,4 +1,4 @@
-package com.ict.teamProject.manage;
+package com.ict.teamProject.diary;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,8 +7,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ict.teamProject.manage.dto.DiaryDto;
-import com.ict.teamProject.manage.dto.DiaryImagesDto;
+import com.ict.teamProject.diary.dto.DiaryDto;
+import com.ict.teamProject.diary.dto.DiaryImagesDto;
 
 @Service
 public class ManageService {

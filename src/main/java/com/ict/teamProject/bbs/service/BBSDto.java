@@ -21,7 +21,7 @@ public class BBSDto {
 	private int type;
 	private String content;
 	private char disclosureYN;
-	private String hashTag;
+	private String hashTag;//해
 	private java.sql.Date postDate;
 	private List<String> files;  // 파일들을 저장할 필드
 	private List<String> likes;

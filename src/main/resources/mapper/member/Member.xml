@@ -137,11 +137,22 @@
 	</update>
 	
 	<select id="findAllUser" resultType="map">
-	    SELECT m.*, g.GOAL_NAME
-	    FROM member m 
-	    JOIN GOAL g on m.GOAL_NO = g.GOAL_NO
-	    ORDER BY m.REGIDATE DESC
+	    SELECT DISTINCT m.*, g.GOAL_NAME
+		FROM member m 
+		JOIN GOAL g on m.GOAL_NO = g.GOAL_NO
+		WHERE M.ID NOT IN (SELECT CL_ID FROM COMPLAIN_LIST)
+		ORDER BY m.REGIDATE DESC
 	</select>
-
-	
+	<!-- 신고당한 모든 유저 가져오기 -->
+	<select id="findAllComplainedUsers" resultType="MemberManageDto">
+		SELECT * FROM COMPLAIN_LIST
+	</select>
+	<!-- 블랙리스트에서 유저 해제하기 -->
+	<delete id="deleteUserFromComplainList" parameterType="String">
+		DELETE COMPLAIN_LIST WHERE CL_ID = #{id}
+	</delete>
+	<!-- 관리자 페이지에서 유저 한번에 신고하기 -->
+	<insert id="addUserToComplainList" parameterType="MemberManageDto">
+		INSERT INTO COMPLAIN_LIST(ID, CL_ID, CL_REASON, CL_DATE, CL_TYPE) VALUES(#{id},#{cl_id},#{cl_reason},SYSDATE, 0)
+	</insert>
 </mapper>

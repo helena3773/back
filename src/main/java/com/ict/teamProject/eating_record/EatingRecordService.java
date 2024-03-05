@@ -43,6 +43,14 @@ public class EatingRecordService {
 	public List<ER_IngredientsDto> getrecipeNingredients(int eating_recipeCode) {
 		return mapper.getrecipeNingredients(eating_recipeCode);
 	}
+	public int checkdailyexercisedata(String id) {
+		return mapper.checkdailyexercisedata(id);
+	}
+	public void defaultexercise(String id) {
+		mapper.defaultexercise1(id);
+		mapper.defaultexercise2(id);
+		mapper.defaultexercise3(id);
+	}
 	
 //	public List<Map<String, Object>> getIngredients(int recipeCode) {
 //	    return mapper.getIngredients(recipeCode);

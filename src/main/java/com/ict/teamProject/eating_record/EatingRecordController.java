@@ -103,6 +103,10 @@ public class EatingRecordController {
     public int checkDailydata(@RequestParam String id) {
     	System.out.println("들어온 아이디"+id);
     	int chkdata = service.checkdailydata(id);
+    	int exercisechkdata = service.checkdailyexercisedata(id);
+    	if(exercisechkdata == 0) {
+    		service.defaultexercise(id);
+    	}    	
     	int chkAlldata = service.checkAlldata(id);
     	if(chkdata == 0) { //오늘 데이터 미존재
         	if(chkAlldata == 0) {//어제, 오늘 말고 데이터가 없음..

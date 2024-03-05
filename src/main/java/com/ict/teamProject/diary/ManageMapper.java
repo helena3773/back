@@ -1,11 +1,11 @@
-package com.ict.teamProject.manage;
+package com.ict.teamProject.diary;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ict.teamProject.manage.dto.DiaryDto;
-import com.ict.teamProject.manage.dto.DiaryImagesDto;
+import com.ict.teamProject.diary.dto.DiaryDto;
+import com.ict.teamProject.diary.dto.DiaryImagesDto;
 
 @Mapper
 public interface ManageMapper {

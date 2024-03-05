@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.ict.teamProject.member.service.MemberDto;
+import com.ict.teamProject.member.service.MemberManageDto;
 
 @Mapper
 public interface MemberMapper {
@@ -63,7 +64,9 @@ public interface MemberMapper {
 
 	List<Map<String, Object>> findAllUser();
 
+	List<MemberManageDto> findAllComplainedUsers();
 
-
-
+	void deleteUserFromComplainList(String id); //컴플레인 리스트에서 삭제
+	
+	void addUserToComplainList(MemberManageDto dto); //컴플레인 리스트에 등록
 }

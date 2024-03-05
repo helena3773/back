@@ -25,4 +25,5 @@ public class UserProfileDto {
 	private String proIntroduction;
 	private int backfiletype;
 	private List<FriendDto> friendsList;
+	private List<String> requestedFriendsList; //친구 요청을 보낸 유저 목록
 }

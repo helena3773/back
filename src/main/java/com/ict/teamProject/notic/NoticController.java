@@ -57,4 +57,20 @@ public class NoticController {
 		int affected = service.deleteNotic(trigger_pk);
 		System.out.println("아웃풋 : "+affected);
 	}
+	
+	@GetMapping("/Notic/AddAFMLYN")
+	public int AddAFMLYN(@RequestParam int trigger_pk, int trigger_no, String yn){
+		System.out.println("들어온 no:"+trigger_pk + " + " + trigger_no + " + " + yn);
+		if("Y".equals(yn)){ //수락 시, 업데이트 처리
+			int affected = service.afmlSaveY(trigger_no);
+			service.deleteNotic(trigger_pk);
+			System.out.println(affected);
+			return affected;
+		}else if("N".equals(yn)) { //거절 시 삭제,
+			int affected = service.afmlDeleteN(trigger_no);
+			System.out.println(affected);
+			return affected;
+		}
+		return 3;
+	}
 }

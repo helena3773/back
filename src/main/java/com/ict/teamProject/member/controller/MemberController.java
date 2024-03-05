@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ict.teamProject.comm.CommService;
 import com.ict.teamProject.mate_room.service.MRDto;
 import com.ict.teamProject.member.service.MemberDto;
+import com.ict.teamProject.member.service.MemberManageDto;
 import com.ict.teamProject.member.service.MemberService;
 
 import oracle.jdbc.OracleDatabaseException;
@@ -142,5 +144,30 @@ public class MemberController {
 		relation.put("m", commService.findFMSnumById(id, "m"));
 		relation.put("s", commService.findFMSnumById(id, "s"));
 		return relation;
+	}
+	
+	@GetMapping("/manage/member")
+	public List<MemberManageDto> findAllComplainedUsers() {
+		return service.findAllComplainedUsers();
+	}
+	//블랙리스트에서 유저 삭제
+	@DeleteMapping("/manage/complained/delete")
+	public void deleteUserFromComplainList(@RequestBody Map map) {
+		System.out.println("요청이 들어왔는지 확인:" + String.valueOf(map.get("id")));
+		service.deleteUserFromComplainList(String.valueOf(map.get("id")));
+	}
+	@PostMapping("/manage/complained/create")
+	public void addUserToComplainList(@RequestBody Map map) {
+		System.out.println("인자로 받은 값:"+ map);
+		List<MemberManageDto> dtos = new ArrayList<MemberManageDto>();
+		for(String cl_id:(ArrayList<String>)map.get("cl_id")) {
+			MemberManageDto dto = new MemberManageDto().builder()
+					.id(String.valueOf(map.get("id")))
+					.cl_id(cl_id)
+					.cl_reason(String.valueOf(map.get("cl_reason")))
+					.build();
+			dtos.add(dto);
+		}
+		service.addUserToComplainList(dtos);
 	}
 }

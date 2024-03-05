@@ -1,4 +1,4 @@
-package com.ict.teamProject.manage.dto;
+package com.ict.teamProject.diary.dto;
 
 import java.util.List;
 

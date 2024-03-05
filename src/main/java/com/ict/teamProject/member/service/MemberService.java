@@ -94,7 +94,17 @@ public class MemberService {
 	}
 
 
+	public List<MemberManageDto> findAllComplainedUsers() {
+		return mapper.findAllComplainedUsers();
+	}
 
-
-
+	public void deleteUserFromComplainList(String id) {
+		mapper.deleteUserFromComplainList(id);
+	}
+	
+	public void addUserToComplainList(List<MemberManageDto> dtos) {
+		for(MemberManageDto dto : dtos) {
+			mapper.addUserToComplainList(dto);
+		}
+	}
 }

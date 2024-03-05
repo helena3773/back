@@ -54,7 +54,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		 // 추가 정보가 있는 경우와 없는 경우에 따라 다른 URL로 리다이렉트
         if (hasAdditionalInfo) {
-            response.sendRedirect("http://localhost:3333/main");
+            response.sendRedirect("http://localhost:3333/AuthCallback");
             System.out.println("일반도 있음?");
         } else {
         	System.out.println(dto);
