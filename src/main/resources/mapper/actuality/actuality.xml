@@ -49,4 +49,8 @@
 	<update id="updateActuality" parameterType="Map">
 		UPDATE actuality_eating SET ae_foodname = #{ae_foodname} WHERE id = #{id} and ae_diettype = #{ae_diettype} And TO_CHAR(ae_date, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')
 	</update>
+	
+	<select id="getEatting" parameterType="String" resultType="map">
+		SELECT * FROM actuality_eating WHERE id = #{id} AND TRUNC(AE_DATE) = TRUNC(SYSDATE)
+	</select>	
 </mapper>

@@ -32,4 +32,8 @@ public class ActualityService {
 	public int updateActuality(String id, String ae_foodname, String ae_diettype) {
 		return mapper.updateActuality(id, ae_foodname, ae_diettype);
 	}
+
+	public List getEatting(String string) {
+		return mapper.getEatting(string);
+	}
 }

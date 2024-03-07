@@ -1,5 +1,7 @@
 package com.ict.teamProject.schedule.service;
 
+import java.time.LocalDateTime;
+
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -24,9 +26,9 @@ public class SCHDto {
 	private String sDest; // 목적지
 	private int cal; // 타입
 	private String sArea; //시작 지역
-	private java.sql.Date start; //시작
-	private java.sql.Date end; //끝
+	private LocalDateTime  start; //시작
+	private LocalDateTime  end; //끝
 	private char sCom; //완료여부
-	private char sRe;  //반복 타입 null가능
-	private java.sql.Date sReDate; //반복 날짜 null가능
+	private int rPathNo;  //경로
+	private String sMate; //메이트
 }

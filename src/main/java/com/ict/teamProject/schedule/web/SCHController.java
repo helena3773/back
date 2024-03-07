@@ -1,4 +1,6 @@
 package com.ict.teamProject.schedule.web;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,9 +28,82 @@ public class SCHController {
 	@Autowired
 	private SCHService<SCHDto> service;
 	
-	//좋아요 얻어오기
+	//스케쥴 등록
 	@PostMapping("/insert.do")
-	public void insert(@RequestBody Map map) {
+	public void insert(@RequestBody Map<String, Object> map) {
+	    System.out.println("title: " + map.get("title"));
+	    System.out.println("calendar: " + map.get("calendar"));
+	    System.out.println("start: " + map.get("start"));
+	    System.out.println("end: " + map.get("end"));
+	    System.out.println("startArea: " + map.get("startArea"));
+	    System.out.println("endArea: " + map.get("endArea"));
+	    System.out.println("content: " + map.get("content"));
+	    System.out.println("eat: " + map.get("eat"));
+	    System.out.println("exercise: " + map.get("exercise"));
+	    System.out.println("id: " + map.get("id"));
+	    
+	    SCHDto schedule = new SCHDto();
+
+	    String startDateTime = (String) map.get("start");
+	    String endDateTime = (String) map.get("end");
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	    LocalDateTime start = LocalDateTime.parse(startDateTime, formatter);
+	    LocalDateTime end = LocalDateTime.parse(endDateTime, formatter);
+	    schedule.setSTitle((String) map.get("title"));
+	    schedule.setCal((Integer) map.get("calendar"));
+	    schedule.setStart(start);
+	    schedule.setEnd(end);
+	    schedule.setSArea((String) map.get("startArea"));
+	    schedule.setSDest((String) map.get("endArea"));
+	    schedule.setSContent((String) map.get("content"));
+	    schedule.setId((String) map.get("id"));
+
+	    if (map.get("eat") != null) {
+	        schedule.setSEat((String) map.get("eat"));
+	    }
+
+	    if (map.get("exercise") != null) {
+	        schedule.setSExer((String) map.get("exercise"));
+	    }
+	    service.insert(schedule);
+	}
+	
+	//스케쥴 수정
+	@PostMapping("/update.do")
+	public void update(@RequestBody Map<String, Object> map) {
+
+	}
+	
+	//스케쥴 삭제
+	@PostMapping("/delete.do")
+	public void delete(@RequestBody Map<String, Object> map) {
+		service.delete(map);
+	}
+	
+	//스케쥴 하나 조회
+	@PostMapping("/seleteOne.do")
+	public SCHDto seleteOne(@RequestBody Map<String, Object> map) {
+		SCHDto schedule = new SCHDto();
+		schedule = service.seleteOne(map.get("id").toString());
 		
+		return schedule;
+	}
+	
+	//스케쥴 전체 조회
+	@PostMapping("/seleteAll.do")
+	public List seleteAll(@RequestBody Map<String, Object> map) {
+		List<SCHDto> record = new ArrayList();
+		record = service.seleteAll(map.get("id").toString());
+		
+		return record;
+	}
+	
+	//스케쥴 전체 조회
+	@PostMapping("/seleteTodayAll.do")
+	public List seleteTodayAll(@RequestBody Map<String, Object> map) {
+		List<SCHDto> record = new ArrayList();
+		record = service.seleteTodayAll(map.get("id").toString());
+		
+		return record;
 	}
 }

@@ -20,5 +20,6 @@ public class ERDto {
 	private String eVideoPath;
 	private String eContent;
 	private String eType;
+	private int calories_per_hour;
 	private java.sql.Date postDate;
 }

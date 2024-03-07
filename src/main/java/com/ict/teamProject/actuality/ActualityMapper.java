@@ -18,5 +18,7 @@ public interface ActualityMapper {
 	public List<ActualityEatingDto> dailyActuality(String id);
 
 	public int updateActuality(String id, String ae_foodname, String ae_diettype);
+
+	public List getEatting(String string);
 	
 }
