@@ -5,7 +5,7 @@
 <mapper namespace="com.ict.teamProject.exercise_record.impl.ERMapper">	
 	<select id="getData" parameterType="String" resultType="ERDto">
 	    SELECT * FROM (
-	        SELECT r.ID as id, r.E_NAME as eName, r.ER_DATE as postDate, e.E_TYPE as eType, e.E_VIDEO_PATH as eVideoPath, e.E_CONTENT as eContent
+	        SELECT r.ID as id, r.E_NAME as eName, r.ER_DATE as postDate, e.E_TYPE as eType, e.E_VIDEO_PATH as eVideoPath, e.E_CONTENT as eContent, e.calories_per_hour
 	        FROM EXERCISE_RECORD r 
 	        JOIN EXERCIES e ON r.E_NAME = e.E_NAME
 	        WHERE TRUNC(ER_DATE) = TRUNC(SYSDATE) and ID=#{id}
