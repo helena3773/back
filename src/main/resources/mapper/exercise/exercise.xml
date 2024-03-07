@@ -8,16 +8,61 @@
 		INSERT INTO ROAD_PATH VALUES(RPATH_SEQ.NEXTVAL, #{id}, #{rpath_time})
 	</insert>
 	<!-- 경로 좌표 등록 -->
-	<insert id="uploadPathPoint" parameterType="List">
-		INSERT ALL
-		<foreach collection="list" item="item" separator="" index="idx">
-			<if test="idx == 0">
-				INTO ROAD_PATH VALUES(RPATH_SEQ.NEXTVAL, #{item.id}, #{item.rpath_time})
+	<!-- 
+	<update id="uploadPathPoint" parameterType="List">
+		<selectKey keyProperty="rpathNo" resultType="int" order="BEFORE">
+			SELECT RPATH_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+		<foreach collection="list" item="item" open="INSERT ALL" close="SELECT * FROM DUAL" separator=" " index="idx">
+			
+			<if test="idx == 0" >
+				INTO ROAD_PATH VALUES(rpath_seq.NEXTVAL, #{item.id}, #{item.rpath_time})
 			</if>
-			<if test="idx != 0">
-				INTO ROAD_POINT VALUES(RPATH_SEQ.CURRVAL, #{item.lat}, #{item.lng}, #{item.order_num}, #{item.pointname})
+			<if test="idx == 1">
+				INTO schedule(ID, SCH_START, SCH_END, RPATH_NO, SCH_MATEID) VALUES(#{item.id}, to_date(#{item.sch_start}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{item.sch_end}, 'YYYY-MM-DD HH24:MI:SS'), rpath_seq.CURRVAL, #{item.mate})
 			</if>
+			<otherwise>
+				INTO ROAD_POINT VALUES(rpath_seq.CURRVAL, #{item.lat}, #{item.lng}, #{item.order_num}, #{item.pointname})
+			</otherwise>
 		</foreach>
-		SELECT * FROM DUAL
-	</insert>
+	</update>
+	 -->
+	 <!-- 아래의 코드는 잘 실행됨 
+	 <insert id="uploadPathPoint" parameterType="List">
+	 	<selectKey keyProperty="rpathNo" resultType="int" order="BEFORE">
+	 		SELECT RPATH_SEQ.NEXTVAL FROM DUAL
+	 	</selectKey>
+	 	INSERT ALL
+	 	<foreach collection="list" item="item" separator="" index = "idx">
+	 		<if test="idx==0">
+	 			INTO ROAD_PATH VALUES(#{rpathNo}, #{item.id}, #{item.rpath_time})
+	 		</if>
+	 		<if test="idx!=0">
+	 			INTO ROAD_POINT VALUES(#{rpathNo}, #{item.lat}, #{item.lng}, #{item.order_num}, #{item.pointname})
+	 		</if>
+	 	</foreach>
+	 	SELECT * FROM DUAL
+	 </insert>
+	 -->
+	 <insert id="uploadPathPoint" parameterType="List">
+	 	<selectKey keyProperty="rpathNo" resultType="int" order="BEFORE">
+	 		SELECT RPATH_SEQ.NEXTVAL FROM DUAL
+	 	</selectKey>
+	 	INSERT ALL
+	 	<foreach collection="list" item="item" separator="" index = "idx">
+	 		<choose>
+	 			<when test="idx==0">
+	 				INTO ROAD_PATH VALUES(#{rpathNo}, #{item.id}, #{item.rpath_time}, #{item.mainaddr})
+	 			</when>
+	 			<when test="idx==1">
+	 				INTO SCHEDULE(ID, SCH_START, SCH_END, RPATH_NO, SCH_MATEID)
+	 				VALUES(#{item.id}, to_date(#{item.sch_start}, 'YYYY-MM-DD HH24:MI:SS'), to_date(#{item.sch_end}, 'YYYY-MM-DD HH24:MI:SS'), #{rpathNo}, #{item.mate})
+	 			</when>
+	 			<otherwise>
+	 				INTO ROAD_POINT VALUES(#{rpathNo}, #{item.lat}, #{item.lng}, #{item.order_num}, #{item.pointname})
+	 			</otherwise>
+	 		</choose>
+	 	</foreach>
+	 	SELECT * FROM DUAL
+	 </insert>
 </mapper>

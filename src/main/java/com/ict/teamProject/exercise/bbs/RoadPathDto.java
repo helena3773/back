@@ -22,4 +22,5 @@ public class RoadPathDto {
 	//road_path 테이블 등록용
 	private String id; //경로를 등록한 유저
 	private Object rpath_time; //소요 시간(분 단위)
+	private String mainaddr; //메인 주소값
 }

@@ -39,4 +39,6 @@ public interface CommMapper {
 	public int getAllUserNum(); //모든 사용자 수 얻기
 	public List<String> findAllUserId(); //모든 유저 아이디 얻기
 	public List<String> findRequestedFriendORMate(Map map); //신청한 메이트 혹은 친구 목록 모두 보기
+	public List<MateDto> getAllMatesAvailable(Map map); //경로 일정 등록이 가능한 유저 값
+	public int isUserInSchedule(Map map); //스케줄이 등록된 사용자인지 확인
 }

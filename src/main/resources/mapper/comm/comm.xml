@@ -104,4 +104,25 @@
 	<select id="findAllUserId" resultType="String">
 		SELECT ID FROM MEMBER
 	</select>
+	<!-- 같이 돌 수 있는 메이트 선택 -->
+	<select id="getAllMatesAvailable" parameterType="Map" resultType="MateDto">
+		SELECT * FROM (
+		SELECT a.*,
+		TO_CHAR(SCH_START, 'HH24:MI:SS') AS STARTTIME,
+		TO_CHAR(SCH_END, 'HH24:MI:SS') AS ENDTIME
+		FROM (
+		select * from schedule s join mate_list m on s.id=m.id
+		WHERE s.ID IN (SELECT MATE_ID FROM MATE_LIST WHERE ID=#{id})
+		) a
+		WHERE TO_CHAR(SCH_START,'YYYY-MM-DD') = #{sch_date})
+		WHERE not 
+		<![CDATA[((STARTTIME>=#{start_t} AND ENDTIME <= #{end_t}) ]]> OR 
+		<![CDATA[(#{start_t}<=STARTTIME AND STARTTIME<=#{end_t})]]>  OR
+		<![CDATA[(#{start_t}<=ENDTIME AND ENDTIME<=#{end_t})]]>  OR
+		<![CDATA[(STARTTIME<=#{start_t} AND ENDTIME>=#{end_t}))]]>
+	</select>
+	<!-- 스케줄이 등록된 사용자가 맞는지를 먼저 확인 -->
+	<select id="isUserInSchedule" parameterType="Map" resultType="Integer">
+		SELECT COUNT(*) FROM SCHEDULE WHERE ID=#{id} AND TO_CHAR(SCH_START,'YYYY-MM-DD')=#{sch_date}
+	</select>
 </mapper>

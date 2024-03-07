@@ -62,6 +62,32 @@ public class CommController {
 		}
 		return mates;
 	}
+	//뿌려주기 위함
+	@GetMapping("/mate/available")
+	public List<MateDto> getAllMatesAvailable(@RequestParam Map map){
+		System.out.println("메이트 추천 받은 값:" + map);
+		List<MateDto> mates = service.getAllMatesAvailable(map);
+		for(MateDto m : mates) {
+			m.setName(service.findNameById(m.getMate_id()));//이름
+			m.setFNum(service.findFMSnumById(m.getMate_id(), "f"));//친구 수
+			m.setMNum(service.findFMSnumById(m.getMate_id(), "m"));//메이트 수
+			m.setSNum(service.findFMSnumById(m.getMate_id(), "s"));//구독자 수
+			m.setProfilePath(service.findProPathById(m.getMate_id()));//프로필 사진
+		}
+		List<MateDto> allMates = service.findAllMatesById(String.valueOf(map.get("id")));
+		//아이디값, 날짜
+		for(MateDto m : allMates) {
+			Map tempMap = new HashMap<String, String>();
+			tempMap.put("id", m.getMate_id());
+			tempMap.put("sch_date", String.valueOf(map.get("sch_date")));
+			if(service.isUserInSchedule(tempMap)==0) {
+				System.out.println("스케줄이 등록되지 않은 사용자"+m.getMate_id());
+				m.setProfilePath(service.findProPathById(m.getMate_id()));
+				mates.add(m);
+			}
+		}
+		return mates;
+	}//getAllMatesAvailable
 	
 	@PutMapping("/mate/changefavorable")//호감도 수정
 	public void updateFavorableRating(@RequestBody Map map) {

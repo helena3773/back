@@ -129,6 +129,10 @@ public class CommService {
 		mapper.saveMateForWarning(idsNReason);
 	}
 	
+	public int isUserInSchedule(Map map) {
+		return mapper.isUserInSchedule(map);
+	}
+	
 	//랜덤으로 친구목록(5명) 생성
 	public Map<String,String> getRandomFriendList(String id){
 		
@@ -161,5 +165,9 @@ public class CommService {
 	
 	public List<String> findRequestedFriendORMate(Map map){
 		return mapper.findRequestedFriendORMate(map);
+	}
+	
+	public List<MateDto> getAllMatesAvailable(Map map){
+		return mapper.getAllMatesAvailable(map);
 	}
 }
