@@ -12,7 +12,7 @@ import com.ict.teamProject.actuality.dto.ActualityEatingDto;
 public class ActualityService {
 	
 	//mapper 생성자 주입
-	private ActualityMapper mapper;
+	ActualityMapper mapper;
 	public ActualityService(ActualityMapper mapper) {
 		this.mapper = mapper;
 	}

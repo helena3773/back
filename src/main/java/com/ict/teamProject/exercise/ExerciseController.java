@@ -1,13 +1,16 @@
 package com.ict.teamProject.exercise;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ict.teamProject.exercise.bbs.RoadPathDto;
@@ -102,5 +105,70 @@ public class ExerciseController {
 			}
 			service.uploadPathPoint(roadPoints);
 		}
+	}
+	
+	@GetMapping("/allpaths")
+	public Map getAllPaths(String id) {
+		List<RoadPathDto> allCates = service.getAllPathsCate(id);
+		Map<String, Map<Integer,List>> allPathsInfo = new HashMap();
+		for(RoadPathDto cateInfo:allCates) {
+			String mainAdr = cateInfo.getMainaddr();
+			if(!allPathsInfo.containsKey(mainAdr)) allPathsInfo.put(mainAdr, new HashMap<Integer, List>());
+			List<RoadPointDto> points = service.getAllPointsByRpathNo(cateInfo.getRpath_no());
+			allPathsInfo.get(mainAdr).put(cateInfo.getRpath_no(), new ArrayList());
+			List<String> pointNames = new ArrayList(); //path를 이루는 각 좌표의 이름 목록
+			List latlngs = new ArrayList(); //path를 이루는 좌표 목록
+			for(RoadPointDto point : points) {
+				pointNames.add(point.getPointname());
+				Object[] latlng = {point.getLat(), point.getLng()};
+				latlngs.add(latlng);
+			}
+			allPathsInfo.get(mainAdr).get(cateInfo.getRpath_no()).add(pointNames);
+			allPathsInfo.get(mainAdr).get(cateInfo.getRpath_no()).add(latlngs);
+			allPathsInfo.get(mainAdr).get(cateInfo.getRpath_no()).add(cateInfo.getRpath_time());
+		}
+		
+		return allPathsInfo;
+	}
+	
+	@PostMapping("/upload/schedule")
+	public void uploadPathSchedule(@RequestBody Map map) {
+		String end_pos = service.findFianlPointById(String.valueOf(map.get("rpath_no"))).getPointname();
+		RoadSchDto dto = new RoadSchDto().builder()
+						.id(String.valueOf(map.get("id")))
+						.sch_start(String.valueOf(map.get("sch_start")))
+						.sch_end(String.valueOf(map.get("sch_end")))
+						.rpath_no(String.valueOf(map.get("rpath_no")))
+						.end_pos(end_pos)
+						.mate(String.valueOf(map.get("mate")))
+						.build();
+		service.uploadSchedulePath(dto);
+		if(map.get("mate") != null) {
+			dto = new RoadSchDto().builder()
+					.id(String.valueOf(map.get("mate")))
+					.sch_start(String.valueOf(map.get("sch_start")))
+					.sch_end(String.valueOf(map.get("sch_end")))
+					.rpath_no(String.valueOf(map.get("rpath_no")))
+					.end_pos(end_pos)
+					.mate(String.valueOf(map.get("id")))
+					.build();
+			service.uploadSchedulePath(dto);
+		}
+	}
+	
+	@GetMapping("/schedulepath")
+	public List getSchedulePath(@RequestParam int path_no) {
+		List result = new ArrayList();
+		List<String> pointNames = new ArrayList(); //path를 이루는 각 좌표의 이름 목록
+		List latlngs = new ArrayList();
+		List<RoadPointDto> points = service.getAllPointsByRpathNo(path_no);
+		for(RoadPointDto point : points) {
+			pointNames.add(point.getPointname());
+			Object[] latlng = {point.getLat(), point.getLng()};
+			latlngs.add(latlng);
+		}
+		result.add(pointNames);
+		result.add(latlngs);
+		return result;
 	}
 }
