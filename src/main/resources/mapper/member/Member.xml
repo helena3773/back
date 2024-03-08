@@ -155,4 +155,8 @@
 	<insert id="addUserToComplainList" parameterType="MemberManageDto">
 		INSERT INTO COMPLAIN_LIST(ID, CL_ID, CL_REASON, CL_DATE, CL_TYPE) VALUES(#{id},#{cl_id},#{cl_reason},SYSDATE, 0)
 	</insert>
+	
+	<select id="defaultArea" parameterType="String" resultType="String">
+		SELECT USERADDRESS FROM MEMBER WHERE ID = #{id}
+	</select>
 </mapper>

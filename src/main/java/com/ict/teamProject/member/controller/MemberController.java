@@ -170,4 +170,11 @@ public class MemberController {
 		}
 		service.addUserToComplainList(dtos);
 	}
+	
+	//기본 장소
+	@GetMapping("/defaultArea")
+	public String defaultArea(@RequestParam String id) {
+		String defaultarea = service.defaultArea(id);
+		return defaultarea;
+	}
 }

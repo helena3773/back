@@ -107,4 +107,8 @@ public class MemberService {
 			mapper.addUserToComplainList(dto);
 		}
 	}
+
+	public String defaultArea(String id) {
+		return mapper.defaultArea(id);
+	}
 }

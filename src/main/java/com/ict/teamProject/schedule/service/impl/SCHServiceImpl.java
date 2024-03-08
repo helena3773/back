@@ -54,5 +54,4 @@ public class SCHServiceImpl implements SCHService<SCHDto> {
 		return mapper.updateRestaurant(sno, sDest);
 	}
 
-
 }

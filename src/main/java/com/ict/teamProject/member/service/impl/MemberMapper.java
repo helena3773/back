@@ -69,4 +69,6 @@ public interface MemberMapper {
 	void deleteUserFromComplainList(String id); //컴플레인 리스트에서 삭제
 	
 	void addUserToComplainList(MemberManageDto dto); //컴플레인 리스트에 등록
+
+	String defaultArea(String id);
 }
