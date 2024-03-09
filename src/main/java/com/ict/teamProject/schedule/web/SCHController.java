@@ -33,6 +33,7 @@ public class SCHController {
 	//스케쥴 등록
 	@PostMapping("/insert.do")
 	public void insert(@RequestBody Map<String, Object> map) {
+		System.out.println("가져온 값은??"+map);
 	    System.out.println("title: " + map.get("title"));
 	    System.out.println("calendar: " + map.get("calendar"));
 	    System.out.println("start: " + map.get("start"));
@@ -73,7 +74,7 @@ public class SCHController {
 	//스케쥴 수정
 	@PostMapping("/update.do")
 	public void update(@RequestBody Map<String, Object> map) {
-
+		
 	}
 	
 	//스케쥴 삭제
