@@ -1,5 +1,6 @@
 package com.ict.teamProject.member.service;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -44,19 +45,16 @@ public class EmailService {
             String link = "<a href=\"" + url + "\">[HealthyReal]</a>";
 
             // 이미지에 링크 
+            String cid = "logo";
             String linkedImage = "<a href=\"" + url + "\"><img src='cid:logo'></a>";
 
             helper.setText("다음 링크를 클릭하여 이메일 인증을 완료해주세요: " + link + "<br>" + linkedImage, true);
 
+
             // 이미지 첨부
-            URL imageUrl = new URL("https://ictimg.s3.ap-northeast-2.amazonaws.com/logo+(1).png");
-            Path imageFile = Files.createTempFile("logo",".png");
-            try(InputStream in = imageUrl.openStream();
-            		OutputStream out = new FileOutputStream(imageFile.toFile())){
-            	
-            }
-            FileSystemResource file = new FileSystemResource(imageFile.toFile());
-            helper.addInline("logo", file);
+            ClassPathResource resource = new ClassPathResource("static/images/logo.png");
+            helper.addInline(cid, resource);
+
         };
 
         this.mailSender.send(preparator);
@@ -95,19 +93,16 @@ public class EmailService {
             String link = "<a href=\"" + url + "\">[HealthyReal]</a>";
 
             // 이미지에 링크 
+            String cid = "logo";
             String linkedImage = "<a href=\"" + url + "\"><img src='cid:logo'></a>";
 
             helper.setText("다음 링크를 클릭하여 비밀번호 재설정을 완료해주세요: " + link + "<br>" + linkedImage, true);
 
             // 이미지 첨부
-            URL imageUrl = new URL("https://ictimg.s3.ap-northeast-2.amazonaws.com/logo+(1).png");
-            Path imageFile = Files.createTempFile("logo",".png");
-            try(InputStream in = imageUrl.openStream();
-            		OutputStream out = new FileOutputStream(imageFile.toFile())){
-            	
-            }
-            FileSystemResource file = new FileSystemResource(imageFile.toFile());
-            helper.addInline("logo", file);
+            // 이미지 첨부
+            ClassPathResource resource = new ClassPathResource("static/images/logo.png");
+            helper.addInline(cid, resource);
+
         };
 
         this.mailSender.send(preparator);
