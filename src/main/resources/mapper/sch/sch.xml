@@ -52,11 +52,11 @@
 	</select>
 	
 	<update id="updateRestaurant" parameterType="Map">
-		UPDATE SCHEDULE SET sch_destination = #{sDest} WHERE sch_no = #{sno}
+		UPDATE SCHEDULE SET sch_destination = #{sDest} WHERE sch_no = #{sNo}
 	</update>
 	
 	<!-- 해당 날짜 스케줄 전체 조회 -->
-	<select id="selectAnyAll" parameterType="map" resultMap="SCHResult">
+	<select id="seleteAnyAll" parameterType="map" resultMap="SCHResult">
 	  SELECT * FROM SCHEDULE WHERE ID = #{id} AND TRUNC(SCH_START) = TO_DATE(#{start}, 'YYYY-MM-DD')
 	</select>
 </mapper>
