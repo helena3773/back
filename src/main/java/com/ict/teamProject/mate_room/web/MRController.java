@@ -293,14 +293,11 @@ public class MRController {
 	@PostMapping("/start.do")
 	@ResponseBody
 	public void startMatching(@RequestBody Map map) {
-		System.out.println("map.get(\"roomNo\")"+map.get("roomNo").toString());
 		MRDto dto = new MRDto();
 		int myRoom = Integer.parseInt(map.get("roomNo").toString());
 		dto = service.findRoomData(myRoom);
-		System.out.println("메이트 장소:---"+ dto.getMateArea());
 		String area = dto.getMateArea().substring(0, 2);
 		dto.setMateArea(area);
-		System.out.println("메이트 날짜:---"+ dto.getMateDate());
 		int joinP = Integer.parseInt(map.get("people").toString());
 		int people = dto.getMateCapacity()-joinP;
 		dto.setMateCapacity(people);
@@ -322,23 +319,18 @@ public class MRController {
 				service.matching(data);
 
 			} else {
-				System.out.println("--------------1--------------");
 				List<MPDto> result = service.findparticipants(room);
-				System.out.println("--------------2--------------");
 				service.deleteMatching(room);
 				service.deleteMatching(myRoom);
 				service.deletePeople(room);
-				System.out.println("--------------3--------------");
 				service.delete(room);
 				for(MPDto p : result) {
 					p.setMateNo(myRoom);
 					service.join(p);
 				}
-				System.out.println("--------------4--------------");
 				Map data = new HashMap();
 				data.put("myRoom", room);
 				data.put("room", myRoom);
-				System.out.println("--------------5--------------");
 				service.matching(data);
 				
 			}
