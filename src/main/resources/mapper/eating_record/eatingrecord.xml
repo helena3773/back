@@ -27,7 +27,7 @@
 			    EATING_FOODNAME = #{eating_foodname},
 			    EATING_RECIPECODE = #{eating_recipeCode}
 			WHERE
-			    ID = #{id} AND MEALTYPE = #{mealtype}
+			    ID = #{id} AND MEALTYPE = #{mealtype} AND TO_CHAR(EATING_DATE, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD')			    
 	</update>
 	
 	<select id="checkdailydata" resultType="int">
