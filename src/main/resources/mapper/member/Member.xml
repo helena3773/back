@@ -93,7 +93,7 @@
 	
 	<!-- FMC 토큰 삭제용 -->
 	<delete id="deleteFMCToken" parameterType="String">
-	  DELETE firebase WHERE ID=#{id}
+	  DELETE from firebase WHERE ID=#{id}
 	</delete>
 	
 	<!-- FCM 토큰 불러오기용 -->

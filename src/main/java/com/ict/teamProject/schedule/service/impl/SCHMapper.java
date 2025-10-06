@@ -16,6 +16,8 @@ public interface SCHMapper {
 	SCHDto seleteOne(String string);
 
 	List<SCHDto> seleteAll(String string);
+	List<SCHDto> selectFiltering(Map<String, Object> map);
+	List<SCHDto> selectFilteringOnlyDate(Map<String, Object> map);
 
 	List<SCHDto> seleteTodayAll(String string);
 

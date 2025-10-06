@@ -17,18 +17,23 @@ import lombok.Setter;
 @NoArgsConstructor  // 기본 생성자 추가
 @AllArgsConstructor
 public class SCHDto {
-	private int sNo; // 글번호
-	private String id; // 아이디
-	private String sTitle; // 제목 
-	private String sContent; // 내용
+	private int sNo; // 글번호 o
+	private String id; // 아이디 o
+	private String sTitle; // 제목 o
+	private String sContent; // 내용 o
 	private String sEat;  // 음식
 	private String sExer; // 운동
-	private String sDest; // 목적지
-	private int cal; // 타입
+	private String sDest; // 목적지 o
+	private int cal; // 타입 o
 	private String sArea; //시작 지역
-	private LocalDateTime  start; //시작
-	private LocalDateTime  end; //끝
-	private char sCom; //완료여부
-	private int rPathNo;  //경로
+	private LocalDateTime  start; //시작 o
+	private LocalDateTime  end; //끝 o
+	private char sCom; //완료여부 o
+	private int rPathNo;  //경로 o
 	private String sMate; //메이트
+
+	@Override
+	public String toString() {
+		return String.format("calendar 값 확인: %d", this.cal);
+	}
 }

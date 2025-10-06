@@ -53,13 +53,15 @@ public class SCHController {
 	    LocalDateTime start = LocalDateTime.parse(startDateTime, formatter);
 	    LocalDateTime end = LocalDateTime.parse(endDateTime, formatter);
 	    schedule.setSTitle((String) map.get("title"));
-	    schedule.setCal((Integer) map.get("calendar"));
+	    schedule.setCal((int) map.get("calendar"));
 	    schedule.setStart(start);
 	    schedule.setEnd(end);
 	    schedule.setSArea((String) map.get("startArea"));
 	    schedule.setSDest((String) map.get("endArea"));
 	    schedule.setSContent((String) map.get("content"));
 	    schedule.setId((String) map.get("id"));
+
+		System.out.println("채워진 값 확인: "+schedule);
 
 	    if (map.get("eat") != null) {
 	        schedule.setSEat((String) map.get("eat"));
@@ -96,7 +98,7 @@ public class SCHController {
 	@PostMapping("/seleteAll.do")
 	public List seleteAll(@RequestBody Map<String, Object> map) {
 		List<SCHDto> record = new ArrayList();
-		record = service.seleteAll(map.get("id").toString());
+		record = service.seleteAll(map);
 		
 		return record;
 	}

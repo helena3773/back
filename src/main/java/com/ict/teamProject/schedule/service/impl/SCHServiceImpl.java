@@ -29,8 +29,19 @@ public class SCHServiceImpl implements SCHService<SCHDto> {
 	}
 
 	@Override
-	public List<SCHDto> seleteAll(String string) {
-		return mapper.seleteAll(string);
+	public List<SCHDto> seleteAll(Map<String, Object> map) {
+		String id = (String) map.get("id");
+		//날짜 옵션이 전달되었는지 여부
+		boolean isDateOptionExist = map.containsKey("startStr") && map.containsKey("endStr") && map.get("startStr") != null && map.get("endStr") != null;
+		//카테고리 옵션이 전달되었는지 여부
+		boolean isCategoryExist = map.containsKey("category") && map.get("category") != null && !((List<?>)(map.get("category"))).isEmpty();
+
+		if(isDateOptionExist && isCategoryExist) {
+			return mapper.selectFiltering(map);
+		} else if (isDateOptionExist) {
+			return mapper.selectFilteringOnlyDate(map);
+		}
+		return mapper.seleteAll(id);
 	}
 
 	@Override

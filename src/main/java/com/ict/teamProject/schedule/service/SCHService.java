@@ -9,7 +9,7 @@ public interface SCHService<T> {
 
 	SCHDto seleteOne(String string);
 
-	List<SCHDto> seleteAll(String string);
+	List<SCHDto> seleteAll(Map<String, Object> map);
 
 	List<SCHDto> seleteTodayAll(String string);
 

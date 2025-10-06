@@ -23,7 +23,7 @@
 	
 	<!-- 스케줄 입력 -->
 	<insert id="insert" parameterType="SCHDto">
-		INSERT INTO schedule VALUES(default,#{id},#{sTitle},#{sContent},#{sEat},#{sExer},#{sDest},#{cal},#{sArea},#{start},#{end},default,null,null)
+		INSERT INTO schedule VALUES(default,#{id},#{sTitle},#{sContent},#{cal},#{sArea},#{start},#{end},default,null,#{sEat},#{sExer},#{sDest},null)
 	</insert>
 	
 	<!-- 스케줄 하나만 조회 -->
@@ -35,16 +35,39 @@
 	<select id="seleteAll" parameterType="String" resultMap="SCHResult">
 	  SELECT * FROM schedule WHERE ID = #{id}
 	</select>
+
+	<!-- 스케줄 필터링 (날짜, 카테고리 전부 반영) -->
+	<select id="selectFilteringOnlyDate" parameterType="map" resultMap="SCHResult">
+		select *
+		from schedule
+		where id = #{id}
+		and STR_TO_DATE(#{startStr}, '%Y-%m-%dT%H:%i:%s') &lt;= sch_end
+		and STR_TO_DATE(#{endStr}, '%Y-%m-%dT%H:%i:%s') &gt;= sch_start
+	</select>
+
+	<!-- 스케줄 필터링 (날짜, 카테고리 전부 반영) -->
+	<select id="selectFiltering" parameterType="map" resultMap="SCHResult">
+		select *
+		from schedule
+		where id = #{id}
+		and STR_TO_DATE(#{startStr}, '%Y-%m-%dT%H:%i:%s') &lt;= sch_end
+		and STR_TO_DATE(#{endStr}, '%Y-%m-%dT%H:%i:%s') &gt;= sch_start
+		and calendar in
+		<foreach item="c" collection="category" open="(" separator="," close=")">
+			#{c}
+		</foreach>
+	</select>
 	
 	<!-- 오늘의 스케줄 전체 조회 -->
 	<select id="seleteTodayAll" parameterType="String" resultMap="SCHResult">
-	  SELECT * FROM schedule WHERE ID = #{id} AND DATE(SCH_START) = DATE(NOW())
+	  SELECT * FROM schedule WHERE ID = #{id}
+		AND DATE(SCH_START) &lt;= DATE(DATE_ADD(NOW(), INTERVAL 9 HOUR)) AND DATE(sch_end) &gt;= DATE(DATE_ADD(NOW(), INTERVAL 9 HOUR))
 	  ORDER BY SCH_START
 	</select>
 	
 	<!-- 해당 스케쥴 삭제 -->
 	<delete id="delete" parameterType="map">
-		DELETE schedule WHERE ID = #{id} and SCH_NO = #{sNo}
+		DELETE from schedule WHERE ID = #{id} and SCH_NO = #{sNo}
 	</delete>
 	
 	<!-- 해당 스케쥴 수정 -->

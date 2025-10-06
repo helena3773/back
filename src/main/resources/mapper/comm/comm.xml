@@ -42,7 +42,7 @@
 		SELECT REGIDATE FROM member
 		WHERE ID = #{id}
 	</select>
-	
+
 	<update id="putFriendBlocking" parameterType="Map">
 		UPDATE friend_list SET FRIEND_BLOCKING = 'Y' WHERE FRIEND_ID = #{id} and ID = #{userId}
 	</update>
