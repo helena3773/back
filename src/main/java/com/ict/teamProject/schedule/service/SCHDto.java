@@ -2,6 +2,7 @@ package com.ict.teamProject.schedule.service;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
@@ -26,7 +27,10 @@ public class SCHDto {
 	private String sDest; // 목적지 o
 	private int cal; // 타입 o
 	private String sArea; //시작 지역
+	//@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime  start; //시작 o
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	private LocalDateTime  end; //끝 o
 	private char sCom; //완료여부 o
 	private int rPathNo;  //경로 o

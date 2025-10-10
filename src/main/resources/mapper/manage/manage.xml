@@ -5,7 +5,7 @@
 <mapper namespace="com.ict.teamProject.diary.ManageMapper">
 	<!-- 다이어리 내용 가져오기 -->
 	<select id="findDiaryById" parameterType="String" resultType="DiaryDto">
-		s
+		SELECT * FROM diary WHERE DIARYID = #{UserNDate}
 	</select>
 	<!-- 다이어리 사진 가져오기 -->
 	<select id="findDiaryImgUrlsByDiaryId" parameterType="String" resultType="String">
