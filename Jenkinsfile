@@ -32,7 +32,6 @@ pipeline {
                         docker build \
                             -t ${DOCKER_IMAGE_NAME}:latest \
                             -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} \
-                            -t ${DOCKER_IMAGE_NAME}:$(git rev-parse --short HEAD) \
                             -f ${DOCKERFILE_PATH} \
                             .
                     """
