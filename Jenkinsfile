@@ -4,50 +4,49 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'project-back'
         DOCKERFILE_PATH = 'Dockerfile'
-        PROJECT_PATH = "/home/ubuntu/devops-midterm/back"   // 빌드할 폴더
+        PROJECT_PATH = "back"
+        REMOTE_USER = 'ubuntu'
+        REMOTE_HOST = '13.124.109.82'
+        REMOTE_PATH = '/home/ubuntu/devops-midterm'
     }
 
     stages {
-        stage('Checkout & Pull Latest') {
+         stage('Checkout & Build on Remote') {
             steps {
-                echo "Moving to project folder and updating code..."
-                dir("${PROJECT_PATH}") {
-                    // Git pull로 최신 코드 가져오기
-                    sh '''
-                        git reset --hard
-                        git pull origin main
-                        echo "Current commit: $(git rev-parse --short HEAD)"
-                        echo "Branch: $(git rev-parse --abbrev-ref HEAD)"
-                        echo "Commit message: $(git log -1 --pretty=%B)"
-                    '''
+                sshagent(credentials: ['admin']) {
+                    sh """
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << EOF
+                            cd ${REMOTE_PATH}
+                            cd ${PROJECT_PATH}
+                            git reset --hard
+                            git pull origin main
+                            echo "Current commit: \$(git rev-parse --short HEAD)"
+                            echo "Branch: \$(git rev-parse --abbrev-ref HEAD)"
+                            echo "Commit message: \$(git log -1 --pretty=%B)"
+
+                            docker build \
+                                -t ${DOCKER_IMAGE_NAME}:latest \
+                                -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} \
+                                -f ${DOCKERFILE_PATH} \
+                                .
+                            EOF
+                    """
                 }
             }
-        }
 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                dir("${PROJECT_PATH}") {
+                dir("${REMOTE_PATH}") {
                     sh """
-                        docker build \
+                    ssh -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} << EOF
                             -t ${DOCKER_IMAGE_NAME}:latest \
                             -t ${DOCKER_IMAGE_NAME}:${BUILD_NUMBER} \
                             -f ${DOCKERFILE_PATH} \
                             .
+                            EOF
                     """
                     sh "docker images | grep ${DOCKER_IMAGE_NAME}"
-                }
-            }
-        }
-
-        stage('Docker Compose Up') {
-            steps {
-                echo 'Starting services with Docker Compose...'
-                dir("${PROJECT_PATH}") {
-                    sh """
-                        docker-compose pull
-                        docker-compose up -d
-                    """
                 }
             }
         }
