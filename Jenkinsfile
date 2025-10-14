@@ -48,7 +48,6 @@ EOF
                             cd ${REMOTE_PATH}
 
                             echo "Starting services with Docker Compose..."
-                            docker-compose pull
                             docker-compose up -d
 EOF
                     """
