@@ -58,7 +58,6 @@ import com.ict.teamProject.files.service.FilesDto;
 
 @RequestMapping("/chat")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class ChatController {
 	
 	//서비스 주입

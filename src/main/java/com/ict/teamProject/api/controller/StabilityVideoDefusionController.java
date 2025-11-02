@@ -13,7 +13,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/upload")
-@CrossOrigin(origins = "http://localhost:3333/",allowedHeaders = "*")
 public class StabilityVideoDefusionController {
 
     @Value("${stability.ai.api_key}")

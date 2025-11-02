@@ -28,8 +28,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
 @RestController
-
-@CrossOrigin(origins = "http://localhost:3333")
 public class PaymentListController {
 	PaymentListService service;
 	public PaymentListController(PaymentListService service) {

@@ -27,7 +27,6 @@ import com.ict.teamProject.mate_room.service.MRService;
 @Controller
 @RequestMapping("/mroom")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class MRController {
 	
 	//서비스 주입

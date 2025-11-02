@@ -35,7 +35,6 @@ import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class SelftestController {
 	SelftestService service;
 	public SelftestController(SelftestService service) {

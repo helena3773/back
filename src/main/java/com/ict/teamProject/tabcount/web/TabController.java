@@ -30,7 +30,6 @@ import com.ict.teamProject.tabcount.service.TabService;
 @Controller
 @RequestMapping("/tab")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class TabController {
 	
 	//서비스 주입

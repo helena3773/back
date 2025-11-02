@@ -41,8 +41,6 @@ import com.ict.teamProject.s3.S3UploadService;
 @Controller
 @RequestMapping("/bbs")
 @RestController
-
-@CrossOrigin(origins = "http://localhost:3333")
 public class BBSController {
 	
 	//서비스 주입

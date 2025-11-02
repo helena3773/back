@@ -21,7 +21,6 @@ import com.ict.teamProject.exercise_record.ERService;
 @Controller
 @RequestMapping("/exer")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class ERController {
 	
 	//서비스 주입

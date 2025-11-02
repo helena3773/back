@@ -37,7 +37,6 @@ import com.ict.teamProject.files.service.FilesDto;
 
 @Controller
 @RequestMapping("/commentline")
-@CrossOrigin(origins = "http://localhost:3333")
 public class CommentLineController {
 	
 	//서비스 주입

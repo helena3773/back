@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ict.teamProject.actuality.dto.ActualityEatingDto;
 import com.ict.teamProject.schedule.service.SCHDto;
 @RestController
-
-@CrossOrigin(origins = "http://localhost:3333")
 public class ActualityController {
 	ActualityService service;
 	public ActualityController(ActualityService service) {

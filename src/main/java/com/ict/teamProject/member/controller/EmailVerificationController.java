@@ -31,7 +31,6 @@ public class EmailVerificationController {
     
 
     @PostMapping("/email-verification-request")
-    @CrossOrigin(origins = "http://localhost:3333/", allowedHeaders = "*")
     public ResponseEntity<?> requestEmailVerification(@RequestBody Map<String, String> params) {
         String id = params.get("id");
         String name = params.get("name");
@@ -69,7 +68,6 @@ public class EmailVerificationController {
     }
 
     @GetMapping("/email-verificationID")
-    @CrossOrigin(origins = "http://localhost:3333/", allowedHeaders = "*")
     public void verifyEmailID(@RequestParam("token") String token, HttpServletResponse response) throws IOException {
         String id = emailService.verifyEmail(token);
 
@@ -82,7 +80,6 @@ public class EmailVerificationController {
     }
     
     @GetMapping("/email-verificationPWD")
-    @CrossOrigin(origins = "http://localhost:3333/", allowedHeaders = "*")
     public void verifyEmailPWD(@RequestParam("token") String token, HttpServletResponse response) throws IOException {
         String id = emailService.verifyEmail(token);
 

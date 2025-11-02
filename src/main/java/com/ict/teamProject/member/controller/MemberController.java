@@ -29,7 +29,7 @@ import com.ict.teamProject.member.service.MemberService;
 import org.springframework.ui.Model;
 
 
-@CrossOrigin(origins = "http://localhost:3333")
+
 @RestController
 public class MemberController {
 
@@ -37,7 +37,7 @@ public class MemberController {
 	private CommService commService;
 	
 	
-	@CrossOrigin(origins = "http://localhost:3333")
+
 	@RequestMapping(value = "/user/updateSocialUser",  method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
 	public int updateSocialUser(@RequestBody MemberDto dto){
 	    int affected = service.updateSocialUser(dto);
@@ -80,12 +80,12 @@ public class MemberController {
 		return service.searchPoint(id);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3333")
+
 	@RequestMapping(value = "/getMemberById", method = RequestMethod.GET)
 	public MemberDto getMemberById(@RequestParam String id) {
 	    return service.getMemberById(id);
 	}
-	@CrossOrigin(origins = "http://localhost:3333")
+
 	@RequestMapping(value = "/check-userID", method = RequestMethod.POST)
 	public MemberDto checkUserID(@RequestBody Map<String, String> params) {
 	    String name = params.get("name");
@@ -94,7 +94,7 @@ public class MemberController {
 	    System.out.println("b_day"+b_day);
 	    return service.getMemberByNameAndBday(name, b_day);
 	}
-	@CrossOrigin(origins = "http://localhost:3333")
+
 	@RequestMapping(value = "/check-userPWD", method = RequestMethod.POST)
 	public MemberDto checkUserPWD(@RequestBody Map<String, String> params) {
 	    String id = params.get("id");
@@ -107,7 +107,7 @@ public class MemberController {
 		service.saveFMCToken(map);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:3333")
+
 	@RequestMapping(value = "/update-password", method = RequestMethod.POST)
 	public int updatePWD(@RequestBody Map<String, String> params) {
 	    String id = params.get("id");
@@ -121,7 +121,7 @@ public class MemberController {
 	public String findFMCToken(@RequestParam String id) {
 		return service.findFMCTokenById(id);
 	}
-	@CrossOrigin(origins = "http://localhost:3333")
+
 	@RequestMapping(value = "/getUserAddress", method = {RequestMethod.GET,RequestMethod.POST,})
 	public Map getUserAddress(@RequestParam String id) {
 		System.out.println("찾을 유저:"+id);

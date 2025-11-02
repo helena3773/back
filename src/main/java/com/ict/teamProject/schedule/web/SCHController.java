@@ -23,7 +23,6 @@ import com.ict.teamProject.schedule.service.SCHService;
 @Controller
 @RequestMapping("/sch")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class SCHController {
 	
 	//서비스 주입

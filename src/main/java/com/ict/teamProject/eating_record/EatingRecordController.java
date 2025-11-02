@@ -32,8 +32,6 @@ import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 @RestController
-
-@CrossOrigin(origins = "http://localhost:3333")
 public class EatingRecordController {
 	EatingRecordService service;
 	public EatingRecordController(EatingRecordService service) {

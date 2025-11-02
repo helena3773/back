@@ -32,7 +32,6 @@ import com.ict.teamProject.challenge_room.service.SuccessPeopleDto;
 @Controller
 @RequestMapping("/croom")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class CRController {
 	
 	//서비스 주입

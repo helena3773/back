@@ -15,7 +15,6 @@ import java.util.*;
 
 
 @RestController
-
 public class ChatGPTController {
 	
 	 @Value("${openai.api.key}")

@@ -19,7 +19,6 @@ import com.ict.teamProject.exercise.bbs.RoadSchDto;
 
 @RequestMapping("/exercise")
 @RestController
-@CrossOrigin(origins = "http://localhost:3333")
 public class ExerciseController {
 	ExerciseService service;
 	public ExerciseController(ExerciseService service) {

@@ -29,9 +29,8 @@ import com.ict.teamProject.food.dto.FoodListDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
 import java.nio.file.StandardCopyOption;
-@RestController
 
-@CrossOrigin(origins = "http://localhost:3333")
+@RestController
 public class FoodController {
 	FoodService service;
 	public FoodController(FoodService service) {

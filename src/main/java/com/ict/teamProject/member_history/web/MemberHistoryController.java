@@ -33,7 +33,6 @@ import com.ict.teamProject.files.service.FilesDto;
 
 @Controller
 @RequestMapping("/memberhistory")
-@CrossOrigin(origins = "http://localhost:3333")
 public class MemberHistoryController {
 	
 	//서비스 주입

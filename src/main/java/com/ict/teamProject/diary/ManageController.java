@@ -24,7 +24,6 @@ import com.ict.teamProject.diary.dto.DiaryImagesDto;
 
 @RestController
 @RequestMapping("/manage")
-@CrossOrigin(origins = "http://localhost:3333")
 public class ManageController {
 	private ManageService service;
 	public ManageController(ManageService service) {
